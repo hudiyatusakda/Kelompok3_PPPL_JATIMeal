@@ -34,7 +34,7 @@
             </div>
             <div class="form-box">
                 <div class="form-register">
-                    <form action="">
+                    <form>
                         <div class="formGroup">
                             <label for="Nama">Nama <span class="required">*</span></label>
                             <input type="text" id="Nama">

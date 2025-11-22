@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    display:flex;
+    height: 100vh;
+}
+
+.left-section{
+    width: 20%;
+    height: 80%;
+    background-color: #8F4738;
+}
+
+.right-section{
+    width: 80%;
+    height: 80%;
+}
+
+.footer-section{
+    
+}
+
+/* ============= LEFT SECTION =================== */
+
+.logo img{
+    width: 120px;
+    height: auto;
+    margin-left: 2rem
+}
+
+.side-bar{
+    margin-left: 1rem;
+}
+
+.side-bar ul{
+    list-style: none;
+}
+
+.side-bar li{
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.list.active{
+    font-weight: bold;
+}
+
+/* ============= RIGHT SECTION =================== */
+
+.navbar{
+    background-color: #8F4738;
+}
+
+.navbar-guest{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-right: 1.2rem;
+    padding: 10px;
+    color: #fff;
+    height: 55px;
+}
+
+.masuk, .daftar{
+    text-decoration: underline;
+}
+
+.navbar-user{
+    display: none;
+    justify-content: flex-end;
+    height: 55px;
+}
+
+.account{
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.account img{
+    width: 35px;
+    height: 35px;
+    border-radius: 60%;
+}
+
+.search{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4.5rem;
+}
+
+.search-label input{
+    width: 389px;
+    height: 50px;
+    border-radius: 20px;
+    cursor: text;
+}
+
+.search-label input::placeholder{
+    text-align: center;
+    color: #6c757d;
+}
+
+.fa-magnifying-glass{
+    position: relative;
+    left: -40px;
+    color: #6c757d;
+    cursor: pointer;
+    color: #8F4738;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
+
+    <title>Home - MealGoal</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="logo_placeholder">
+                <div class="logo">
+                    <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
+                </div>
+            </div>
+            <div class="side-bar-menu">
+                <div class="side-bar">
+                    <ul>
+                        <li class="list active">Halaman Utama</li>
+                        <li class="list">Paket Menu Mingguan</li>
+                        <li class="list">Riwayat Menu</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="navbar">
+                {{-- Kalau Belum masuk akun --}}
+                <div class="navbar-guest">
+                    <nav class="masuk">Masuk</nav>
+                    <div class="div">|</div>
+                    <nav class="daftar">daftar</nav>
+                </div>
+                {{-- Kalau sudah Login --}}
+                <div class="navbar-user">
+                    <nav class="account">
+                        <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
+                    </nav>
+                </div>
+            </div>
+            <div class="search">
+                <div class="search-label">
+                    <input type="text" placeholder="Cari Menu Makanan">
+                    <span class="fa-solid fa-magnifying-glass"></span>
+                </div>
+            </div>
+        </div>
+        <footer class="footer-section">
+
+        </footer>
+    </div>
+
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
