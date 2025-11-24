@@ -6,22 +6,22 @@
 
 .container{
     display:flex;
-    height: 100vh;
+    height: 85vh;
 }
 
 .left-section{
     width: 20%;
-    height: 80%;
+    /* height: 80%; */
     background-color: #8F4738;
 }
 
 .right-section{
     width: 80%;
-    height: 80%;
+    /* height: 80%; */
 }
 
-.footer-section{
-    
+main, footer{
+    background-color: #E7E5E3;
 }
 
 /* ============= LEFT SECTION =================== */
@@ -92,7 +92,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 4.5rem;
+    margin-top: 3rem;
 }
 
 .search-label input{
@@ -113,4 +113,66 @@
     color: #6c757d;
     cursor: pointer;
     color: #8F4738;
+}
+
+
+/* ========= FOOTER ==================== */
+
+
+/* CSS TAUTAN CEPAT */
+
+.f-container{
+    border: 2px solid #8F473833;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+.footer-col ul,menu {
+    list-style: none;
+}
+
+.footer-col .title {
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    color: #8F4738;
+}
+
+.footer-col ul li {
+    margin-bottom: 0.5rem;
+    color: #8F4738;
+}
+
+.footer-col i{
+    font-size: 20px;
+    color: #8F4738;
+}
+
+.footer-col a {
+    text-decoration: none;
+    color: #000;
+}
+
+.media-social{
+    margin-top: 20px;
+}
+
+/* Copyright */
+
+.privacy h4,a{
+    margin-bottom: 20px;
+}
+
+.privacy a{
+    text-decoration: underline;
+    color: #000;
+}
+
+.privacy h4{
+    color: #8F4738;
+}
+
+.privacy p{
+    margin-top: 20px;
+    color: #000;
 }

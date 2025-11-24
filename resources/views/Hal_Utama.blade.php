@@ -15,49 +15,82 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="left-section">
-            <div class="logo_placeholder">
-                <div class="logo">
-                    <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
+    <main>
+        <div class="container">
+            <div class="left-section">
+                <div class="logo_placeholder">
+                    <div class="logo">
+                        <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
+                    </div>
+                </div>
+                <div class="side-bar-menu">
+                    <div class="side-bar">
+                        <ul>
+                            <li class="list active">Halaman Utama</li>
+                            <li class="list">Paket Menu Mingguan</li>
+                            <li class="list">Riwayat Menu</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="side-bar-menu">
-                <div class="side-bar">
-                    <ul>
-                        <li class="list active">Halaman Utama</li>
-                        <li class="list">Paket Menu Mingguan</li>
-                        <li class="list">Riwayat Menu</li>
-                    </ul>
+            <div class="right-section">
+                <div class="navbar">
+                    {{-- Kalau Belum masuk akun --}}
+                    <div class="navbar-guest">
+                        <nav class="masuk">Masuk</nav>
+                        <div class="div">|</div>
+                        <nav class="daftar">daftar</nav>
+                    </div>
+                    {{-- Kalau sudah Login --}}
+                    <div class="navbar-user">
+                        <nav class="account">
+                            <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
+                        </nav>
+                    </div>
+                </div>
+                <div class="search">
+                    <div class="search-label">
+                        <input type="text" placeholder="Cari Menu Makanan">
+                        <span class="fa-solid fa-magnifying-glass"></span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="right-section">
-            <div class="navbar">
-                {{-- Kalau Belum masuk akun --}}
-                <div class="navbar-guest">
-                    <nav class="masuk">Masuk</nav>
-                    <div class="div">|</div>
-                    <nav class="daftar">daftar</nav>
-                </div>
-                {{-- Kalau sudah Login --}}
-                <div class="navbar-user">
-                    <nav class="account">
-                        <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
-                    </nav>
+    </main>
+    <footer class="footer-section">
+        <div class="f-container">
+            <div class="footer-col">
+                <ul>
+                    <li class="title">Tautan Cepat</li>
+                    <li class="link-foward"><a href="/Hal_Utama">Halaman Utama</a></li>
+                    <li class="link-foward"><a href="#">Pake Menu Mingguan</a></li>
+                    <li class="link-foward"><a href="#">Riwayat Menu</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <menu>
+                    <li class="title">Hubungi Kami</li>
+                    <i class="fa-solid fa-envelope"></i>
+                    <i class="fa-solid fa-phone"></i>
+                </menu>
+                <div class="media-social">
+                    <menu>
+                        <li class="title">Media Sosial</li>
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-twitter"></i>
+                    </menu>
                 </div>
             </div>
-            <div class="search">
-                <div class="search-label">
-                    <input type="text" placeholder="Cari Menu Makanan">
-                    <span class="fa-solid fa-magnifying-glass"></span>
+            <div class="footer-col">
+                <div class="privacy">
+                    <h4>Informasi Hukum</h4>
+                    <a href="#">Kebijakan Privasi</a>
+                    <p>© 2025 JatiMeal.  Hak cipta dilindungi undang-undang.</p>
                 </div>
             </div>
         </div>
-        <footer class="footer-section">
-
-        </footer>
-    </div>
+    </footer>
 
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 </body>
