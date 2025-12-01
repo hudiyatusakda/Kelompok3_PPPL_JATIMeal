@@ -9,7 +9,6 @@ use App\Http\Controllers\RegisterController;
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
 
-// Route untuk memproses form (ini yang dipanggil di action form Anda)
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 Route::get('/login', function () {
