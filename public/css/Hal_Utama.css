@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 .container{
@@ -149,8 +150,9 @@ main, footer{
 }
 
 .footer-col a {
-    text-decoration: none;
+    text-decoration: underline;
     color: #000;
+    size: 18px;
 }
 
 .media-social{

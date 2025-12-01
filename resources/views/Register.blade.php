@@ -34,22 +34,33 @@
             </div>
             <div class="form-box">
                 <div class="form-register">
-                    <form>
+                    @if ($errors->any())
+                        <div
+                            style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{ route('register.store') }}" method="POST">
+                        @csrf
                         <div class="formGroup">
                             <label for="Nama">Nama <span class="required">*</span></label>
-                            <input type="text" id="Nama">
+                            <input type="text" id="Nama" name="name" required value="{{ old('name') }}">
                         </div>
                         <div class="formGroup">
                             <label for="Email">Email <span class="required">*</span></label>
-                            <input type="text" id="Email">
+                            <input type="email" id="Email" name="email" required value="{{ old('email') }}">
                         </div>
                         <div class="formGroup">
                             <label for="Password">Kata Sandi <span class="required">*</span></label>
-                            <input type="password" id="Password">
+                            <input type="password" id="Password" name="password" required>
                         </div>
                         <div class="formGroup">
                             <label for="C_Password">Konfirmasi Kata Sandi <span class="required">*</span></label>
-                            <input type="password" id="C_Password">
+                            <input type="password" id="C_Password" name="password_confirmation" required>
                         </div>
                         <div class="text-desc">
                             Dengan mengklik “Lanjutkan dengan Google”, ‘Facebook’, atau “Apple”, Anda setuju dengan
@@ -57,7 +68,7 @@
                             Ketentuan serta Kebijakan Privasi Etsy.
                         </div>
                         <div class="button-register">
-                            <button class="register">Daftar</button>
+                            <button type="submit" class="register">Daftar</button>
                         </div>
                     </form>
                 </div>
