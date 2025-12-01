@@ -36,16 +36,38 @@
             <div class="right-section">
                 <div class="navbar">
                     {{-- Kalau Belum masuk akun --}}
-                    <div class="navbar-guest">
+                    {{-- <div class="navbar-guest">
                         <nav class="masuk">Masuk</nav>
                         <div class="div">|</div>
                         <nav class="daftar">daftar</nav>
-                    </div>
+                    </div> --}}
                     {{-- Kalau sudah Login --}}
                     <div class="navbar-user">
-                        <nav class="account">
-                            <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
-                        </nav>
+                        <div class="profile-dropdown">
+                            <div class="profile-trigger" onclick="toggleMenu()">
+                                <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
+                                <div class="account">
+                                    <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
+                                </div>
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+
+                            <div class="dropdown-content" id="subMenu">
+                                <a href="#" class="sub-item">
+                                    <i class="fa-solid fa-user"></i> Profil Saya
+                                </a>
+                                <a href="#" class="sub-item">
+                                    <i class="fa-solid fa-gear"></i> Pengaturan
+                                </a>
+                                <hr>
+                                <form action="{{ route('logout') }}" method="POST" style="padding: 0; margin: 0;">
+                                    @csrf
+                                    <button type="submit" class="sub-item logout-btn">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="search">
@@ -86,7 +108,7 @@
                 <div class="privacy">
                     <h4>Informasi Hukum</h4>
                     <a href="#">Kebijakan Privasi</a>
-                    <p>© 2025 JatiMeal.  Hak cipta dilindungi undang-undang.</p>
+                    <p>© 2025 JatiMeal. Hak cipta dilindungi undang-undang.</p>
                 </div>
             </div>
         </div>
@@ -94,5 +116,22 @@
 
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 </body>
+
+<script>
+    let subMenu = document.getElementById("subMenu");
+
+    function toggleMenu() {
+        subMenu.classList.toggle("open-menu");
+    }
+
+    // Menutup menu jika user klik di luar area menu
+    window.onclick = function(event) {
+        if (!event.target.closest('.profile-dropdown')) {
+            if (subMenu.classList.contains('open-menu')) {
+                subMenu.classList.remove('open-menu');
+            }
+        }
+    }
+</script>
 
 </html>

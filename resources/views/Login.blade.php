@@ -16,6 +16,15 @@
 </head>
 
 <body>
+    @if ($errors->any())
+        <div style="color: red;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="container">
         <div class="left-section">
             <div class="logo-placeholder">
@@ -34,14 +43,15 @@
             </div>
             <div class="form-box">
                 <div class="form-register">
-                    <form action="">
+                    <form action="{{ route('login.authenticate') }}" method="POST">
+                        @csrf
                         <div class="formGroup">
-                            <label for="Email">Email <span class="required">*</span></label>
-                            <input type="text" id="Email">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="text" id="email" name="email">
                         </div>
                         <div class="formGroup">
-                            <label for="Password">Kata Sandi <span class="required">*</span></label>
-                            <input type="password" id="Password">
+                            <label for="password">Kata Sandi <span class="required">*</span></label>
+                            <input type="password" id="password" name="password">
                         </div>
                         <div class="remember">
                             <input type="checkbox" id="Remember">
