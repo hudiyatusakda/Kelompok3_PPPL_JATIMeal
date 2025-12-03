@@ -30,7 +30,7 @@
         <div class="right-section">
             <div class="tabs">
                 <div class="tab active">Daftar</div>
-                <a href="{{ route('login') }}" class="tab">
+                <a href="{{ route('login') }}" class="tab transition-link" id="link-masuk">
                     Masuk
                 </a>
             </div>
@@ -89,5 +89,24 @@
         </div>
     </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const linkMasuk = document.getElementById('link-masuk');
+        const formSection = document.querySelector('.right-section');
+
+        if (linkMasuk) {
+            linkMasuk.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                formSection.classList.add('slide-exit');
+
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 400);
+            });
+        }
+    });
+</script>
 
 </html>

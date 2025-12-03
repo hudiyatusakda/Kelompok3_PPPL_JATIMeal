@@ -29,10 +29,10 @@
         </div>
         <div class="right-section">
             <div class="tabs">
-                <a href="{{ route('register.index') }}" class="tab">
+                <a href="{{ route('register.index') }}" class="tab transition-link" id="link-masuk">
                     Daftar
                 </a>
-                <div class="tab active">Masuk</div>
+                <div class="tab active" id="masuk">Masuk</div>
             </div>
             <div class="form-box">
                 <div class="form-register">
@@ -87,5 +87,25 @@
         </div>
     </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const linkMasuk = document.getElementById('link-masuk');
+        const formSection = document.querySelector('.right-section');
+
+        if (linkMasuk) {
+            linkMasuk.addEventListener('click', function(e) {
+                //Mencegah link langsung pindah halaman
+                e.preventDefault();
+
+                formSection.classList.add('slide-exit');
+
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 400);
+            });
+        }
+    });
+</script>
 
 </html>

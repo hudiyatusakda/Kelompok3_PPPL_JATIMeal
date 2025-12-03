@@ -5,7 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 
 // Route::get('/', function () {
-//     return view('register');
+//     return view('Load');
 // });
 
 // Route::get('/login', function () {
