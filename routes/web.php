@@ -12,6 +12,16 @@ use App\Http\Controllers\LoginController;
 //     return view('login');
 // });
 
+use App\Http\Controllers\PreferenceController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('/personalize', [PreferenceController::class, 'index'])->name('personal.index');
+    Route::post('/personalize', [PreferenceController::class, 'store'])->name('personal.store');
+
+    Route::get('/login', function () {
+    })->name('login');
+});
+
 Route::get('/', [RegisterController::class, 'index'])->name('register.index');
 
 Route::post('/', [RegisterController::class, 'store'])->name('register.store');

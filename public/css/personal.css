@@ -1,0 +1,139 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #ff6b6b;
+    margin-bottom: 5px;
+}
+
+.question-step {
+    margin-bottom: 35px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.question-step h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.image-options, .yes-no-options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.option-card input[type="radio"] {
+    display: none;
+}
+
+.option-card {
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    transition: 0.3s;
+    width: 150px;
+}
+
+.option-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.option-card span {
+    font-weight: 500;
+}
+
+.option-card input[type="radio"]:checked + img + span,
+.option-card input[type="radio"]:checked + img {
+
+}
+
+.option-card:has(input:checked) {
+    border-color: #ff6b6b;
+    background-color: #fff0f0;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: white;
+}
+
+.actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-review, .btn-submit {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-back {
+    background-color: #6c757d;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn-review:hover, .btn-submit:hover {
+    background-color: #e05555;
+}
+
+.summary-box {
+    background-color: #f1f3f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    border-left: 5px solid #ff6b6b;
+}
+
+.summary-list {
+    list-style: none;
+    padding: 0;
+}
+
+.summary-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}

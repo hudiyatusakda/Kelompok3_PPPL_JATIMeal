@@ -16,15 +16,6 @@
 </head>
 
 <body>
-    @if ($errors->any())
-        <div style="color: red;">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <div class="container">
         <div class="left-section">
             <div class="logo-placeholder">
@@ -38,7 +29,9 @@
         </div>
         <div class="right-section">
             <div class="tabs">
-                <div class="tab">Daftar</div>
+                <a href="{{ route('register.index') }}" class="tab">
+                    Daftar
+                </a>
                 <div class="tab active">Masuk</div>
             </div>
             <div class="form-box">
@@ -58,11 +51,20 @@
                             <label for="Remember">Ingat Saya</label>
                             <label class="forgot-password" href="#">Lupa Kata Sandi?</label>
                         </div>
+                        @if ($errors->any())
+                            <div style="color: red;">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="button-register">
                             <button class="register">Masuk</button>
                         </div>
 
-                        <div class="alt-register">
+                        {{-- <div class="alt-register">
                             <button class="Google">
                                 <img src="{{ asset('img/Google.png') }}" alt="Google">
                             </button>
@@ -73,12 +75,12 @@
                                 <img src="{{ asset('img/Apple.png') }}" alt="Apple">
                             </button>
 
-                        </div>
-                        <div class="text-desc">
+                        </div> --}}
+                        {{-- <div class="text-desc">
                             Dengan mengklik “Lanjutkan dengan Google”, ‘Facebook’, atau “Apple”, Anda setuju dengan
                             Syarat dan
                             Ketentuan serta Kebijakan Privasi Etsy.
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
             </div>
