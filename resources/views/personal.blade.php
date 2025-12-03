@@ -25,17 +25,17 @@
                 <div class="image-options">
                     <label class="option-card">
                         <input type="radio" name="protein" value="Ayam" required>
-                        <img src="https://placehold.co/150x150?text=Ayam" alt="Ayam">
+                        <img src="{{ asset('img/imgMakanan/Ayam.png') }}" alt="Ayam">
                         <span>Ayam</span>
                     </label>
                     <label class="option-card">
                         <input type="radio" name="protein" value="Ikan">
-                        <img src="https://placehold.co/150x150?text=Ikan" alt="Ikan">
+                        <img src="{{ asset('img/imgMakanan/Ikan.jpg') }}" alt="Ikan">
                         <span>Ikan</span>
                     </label>
                     <label class="option-card">
                         <input type="radio" name="protein" value="Sayur">
-                        <img src="https://placehold.co/150x150?text=Sayur" alt="Sayur">
+                        <img src="{{ asset('img/imgMakanan/Sayuran.jpg') }}" alt="Sayur">
                         <span>Sayuran</span>
                     </label>
                 </div>
@@ -65,22 +65,22 @@
                 <div class="image-options">
                     <label class="option-card">
                         <input type="radio" name="style" value="Berkuah" required>
-                        <img src="https://placehold.co/150x100?text=Berkuah" alt="Berkuah"> 
+                        <img src="{{ asset('img/imgMakanan/berkuah.jpg') }}" alt="Berkuah">
                         <span>Berkuah</span>
                     </label>
                     <label class="option-card">
                         <input type="radio" name="style" value="Kering">
-                        <img src="https://placehold.co/150x100?text=Kering" alt="Kering">
+                        <img src="{{ asset('img/imgMakanan/Kering.jpeg') }}" alt="Kering">
                         <span>Kering/Goreng</span>
                     </label>
                     <label class="option-card">
                         <input type="radio" name="style" value="Nyemek">
-                        <img src="https://placehold.co/150x100?text=Nyemek" alt="Nyemek">
+                        <img src="{{ asset('img/imgMakanan/nyemek.jpg') }}" alt="Nyemek">
                         <span>Nyemek</span>
                     </label>
                     <label class="option-card">
                         <input type="radio" name="style" value="Bakar">
-                        <img src="https://placehold.co/150x100?text=Bakar" alt="Bakar">
+                        <img src="{{ asset('img/imgMakanan/bakar.jpg') }}" alt="Bakar">
                         <span>Bakar</span>
                     </label>
                 </div>

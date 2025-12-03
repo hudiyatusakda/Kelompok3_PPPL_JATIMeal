@@ -85,6 +85,8 @@ main, footer{
     cursor: pointer;
     padding: 5px 10px;
     background-color: #ad2e24;
+    border-radius: 5px;
+    box-shadow: #6c757d 0px 2px 3px;
 }
 
 .profile-trigger:hover {
@@ -113,6 +115,33 @@ main, footer{
     border-radius: 8px;
     z-index: 1000;
     overflow: hidden;
+    -webkit-animation: slide-down 0.3s ease-out;
+    animation: slide-down 0.3s ease-out;
+}
+
+@-webkit-keyframes slide-down {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
 }
 
 .dropdown-content.open-menu {

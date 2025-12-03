@@ -84,7 +84,7 @@
             <div class="footer-col">
                 <ul>
                     <li class="title">Tautan Cepat</li>
-                    <li class="link-foward"><a href="/Hal_Utama">Halaman Utama</a></li>
+                    <li class="link-foward"><a href="/dashboard">Halaman Utama</a></li>
                     <li class="link-foward"><a href="#">Pake Menu Mingguan</a></li>
                     <li class="link-foward"><a href="#">Riwayat Menu</a></li>
                 </ul>
