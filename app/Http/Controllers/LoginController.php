@@ -22,13 +22,19 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $hasPreference = \App\Models\UserPreference::where('user_id', Auth::id())->exists();
+            $user = Auth::user();
+
+            if ($user->role === 'admin') {
+                return redirect('/admin/dashboard');
+            }
+
+            $hasPreference = \App\Models\UserPreference::where('user_id', $user->id)->exists();
 
             if (!$hasPreference) {
                 return redirect()->route('personal.index');
             }
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
