@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap"
-        rel="stylesheet">
+    
+    {{-- Link Font dirapikan --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
 
@@ -26,21 +28,23 @@
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list active">Halaman Utama</li>
-                            <li class="list">Paket Menu Mingguan</li>
-                            <li class="list">Riwayat Menu</li>
+                            <li class="list active"><a href="#">Halaman Utama</a></li>
+                            <li class="list"><a href="#">Paket Menu Mingguan</a></li>
+                            <li class="list"><a href="#">Riwayat Menu</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="right-section">
                 <div class="navbar">
                     {{-- Kalau Belum masuk akun --}}
                     {{-- <div class="navbar-guest">
                         <nav class="masuk">Masuk</nav>
                         <div class="div">|</div>
-                        <nav class="daftar">daftar</nav>
+                        <nav class="daftar">Daftar</nav>
                     </div> --}}
+
                     {{-- Kalau sudah Login --}}
                     <div class="navbar-user">
                         <div class="profile-dropdown">
@@ -70,38 +74,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="search">
-                    <div class="search-label">
+
+                <div class="search-container">
+                    <div class="search-box">
                         <input type="text" placeholder="Cari Menu Makanan">
-                        <span class="fa-solid fa-magnifying-glass"></span>
+                        <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
     <footer class="footer-section">
         <div class="f-container">
             <div class="footer-col">
                 <ul>
                     <li class="title">Tautan Cepat</li>
                     <li class="link-foward"><a href="/dashboard">Halaman Utama</a></li>
-                    <li class="link-foward"><a href="#">Pake Menu Mingguan</a></li>
+                    <li class="link-foward"><a href="#">Paket Menu Mingguan</a></li>
                     <li class="link-foward"><a href="#">Riwayat Menu</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <menu>
+                <ul class="contact-list">
                     <li class="title">Hubungi Kami</li>
-                    <i class="fa-solid fa-envelope"></i>
-                    <i class="fa-solid fa-phone"></i>
-                </menu>
+                    <li><i class="fa-solid fa-envelope"></i> help@jatimmeal.com</li>
+                    <li><i class="fa-solid fa-phone"></i> +62 812 3456 7890</li>
+                </ul>
                 <div class="media-social">
-                    <menu>
+                    <ul>
                         <li class="title">Media Sosial</li>
-                        <i class="fa-brands fa-instagram"></i>
-                        <i class="fa-brands fa-facebook"></i>
-                        <i class="fa-brands fa-twitter"></i>
-                    </menu>
+                        <div class="social-icons">
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-twitter"></i>
+                        </div>
+                    </ul>
                 </div>
             </div>
             <div class="footer-col">
@@ -115,23 +123,22 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
-</body>
+    
+    <script>
+        let subMenu = document.getElementById("subMenu");
 
-<script>
-    let subMenu = document.getElementById("subMenu");
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
 
-    function toggleMenu() {
-        subMenu.classList.toggle("open-menu");
-    }
-
-    // Menutup menu jika user klik di luar area menu
-    window.onclick = function(event) {
-        if (!event.target.closest('.profile-dropdown')) {
-            if (subMenu.classList.contains('open-menu')) {
-                subMenu.classList.remove('open-menu');
+        // Menutup menu jika user klik di luar area menu (sedikit diperbaiki logikanya)
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-dropdown')) {
+                if (subMenu && subMenu.classList.contains('open-menu')) {
+                    subMenu.classList.remove('open-menu');
+                }
             }
         }
-    }
-</script>
-
+    </script>
+</body>
 </html>
