@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     {{-- Link Font dirapikan --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
 
@@ -81,6 +83,9 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
+                <div class="content">
+                    {{-- Isi Menu Makanannya --}}
+                </div>
             </div>
         </div>
     </main>
@@ -123,7 +128,7 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
-    
+
     <script>
         let subMenu = document.getElementById("subMenu");
 
@@ -131,7 +136,6 @@
             subMenu.classList.toggle("open-menu");
         }
 
-        // Menutup menu jika user klik di luar area menu (sedikit diperbaiki logikanya)
         window.onclick = function(event) {
             if (!event.target.closest('.profile-dropdown')) {
                 if (subMenu && subMenu.classList.contains('open-menu')) {
@@ -141,4 +145,5 @@
         }
     </script>
 </body>
+
 </html>

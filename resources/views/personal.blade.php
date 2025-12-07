@@ -11,127 +11,141 @@
 
 <body>
 
-    <div class="logo-container">
-        <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal Logo">
-    </div>
+    <div class="main-container">
 
-    <div class="main-content">
-        <h1 class="page-title">Konfigurasi Menu :</h1>
+        <header class="top-header">
+            <div class="logo-box">
+                <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal Logo">
+            </div>
+            <h1>Konfigurasi Menu :</h1>
+        </header>
 
-        <form action="{{ route('personal.store') }}" method="POST">
-            @csrf
+        <div class="content-body">
+            <form action="{{ route('personal.store') }}" method="POST">
+                @csrf
 
-            <div class="question-block">
-                <label class="question-text">1. Dari ketiga pilihan dibawah, mana yang lebih Anda suka?</label>
-                <div class="options-list">
-                    <label class="custom-radio-container">
-                        <input type="radio" name="protein" value="Ayam" required>
-                        <span class="checkmark"></span>
-                        <span class="label-text">Ayam</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="protein" value="Ikan">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Ikan</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="protein" value="Sayur">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Sayuran</span>
-                    </label>
+                <div class="question-item">
+                    <p class="q-title">1. Dari ketiga gambar dibawah, mana yang lebih Anda suka?</p>
+                    <div class="options-grid">
+                        <label class="option-card">
+                            <input type="radio" name="protein" value="Ayam" required>
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/Ayam.png') }}" alt="Ayam">
+                                <span>Ayam</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="protein" value="Ikan">
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/Ikan.jpg') }}" alt="Ikan">
+                                <span>Ikan</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="protein" value="Sayur">
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/Sayuran.jpg') }}" alt="Sayur">
+                                <span>Sayuran</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question-block">
-                <label class="question-text">2. Rentang harga bahan baku yang Anda pilih?</label>
-                <div class="options-list">
-                    <label class="custom-radio-container">
-                        <input type="radio" name="price" value="<10k" required>
-                        <span class="checkmark"></span>
-                        <span class="label-text">
-                            < Rp10.000</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="price" value="10k-15k">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Rp10.000 - Rp15.000</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="price" value="15k-25k">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Rp15.000 - Rp25.000</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="price" value="25k-40k">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Rp25.000 - Rp40.000</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="price" value=">40k">
-                        <span class="checkmark"></span>
-                        <span class="label-text">> Rp40.000</span>
-                    </label>
+                <div class="question-item">
+                    <p class="q-title">2. Rentang harga bahan baku yang Anda pilih?</p>
+                    <div class="select-container">
+                        <select name="price" required>
+                            <option value="" disabled selected>-- Pilih Rentang Harga --</option>
+                            <option value="<10k">
+                                < Rp10.000</option>
+                            <option value="10k-15k">Rp10.000 - Rp15.000</option>
+                            <option value="15k-20k">Rp15.000 - Rp20.000</option>
+                            <option value="20k-25k">Rp20.000 - Rp25.000</option>
+                            <option value="25k-30k">Rp25.000 - Rp30.000</option>
+                            <option value="30k-35k">Rp30.000 - Rp35.000</option>
+                            <option value="35k-40k">Rp35.000 - Rp40.000</option>
+                            <option value="40k-50k">Rp40.000 - Rp50.000</option>
+                            <option value=">50k">> Rp50.000</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question-block">
-                <label class="question-text">3. Jenis olahan mana yang lebih Anda sukai?</label>
-                <div class="options-list">
-                    <label class="custom-radio-container">
-                        <input type="radio" name="style" value="Berkuah" required>
-                        <span class="checkmark"></span>
-                        <span class="label-text">Berkuah</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="style" value="Kering">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Kering / Goreng</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="style" value="Bakar">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Bakar / Panggang</span>
-                    </label>
+                <div class="question-item">
+                    <p class="q-title">3. Jenis olahan mana yang lebih Anda sukai?</p>
+                    <div class="options-grid">
+                        <label class="option-card">
+                            <input type="radio" name="style" value="Berkuah" required>
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/berkuah.jpg') }}" alt="Berkuah">
+                                <span>Berkuah</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="style" value="Kering">
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/Kering.jpeg') }}" alt="Kering">
+                                <span>Kering</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="style" value="Nyemek">
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/nyemek.jpg') }}" alt="Nyemek">
+                                <span>Nyemek</span>
+                            </div>
+                        </label>
+                        <label class="option-card">
+                            <input type="radio" name="style" value="Bakar">
+                            <div class="card-inner">
+                                <img src="{{ asset('img/imgMakanan/baka.jpg') }}" alt="Bakar">
+                                <span>Bakar</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question-block">
-                <label class="question-text">4. Apakah Anda menyukai lauk sampingan?</label>
-                <div class="options-list">
-                    <label class="custom-radio-container">
-                        <input type="radio" name="side_dish" value="yes" required>
-                        <span class="checkmark"></span>
-                        <span class="label-text">Ya, saya suka</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="side_dish" value="no">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Tidak</span>
-                    </label>
+                <div class="question-item">
+                    <p class="q-title">4. Apakah Anda menyukai lauk sampingan?</p>
+                    <div class="options-row">
+                        <label class="option-check">
+                            <input type="radio" name="side_dish" value="yes" required>
+                            <span class="box-label">
+                                <img src="https://placehold.co/50x50?text=Y" alt="Ya"> Ya
+                            </span>
+                        </label>
+                        <label class="option-check">
+                            <input type="radio" name="side_dish" value="no">
+                            <span class="box-label">
+                                <img src="https://placehold.co/50x50?text=T" alt="Tidak"> Tidak
+                            </span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="question-block">
-                <label class="question-text">5. Apakah Anda menyukai tambahan sayur/biji-bijian?</label>
-                <div class="options-list">
-                    <label class="custom-radio-container">
-                        <input type="radio" name="veggies" value="yes" required>
-                        <span class="checkmark"></span>
-                        <span class="label-text">Ya</span>
-                    </label>
-                    <label class="custom-radio-container">
-                        <input type="radio" name="veggies" value="no">
-                        <span class="checkmark"></span>
-                        <span class="label-text">Tidak</span>
-                    </label>
+                <div class="question-item">
+                    <p class="q-title">5. Apakah Anda menyukai jika terdapat sayur/biji-bijian?</p>
+                    <div class="options-row">
+                        <label class="option-check">
+                            <input type="radio" name="veggies" value="yes" required>
+                            <span class="box-label">
+                                <img src="https://placehold.co/50x50?text=Y" alt="Ya"> Ya
+                            </span>
+                        </label>
+                        <label class="option-check">
+                            <input type="radio" name="veggies" value="no">
+                            <span class="box-label">
+                                <img src="https://placehold.co/50x50?text=T" alt="Tidak"> Tidak
+                            </span>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="footer-action">
-                <button type="submit" class="btn-next">SELANJUTNYA</button>
-            </div>
+                <div class="button-area">
+                    <button type="submit" class="btn-next">SELANJUTNYA</button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
 
 </body>
