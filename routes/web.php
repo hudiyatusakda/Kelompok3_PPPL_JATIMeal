@@ -26,7 +26,6 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::get('/admin/dashboard', function () {
-        return "<h1>Selamat Datang di Dashboard Admin</h1><p>Hanya admin yang bisa lihat ini.</p>
-        <form action='" . route('logout') . "' method='POST'>" . csrf_field() . "<button type='submit'>Logout Admin</button></form>";
+        return view('adminF.dash_admin');
     })->name('admin.dashboard');
 });
