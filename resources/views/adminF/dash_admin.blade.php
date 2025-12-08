@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    {{-- Link Font dirapikan --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -32,6 +31,7 @@
                         <ul>
                             <li class="list active"><a href="#">Tambahkan Menu</a></li>
                             <li class="list"><a href="#">List Menu</a></li>
+                            <li class="list"><a href="#">Kelola User</a></li>
                         </ul>
                     </div>
                 </div>
@@ -92,10 +92,12 @@
                     <div class="deskripsi-field">
                         <div class="label-deskripsi">Deskripsi Menu:</div>
                         <div class="input-deskripsi">
-                            <input type="text" name="" id="">
+                            <textarea name="" id=""></textarea>
                         </div>
                     </div>
-                    <button type="submit">Tambahkan Menu</button>
+                    <div class="button-deskripsi">
+                        <button type="submit">Tambahkan Menu</button>
+                    </div>
                 </div>
             </div>
         </div>
