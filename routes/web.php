@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PreferenceController;
+use App\Http\Controllers\MenuController;
 
 Route::middleware('guest')->group(function () {
 
@@ -25,7 +26,21 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+
+    Route::get('/menu/list', [MenuController::class, 'index'])->name('menu.index');
+
     Route::get('/admin/dashboard', function () {
         return view('adminF.dash_admin');
     })->name('admin.dashboard');
+
+    // List menu
+    Route::get('/menu/tambah', [MenuController::class, 'create'])->name('menu.crate');
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+    Route::get('/menu/list', [MenuController::class, 'index'])->name('menu.index');
+
+    // Edit menu
+    Route::get('/menu/edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
+    Route::put('/menu/update/{id}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
 });

@@ -29,9 +29,11 @@
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list active"><a href="#">Tambahkan Menu</a></li>
-                            <li class="list"><a href="#">List Menu</a></li>
-                            <li class="list"><a href="#">Kelola User</a></li>
+                            <li class="list {{ Request::routeIs('menu.create') ? 'active' : '' }}"><a
+                                    href="{{ route('menu.crate') }}">Tambahkan Menu</a></li>
+                            <li class="list {{ Request::routeIs('menu.index') ? 'active' : '' }}"><a
+                                    href="{{ route('menu.index') }}">List Menu</a></li>
+                            <li class="list"><a href="#">Pengelola Pengguna</a></li>
                         </ul>
                     </div>
                 </div>
@@ -70,34 +72,66 @@
                 </div>
 
                 <div class="content">
-                    <div class="input-menu">
-                        <label for="menu">Nama Menu:</label>
-                        <input type="text" id="menu">
-                    </div>
-                    <div class="insert-image">
-                        <input type="file" id="file-input" accept="image/*">
-
-                        <label for="file-input" id="drop-area">
-                            <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="17 8 12 3 7 8"></polyline>
-                                <line x1="12" y1="3" x2="12" y2="15"></line>
-                            </svg>
-
-                            <img id="img-preview" src="#" alt="Preview">
-                        </label>
-                    </div>
-                    <div class="deskripsi-field">
-                        <div class="label-deskripsi">Deskripsi Menu:</div>
-                        <div class="input-deskripsi">
-                            <textarea name="" id=""></textarea>
+                    @if ($errors->any())
+                        <div
+                            style="background-color: #f8d7da; color: #721c24; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                    </div>
-                    <div class="button-deskripsi">
-                        <button type="submit">Tambahkan Menu</button>
-                    </div>
+                    @endif
+
+                    @if (session('success'))
+                        <div
+                            style="background-color: #d4edda; color: #155724; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="input-menu">
+                            <label for="menu">Nama Menu:</label>
+                            <input type="text" id="menu" name="nama_menu" required placeholder="Nama Makanan">
+                        </div>
+                        <div class="input-menu">
+                            <label for="kategori">Kategori:</label>
+                            <select name="kategori" id="kategori"
+                                style="width: 750px; height: 55px; border: 1px solid #8F4738; padding: 10px;">
+                                <option value="" disabled selected>Pilih Kategori</option>
+                                <option value="Daging">Daging</option>
+                                <option value="Ayam">Ayam</option>
+                                <option value="Goreng">Goreng</option>
+                                <option value="Kuah">Kuah</option>
+                            </select>
+                        </div>
+                        <div class="insert-image">
+                            <input type="file" id="file-input" name="gambar_menu" accept="image/*" required>
+
+                            <label for="file-input" id="drop-area">
+                                <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+
+                                <img id="img-preview" src="#" alt="Preview">
+                            </label>
+                        </div>
+                        <div class="deskripsi-field">
+                            <div class="label-deskripsi">Deskripsi Menu:</div>
+                            <div class="input-deskripsi">
+                                <textarea name="deskripsi" id="deskripsi" required placeholder="Masukkan Deskripsi Makanan"></textarea>
+                            </div>
+                        </div>
+                        <div class="button-deskripsi">
+                            <button type="submit">Tambahkan Menu</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
