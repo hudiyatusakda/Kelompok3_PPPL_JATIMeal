@@ -54,11 +54,6 @@
                             <label for="C_Password">Konfirmasi Kata Sandi <span class="required">*</span></label>
                             <input type="password" id="C_Password" name="password_confirmation" required>
                         </div>
-                        {{-- <div class="text-desc">
-                            Dengan mengklik “Lanjutkan dengan Google”, ‘Facebook’, atau “Apple”, Anda setuju dengan
-                            Syarat dan
-                            Ketentuan serta Kebijakan Privasi Etsy.
-                        </div> --}}
                         @if ($errors->any())
                             <div
                                 style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
