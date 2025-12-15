@@ -1,0 +1,345 @@
+/* =========================================
+   1. GLOBAL RESET
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #E7E5E3;
+    min-height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================
+   2. SIDEBAR (Warna Coklat)
+   ========================================= */
+.sidebar {
+    width: 250px;
+    background-color: #8F4738;
+    color: white;
+    padding-top: 30px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.logo-area img {
+    width: 100px;
+    height: auto;
+}
+
+.nav-links {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.nav-links li {
+    margin-bottom: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    transition: 0.3s;
+    display: block;
+}
+
+.nav-links a:hover {
+    color: #ffcccc;
+    transform: translateX(5px);
+}
+
+/* =========================================
+   3. KONTEN KANAN & NAVBAR
+   ========================================= */
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Atas */
+.navbar {
+    background-color: #8F4738;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+/* Tamu (Guest) */
+.masuk,
+.daftar {
+    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+}
+
+/* User Logged In */
+.navbar-user {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* --- Dropdown Profile --- */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 6px 12px;
+    background-color: #ad2e24;
+    border-radius: 8px;
+    color: white;
+    transition: background 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-trigger:hover {
+    background-color: #c0392b;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.account img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-trigger i {
+    font-size: 12px;
+}
+
+/* Dropdown Menu Box */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 120%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    z-index: 1000;
+    overflow: hidden;
+    animation: slide-down 0.3s ease-out;
+}
+
+/* Animasi Dropdown */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content.open-menu {
+    display: block;
+}
+
+.sub-item {
+    padding: 12px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sub-item:hover {
+    background-color: #f8f9fa;
+    color: #8F4738;
+}
+
+.sub-item i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 0;
+}
+
+/* =========================================
+   4. DETAIL MENU (AREA UTAMA)
+   ========================================= */
+.detail-wrapper {
+    padding: 40px 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+    flex: 1;
+}
+
+/* Header: Panah & Judul */
+.detail-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.btn-back {
+    color: #333;
+    font-size: 24px;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.btn-back:hover {
+    color: #8F4738;
+    transform: translateX(-5px);
+}
+
+.detail-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+}
+
+/* Gambar Utama */
+.menu-image {
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.menu-image img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+/* Deskripsi Teks */
+.menu-description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+/* Bahan Utama */
+.menu-ingredients h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #000;
+    display: inline-block;
+}
+
+.menu-ingredients p {
+    font-size: 16px;
+    color: #333;
+    display: inline;
+}
+
+.action-button-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: #8F4738;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #70362b;
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   5. FOOTER
+   ========================================= */
+.footer {
+    background-color: #E7E5E3;
+    border-top: 1px solid rgba(143, 71, 56, 0.3);
+    padding: 40px 60px;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.f-col h4 {
+    color: #8F4738;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.f-col a,
+.f-col p {
+    display: block;
+    color: #555;
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.f-col a:hover {
+    color: #8F4738;
+    text-decoration: underline;
+}

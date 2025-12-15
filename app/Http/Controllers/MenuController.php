@@ -22,13 +22,11 @@ class MenuController extends Controller
             'nama_menu' => 'required|string|max:255',
             'kategori' => 'required|string',
             'bahan_baku' => 'required|string|max:255',
-            'harga_bahan' => 'required|numeric|min:0', // Validasi numeric akan berhasil
+            'harga_bahan' => 'required|numeric|min:0',
             'referensi' => 'nullable|string',
             'gambar_menu' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'required|string',
         ]);
-
-        // ... sisa kode simpan gambar dan create menu tetap sama ...
 
         // Simpan ke Database
         $imagePath = $request->file('gambar_menu')->store('menu-images', 'public');
@@ -48,15 +46,25 @@ class MenuController extends Controller
 
     public function index(Request $request)
     {
+        // Ambil semua menu
         $query = Menu::query();
 
-        if ($request->filled('search')) {
+        // LOGIC FILTER: Jika ada request 'kategori' dari tombol "Lihat Semua"
+        if ($request->has('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+
+        // Logic Pencarian (Search Bar) - Opsional jika sudah ada
+        if ($request->has('search')) {
             $query->where('nama_menu', 'LIKE', '%' . $request->search . '%');
         }
 
-        $menus = $query->get()->groupBy('kategori');
+        $menus = $query->get();
 
-        return view('adminF.list_menu', compact('menus'));
+        // Kirim data kategori yang sedang dipilih ke view (untuk judul halaman)
+        $currentCategory = $request->kategori ?? 'Semua Menu';
+
+        return view('menu.index', compact('menus', 'currentCategory'));
     }
 
     public function create()
@@ -97,7 +105,7 @@ class MenuController extends Controller
         $menu->nama_menu = $request->nama_menu;
         $menu->kategori = $request->kategori;
         $menu->bahan_baku = $request->bahan_baku;
-        $menu->harga_bahan = $request->harga_bahan; // Tersimpan sebagai integer
+        $menu->harga_bahan = $request->harga_bahan;
         $menu->referensi = $request->referensi;
         $menu->deskripsi = $request->deskripsi;
 

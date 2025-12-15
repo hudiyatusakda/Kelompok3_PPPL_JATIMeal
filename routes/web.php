@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 
 Route::middleware('guest')->group(function () {
 
@@ -23,9 +24,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/personalize', [PreferenceController::class, 'index'])->name('personal.index');
     Route::post('/personalize', [PreferenceController::class, 'store'])->name('personal.store');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // User dashbaord
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/menu/kategori/{category}', [DashboardController::class, 'showCategory'])->name('menu.category');
+    Route::get('/menu/{id}', [DashboardController::class, 'showMenu'])->name('menu.show');
 
     Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
 

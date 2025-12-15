@@ -4,17 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
-        rel="stylesheet">
+    <title>Kategori: {{ ucfirst($category) }} - MealGoal</title>
 
     <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/category_view.css') }}">
 
-    <title>Home - MealGoal</title>
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -22,14 +18,12 @@
         <div class="container">
             <div class="left-section">
                 <div class="logo_placeholder">
-                    <div class="logo">
-                        <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
-                    </div>
+                    <div class="logo"><img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal"></div>
                 </div>
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list active"><a href="#">Halaman Utama</a></li>
+                            <li class="list"><a href="{{ route('dashboard') }}">Halaman Utama</a></li>
                             <li class="list"><a href="#">Paket Menu Mingguan</a></li>
                             <li class="list"><a href="#">Riwayat Menu</a></li>
                         </ul>
@@ -69,58 +63,31 @@
                     </div>
                 </div>
 
-                <div class="search-container">
-                    <div class="search-box">
-                        <input type="text" placeholder="Cari Menu Makanan">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
-                </div>
-
                 <div class="content">
 
-                    <div class="section-header">
-                        @if (isset($isFallback) && $isFallback)
-                            <h2>Rekomendasi Populer</h2>
-                        @else
-                            <h2>Rekomendasi Untukmu</h2>
-                        @endif
+                    <div class="category-header-block">
+                        <a href="{{ route('dashboard') }}" class="btn-back">
+                            <i class="fa-solid fa-arrow-left"></i> Kembali
+                        </a>
+                        <h2>Menampilkan Kategori: <span>{{ ucfirst($category) }}</span></h2>
                     </div>
 
                     <div class="menu-grid">
-                        @foreach ($recommendedMenus as $menu)
+                        @forelse($menus as $menu)
                             @include('partials.menu_card', ['menu' => $menu])
-                        @endforeach
+                        @empty
+                            <div class="empty-state">
+                                <p>Tidak ada menu ditemukan dalam kategori ini.</p>
+                            </div>
+                        @endforelse
                     </div>
 
-                    <br>
-                    <hr><br>
-
-                    @foreach ($menusByCategory as $category => $menus)
-                        @if ($menus->count() > 0)
-                            <div class="category-section">
-
-                                <div class="section-header">
-                                    <h3>Kategori: {{ ucfirst($category) }}</h3>
-                                    <a href="{{ route('menu.category', ['category' => $category]) }}"
-                                        class="see-all">Lihat Semua</a>
-                                </div>
-
-                                <div class="menu-grid">
-                                    @foreach ($menus as $menu)
-                                        @include('partials.menu_card', ['menu' => $menu])
-                                    @endforeach
-                                </div>
-
-                            </div>
-
-                            <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-                        @endif
-                    @endforeach
+                    <div class="pagination-wrapper">
+                        {{ $menus->links() }}
+                    </div>
 
                 </div>
-
             </div>
-        </div>
         </div>
     </main>
 
@@ -160,24 +127,24 @@
             </div>
         </div>
     </footer>
+</body>
 
-    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 
-    <script>
-        let subMenu = document.getElementById("subMenu");
+<script>
+    let subMenu = document.getElementById("subMenu");
 
-        function toggleMenu() {
-            subMenu.classList.toggle("open-menu");
-        }
+    function toggleMenu() {
+        subMenu.classList.toggle("open-menu");
+    }
 
-        window.onclick = function(event) {
-            if (!event.target.closest('.profile-dropdown')) {
-                if (subMenu && subMenu.classList.contains('open-menu')) {
-                    subMenu.classList.remove('open-menu');
-                }
+    window.onclick = function(event) {
+        if (!event.target.closest('.profile-dropdown')) {
+            if (subMenu && subMenu.classList.contains('open-menu')) {
+                subMenu.classList.remove('open-menu');
             }
         }
-    </script>
-</body>
+    }
+</script>
 
 </html>
