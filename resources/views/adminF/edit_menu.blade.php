@@ -25,15 +25,25 @@
                         <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
                     </div>
                 </div>
-                {{-- <div class="side-bar-menu">
+
+                {{-- SAYA BUKA KOMENTAR SIDEBAR DAN PERBAIKI ROUTE-NYA --}}
+                <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list"><a href="{{ route('menu.create') }}">Tambahkan Menu</a></li>
-                            <li class="list active"><a href="{{ route('menu.index') }}">List Menu</a></li>
-                            <li class="list"><a href="#">Pengelola Pengguna</a></li>
+                            {{-- Pastikan nama route di web.php adalah 'menu.create', 'menu.index' --}}
+                            <li class="list {{ Request::routeIs('menu.create') ? 'active' : '' }}">
+                                <a href="{{ route('menu.create') }}">Tambahkan Menu</a>
+                            </li>
+                            {{-- Halaman ini bagian dari list menu, jadi kita aktifkan list menu --}}
+                            <li class="list active">
+                                <a href="{{ route('menu.index') }}">List Menu</a>
+                            </li>
+                            <li class="list {{ Request::routeIs('admin.users') ? 'active' : '' }}">
+                                <a href="{{ route('admin.users') }}">Pengelola Pengguna</a>
+                            </li>
                         </ul>
                     </div>
-                </div> --}}
+                </div>
             </div>
 
             <div class="right-section">
@@ -87,11 +97,35 @@
                             </select>
                         </div>
 
+                        <div class="input-menu">
+                            <label for="bahan_baku">Bahan Baku:</label>
+                            <input type="text" id="bahan_baku" name="bahan_baku"
+                                value="{{ old('bahan_baku', $menu->bahan_baku) }}" required
+                                placeholder="Contoh: Daging Sapi, Tepung">
+                        </div>
+
+                        <div class="input-menu">
+                            <label for="harga_bahan">Harga Bahan:</label>
+                            <input type="text" id="harga_bahan" name="harga_bahan"
+                                value="{{ old('harga_bahan', isset($menu) ? 'Rp ' . number_format($menu->harga_bahan, 0, ',', '.') : '') }}"
+                                required placeholder="Contoh: Rp 50.000">
+                        </div>
+
+                        <div class="input-menu">
+                            <label for="referensi">Referensi:</label>
+                            <input type="text" id="referensi" name="referensi"
+                                value="{{ old('referensi', $menu->referensi) }}"
+                                placeholder="Masukkan Link atau Sumber">
+                        </div>
+
                         <div class="insert-image">
                             <input type="file" id="file-input" name="gambar_menu" accept="image/*">
 
                             <label for="file-input" id="drop-area">
-                                <img id="img-preview" src="{{ asset('storage/' . $menu->gambar) }}" alt="Preview">
+                                {{-- Pastikan nama kolom di DB adalah 'gambar_path' atau sesuaikan --}}
+                                <img id="img-preview"
+                                    src="{{ asset('storage/' . ($menu->gambar_path ?? $menu->gambar)) }}"
+                                    alt="Preview">
                             </label>
                         </div>
                         <p style="font-size: 12px; margin-left: 2rem; color: #666; margin-top: 5px;">*Klik gambar untuk
@@ -106,10 +140,10 @@
 
                         <div class="button-deskripsi">
                             <button type="submit" class="btn-update">Update Menu</button>
-
                             <button type="button" class="btn-delete" onclick="confirmDelete()">Hapus Menu</button>
                         </div>
                     </form>
+
                     <form id="delete-form" action="{{ route('menu.destroy', $menu->id) }}" method="POST"
                         style="display: none;">
                         @csrf
@@ -147,6 +181,31 @@
             if (confirm("Apakah Anda yakin ingin menghapus menu ini? Data tidak bisa dikembalikan.")) {
                 document.getElementById('delete-form').submit();
             }
+        }
+
+        const hargaInput = document.getElementById('harga_bahan');
+
+        if (hargaInput) {
+            hargaInput.addEventListener('keyup', function(e) {
+                // Tambahkan 'Rp ' pada saat mengetik
+                hargaInput.value = formatRupiah(this.value, 'Rp ');
+            });
+        }
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
         }
     </script>
 </body>

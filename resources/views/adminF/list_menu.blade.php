@@ -29,10 +29,11 @@
                     <div class="side-bar">
                         <ul>
                             <li class="list {{ Request::routeIs('menu.create') ? 'active' : '' }}"><a
-                                    href="{{ route('menu.crate') }}">Tambahkan Menu</a></li>
+                                    href="{{ route('menu.create') }}">Tambahkan Menu</a></li>
                             <li class="list {{ Request::routeIs('menu.index') ? 'active' : '' }}"><a
                                     href="{{ route('menu.index') }}">List Menu</a></li>
-                            <li class="list"><a href="#">Pengelola Pengguna</a></li>
+                            <li class="list {{ Request::routeIs('menu.users') ? 'active' : '' }}"><a
+                                    href="{{ route('admin.users') }}">Pengelola Pengguna</a></li>
                         </ul>
                     </div>
                 </div>

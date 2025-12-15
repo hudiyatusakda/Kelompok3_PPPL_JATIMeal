@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\AdminController;
 
 Route::middleware('guest')->group(function () {
 
@@ -35,7 +36,7 @@ Route::middleware('auth')->group(function () {
     })->name('admin.dashboard');
 
     // List menu
-    Route::get('/menu/tambah', [MenuController::class, 'create'])->name('menu.crate');
+    Route::get('/menu/tambah', [MenuController::class, 'create'])->name('menu.create');
     Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
     Route::get('/menu/list', [MenuController::class, 'index'])->name('menu.index');
 
@@ -43,4 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/menu/edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
     Route::put('/menu/update/{id}', [MenuController::class, 'update'])->name('menu.update');
     Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+
+    // admin
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/admin/pengguna', [AdminController::class, 'index'])->name('admin.users');
+    });
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/admin/pengguna', [AdminController::class, 'index'])->name('admin.users');
+        Route::get('/admin/pengguna/{id}', [AdminController::class, 'show'])->name('admin.users.show');
+    });
 });

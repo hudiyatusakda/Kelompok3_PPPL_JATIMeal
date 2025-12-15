@@ -10,26 +10,39 @@ class MenuController extends Controller
 {
     public function store(Request $request)
     {
-        // 1. Validasi Data
+        // 1. BERSIHKAN FORMAT RUPIAH SEBELUM VALIDASI
+        // Mengubah "Rp 50.000" menjadi "50000"
+        // Hapus semua karakter yang BUKAN angka
+        $request->merge([
+            'harga_bahan' => preg_replace('/\D/', '', $request->harga_bahan)
+        ]);
+
+        // 2. Lanjutkan Validasi seperti biasa (sekarang harga_bahan sudah bersih jadi angka)
         $request->validate([
             'nama_menu' => 'required|string|max:255',
             'kategori' => 'required|string',
-            'gambar_menu' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Max 2MB
+            'bahan_baku' => 'required|string|max:255',
+            'harga_bahan' => 'required|numeric|min:0', // Validasi numeric akan berhasil
+            'referensi' => 'nullable|string',
+            'gambar_menu' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'required|string',
         ]);
 
-        // 2. Proses Upload Gambar
+        // ... sisa kode simpan gambar dan create menu tetap sama ...
+
+        // Simpan ke Database
         $imagePath = $request->file('gambar_menu')->store('menu-images', 'public');
 
-        // 3. Simpan ke Database
         Menu::create([
             'nama_menu' => $request->nama_menu,
             'kategori' => $request->kategori,
-            'gambar' => $imagePath,
+            'bahan_baku' => $request->bahan_baku,
+            'harga_bahan' => $request->harga_bahan, // Data yang masuk sudah bersih (integer)
+            'referensi' => $request->referensi,
+            'gambar_path' => $imagePath,
             'deskripsi' => $request->deskripsi,
         ]);
 
-        // 4. Redirect kembali (Refresh halaman)
         return redirect()->back()->with('success', 'Menu berhasil ditambahkan!');
     }
 
@@ -63,33 +76,40 @@ class MenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
 
-        // 1. Validasi (Gambar nullable karena user mungkin tidak ganti gambar)
+        // 1. BERSIHKAN FORMAT RUPIAH
+        $request->merge([
+            'harga_bahan' => preg_replace('/\D/', '', $request->harga_bahan)
+        ]);
+
+        // 2. Validasi
         $request->validate([
             'nama_menu' => 'required|string|max:255',
-            'kategori'  => 'required|string',
+            'kategori' => 'required|string',
+            'bahan_baku' => 'required|string|max:255',
+            'harga_bahan' => 'required|numeric|min:0',
+            'referensi' => 'nullable|string',
             'gambar_menu' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'required|string',
         ]);
 
-        // 2. Cek apakah ada upload gambar baru
-        if ($request->hasFile('gambar_menu')) {
-            if ($menu->gambar && Storage::exists('public/' . $menu->gambar)) {
-                Storage::delete('public/' . $menu->gambar);
-            }
+        // ... sisa kode update gambar dan data tetap sama ...
 
-            // Simpan gambar baru
-            $imagePath = $request->file('gambar_menu')->store('menu-images', 'public');
-            $menu->gambar = $imagePath;
-        }
-
-        // 3. Update Text
         $menu->nama_menu = $request->nama_menu;
         $menu->kategori = $request->kategori;
+        $menu->bahan_baku = $request->bahan_baku;
+        $menu->harga_bahan = $request->harga_bahan; // Tersimpan sebagai integer
+        $menu->referensi = $request->referensi;
         $menu->deskripsi = $request->deskripsi;
+
+        // Cek upload gambar (kode lama Anda)...
+        if ($request->hasFile('gambar_menu')) {
+            // ... logika hapus dan upload gambar ...
+            $imagePath = $request->file('gambar_menu')->store('menu-images', 'public');
+            $menu->gambar_path = $imagePath;
+        }
 
         $menu->save();
 
-        // 4. Kembali ke List Menu
         return redirect()->route('menu.index')->with('success', 'Menu berhasil diperbaharui!');
     }
 

@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function preference()
+    {
+        return $this->hasOne(UserPreference::class);
+    }
+
+    public function dailyLogs()
+    {
+        return $this->hasMany(DailyLog::class);
+    }
 }

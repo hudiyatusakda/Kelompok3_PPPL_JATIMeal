@@ -1,4 +1,4 @@
-/* ============= GLOBAL RESET =================== */
+/* ============= GLOBAL RESET (TETAP) =================== */
 * {
     margin: 0;
     padding: 0;
@@ -22,7 +22,7 @@ main {
     min-height: 100vh;
 }
 
-/* ============= LEFT SECTION =================== */
+/* ============= LEFT SECTION (SIDEBAR TETAP) =================== */
 .left-section {
     width: 20%;
     background-color: #8F4738;
@@ -86,20 +86,11 @@ main {
     background-color: #8F4738;
     height: 70px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 0 2rem;
 }
 
-/* Tamu (Guest) */
-.masuk,
-.daftar {
-    text-decoration: underline;
-    color: white;
-    cursor: pointer;
-}
-
-/* User Logged In */
 .navbar-user {
     display: flex;
     align-items: center;
@@ -145,7 +136,7 @@ main {
     font-size: 12px;
 }
 
-/* Dropdown Menu Box */
+/* Dropdown Menu Box (ANIMASI TETAP) */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -160,13 +151,11 @@ main {
     animation: slide-down 0.3s ease-out;
 }
 
-/* Animasi Dropdown */
 @keyframes slide-down {
     0% {
         opacity: 0;
         transform: translateY(-10px);
     }
-
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -209,123 +198,110 @@ hr {
     margin: 0;
 }
 
+/* ============================================================ */
+/* === CONTENT  === */
+/* ============================================================ */
 
-/* Content */
-
-/* Input nama menu */
-.input-menu {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 1.5rem;
-    margin-left: 2rem;
-    gap: 15px;
+.content {
+    padding: 30px 40px;
+    flex: 1;
 }
 
-.input-menu label {
+.content-title {
+    font-size: 24px;
     font-weight: 700;
-    font-size: 32px;
-    width: 200px;
-    text-align: left;
-    flex-shrink: 0;
-}
-
-.input-menu input,
-.input-menu select {
-    border: solid 1px #8F4738;
-    width: 750px;
-    height: 55px;
-    padding: 0 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    background-color: #fff;
-}
-
-/* Input Gambar */
-
-.insert-image {
-    margin-top: 1.5rem;
-    background-color: #fff;
-    height: 300px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-.insert-image label {
-    /* width: 100%; */
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
-#upload-icon {
+    margin-bottom: 25px;
     color: #000;
-    transition: 0.3s;
 }
 
-.insert-image label:hover #upload-icon{
-    color: #555;
-    transform: scale(1.5);
-}
-
-#img-preview {
-    display: none;
-    /* width: 100%; */
-    height: 300px;
-    object-fit: contain;
-}
-
-/* Deskripsi Field */
-.deskripsi-field{
-    margin-left: 2rem;
-    padding: 3rem;
-}
-
-/* label */
-.label-deskripsi{
-    font-weight: 700;
-    margin-left: 1rem;
-}
-
-/* Input */
-
-.input-deskripsi textarea{
-    border: solid 1px #8F4738;
-    width: 950px;
-    height: 280px;
-    background-color: #E7E5E3;
-    padding: 15px;
-    text-align: left;
-    vertical-align: top;
-    resize: none;
-    box-sizing: border-box;
-    box-shadow: #555 0px 2px 4px 1px;
-}
-
-/* Button */
-
-.button-deskripsi{
+/* --- Stats Cards (Kotak Beige) --- */
+.stats-row {
     display: flex;
-    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    flex: 1;
+    background-color: #DBCDC7;
+    padding: 25px 30px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.button-deskripsi button{
-    border-radius: 8px;
-    border: solid 1px #8F4738;
+.stat-number {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+.stat-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+.stat-icon i {
+    font-size: 50px;
+    color: #000;
+}
+
+/* --- Tabel Style (Header Beige, Body Grey) --- */
+.table-wrapper {
+    background: transparent;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th {
+    background-color: #EBE0DA;
+    border: 1px solid #C4A498;
+    padding: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #000;
+}
+
+.custom-table td {
+    background-color: #D3D3D3;
+    border: 1px solid #ccc;
+    padding: 15px;
+    font-weight: 500;
+    color: #333;
+    vertical-align: middle;
+}
+
+/* --- Progress Bar --- */
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progress-bar-bg {
+    width: 85%;
+    height: 20px;
+    background-color: #Cebcb6;
+}
+
+.progress-bar-fill {
+    height: 100%;
     background-color: #8F4738;
-    padding: 15px 40px 15px 40px;
-    color: #fff;
-    cursor: pointer;
 }
 
-.button-deskripsi button:hover{
-    background-color: #ad2e24;
+.menu-dots {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #000;
+    padding: 0 10px;
 }

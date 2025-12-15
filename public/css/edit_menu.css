@@ -169,10 +169,12 @@ main {
     display: inline-block;
 }
 
-/* Input Fields */
+/* Input Fields (DIPERBAIKI AGAR SEJAJAR) */
 .input-menu {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    /* Alignment start agar rapi dari kiri */
     margin-top: 1.5rem;
     gap: 15px;
     margin-left: 2rem;
@@ -180,8 +182,12 @@ main {
 
 .input-menu label {
     font-weight: 700;
-    font-size: 24px;
-    width: 150px;
+    font-size: 20px;
+    /* Ukuran font disesuaikan */
+    width: 200px;
+    /* Lebar label fix agar sejajar */
+    text-align: left;
+    flex-shrink: 0;
 }
 
 .input-menu input,
@@ -235,7 +241,8 @@ input[type="file"] {
 
 .label-deskripsi {
     font-weight: 700;
-    font-size: 24px;
+    font-size: 20px;
+    /* Samakan dengan label input */
     margin-bottom: 10px;
 }
 

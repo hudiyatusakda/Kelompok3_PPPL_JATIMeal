@@ -1,0 +1,480 @@
+/* =========================================
+    1. GLOBAL RESET & LAYOUT UTAMA
+========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #EAE8E6;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================
+    2. SIDEBAR (BAGIAN KIRI)
+========================================= */
+.left-section {
+    width: 250px;
+    background-color: #8F4738;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+    flex-shrink: 0;
+}
+
+.logo_placeholder {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+}
+
+.side-bar ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.side-bar li {
+    margin-bottom: 1rem;
+}
+
+.side-bar li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    display: block;
+    padding: 10px 0;
+    transition: 0.3s;
+}
+
+.side-bar li a:hover {
+    color: #ffcccc;
+    transform: translateX(5px);
+}
+
+.side-bar li.active a {
+    font-weight: 700;
+    color: #ffcccc;
+}
+
+/* =========================================
+    3. NAVBAR & KONTEN KANAN
+========================================= */
+.right-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: #8F4738;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+/* Tamu (Guest) */
+.masuk,
+.daftar {
+    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+}
+
+/* User Logged In */
+.navbar-user {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* --- Dropdown Profile --- */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 6px 12px;
+    background-color: #ad2e24;
+    border-radius: 8px;
+    color: white;
+    transition: background 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-trigger:hover {
+    background-color: #c0392b;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.account img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-trigger i {
+    font-size: 12px;
+}
+
+/* Dropdown Menu Box */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 120%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    z-index: 1000;
+    overflow: hidden;
+    animation: slide-down 0.3s ease-out;
+}
+
+/* Animasi Dropdown */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content.open-menu {
+    display: block;
+}
+
+.sub-item {
+    padding: 12px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sub-item:hover {
+    background-color: #f8f9fa;
+    color: #8F4738;
+}
+
+.sub-item i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 0;
+}
+
+/* =========================================
+    4. KONTEN DETAIL (KHUSUS HALAMAN INI)
+========================================= */
+.content {
+    padding: 30px 40px;
+}
+
+/* Tombol Kembali */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #8F4738;
+    font-weight: 600;
+    margin-bottom: 25px;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+.btn-back:hover {
+    transform: translateX(-5px);
+}
+
+.content-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Kartu Detail (Kotak Putih) */
+.detail-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    border-left: 5px solid #8F4738;
+}
+
+/* Header per Bagian (Informasi Akun / Preferensi) */
+.section-header {
+    font-size: 18px;
+    font-weight: 700;
+    color: #8F4738;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Grid Layout untuk Data */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Item Data Individual */
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.info-item .value-box {
+    background-color: #f9f9f9;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    color: #333;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+/* Badge untuk Ya/Tidak */
+.badge {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.badge-yes {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-no {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Pesan jika data kosong */
+.empty-state {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+}
+
+.empty-state i {
+    font-size: 40px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* === SECTION PROGRES BARU === */
+
+.progress-section-card {
+    background-color: #EAE8E6;
+    /* Background abu user detail */
+    /* Jika ingin background putih kotak seperti gambar: */
+    /* background-color: #fff; padding: 30px; border-radius: 10px; */
+    margin-bottom: 40px;
+}
+
+/* Header User & Progress */
+.user-progress-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.user-avatar-large img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-info-bar {
+    flex: 1;
+}
+
+.ui-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.big-progress-track {
+    width: 100%;
+    height: 25px;
+    /* Progress bar tebal */
+    background-color: #DBCDC7;
+    /* Warna dasar track (krem/abu) */
+    border-radius: 0;
+    /* Kotak tajam sesuai gambar */
+}
+
+.big-progress-fill {
+    height: 100%;
+    background-color: #8F4738;
+    /* Warna coklat isian */
+    transition: width 0.5s ease;
+}
+
+/* Tabel Mingguan */
+.progress-table-wrapper {
+    border: 1px solid #8F4738;
+    /* Border luar tabel */
+    border-radius: 4px;
+    /* Sedikit rounded di pojok */
+    overflow: hidden;
+}
+
+.progress-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.progress-table th {
+    background-color: #EBE0DA;
+    /* Header Krem */
+    border-bottom: 1px solid #8F4738;
+    border-right: 1px solid #8F4738;
+    padding: 12px;
+    font-weight: 700;
+    text-align: center;
+    color: #000;
+}
+
+.progress-table th:last-child {
+    border-right: none;
+}
+
+.progress-table td {
+    padding: 12px;
+    text-align: center;
+    background-color: #EAE8E6;
+    /* Body tabel abu-abu */
+    border-bottom: 1px solid #ccc;
+    /* Garis pemisah antar hari tipis */
+    color: #333;
+    font-size: 14px;
+}
+
+/* Garis vertikal pemisah kolom */
+.progress-table td {
+    border-right: 1px solid #fff;
+    /* Garis putih vertikal */
+}
+
+.progress-table td:last-child {
+    border-right: none;
+}
+
+/* Kolom Minggu Besar */
+.week-cell {
+    font-size: 24px;
+    font-weight: 500;
+    vertical-align: middle;
+    background-color: #EAE8E6;
+    border-right: 2px solid #fff !important;
+    /* Garis pemisah minggu lebih tebal */
+}
+
+.day-cell {
+    font-weight: 500;
+}
+
+.status-cell {
+    font-weight: 500;
+}
+
+/* Empty State (Tampilan Kosong) */
+.no-plan-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+}
+
+.no-plan-icon i {
+    font-size: 60px;
+    color: #DBCDC7;
+    /* Warna Krem Pudar */
+    margin-bottom: 20px;
+}
+
+.no-plan-state h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #8F4738;
+    /* Warna Coklat */
+    margin-bottom: 10px;
+}
+
+.no-plan-state p {
+    font-size: 14px;
+    color: #666;
+    max-width: 400px;
+    margin: 0 auto;
+}

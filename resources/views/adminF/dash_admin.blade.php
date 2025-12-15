@@ -29,11 +29,17 @@
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list {{ Request::routeIs('menu.create') ? 'active' : '' }}"><a
-                                    href="{{ route('menu.crate') }}">Tambahkan Menu</a></li>
-                            <li class="list {{ Request::routeIs('menu.index') ? 'active' : '' }}"><a
-                                    href="{{ route('menu.index') }}">List Menu</a></li>
-                            <li class="list"><a href="#">Pengelola Pengguna</a></li>
+                            <li class="list {{ Request::routeIs('menu.create') ? 'active' : '' }}">
+                                <a href="{{ route('menu.create') }}">Tambahkan Menu</a>
+                            </li>
+
+                            <li class="list {{ Request::routeIs('menu.index') ? 'active' : '' }}">
+                                <a href="{{ route('menu.index') }}">List Menu</a>
+                            </li>
+
+                            <li class="list {{ Request::routeIs('admin.users') ? 'active' : '' }}">
+                                <a href="{{ route('admin.users') }}">Pengelola Pengguna</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -92,10 +98,12 @@
 
                     <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+
                         <div class="input-menu">
                             <label for="menu">Nama Menu:</label>
                             <input type="text" id="menu" name="nama_menu" required placeholder="Nama Makanan">
                         </div>
+
                         <div class="input-menu">
                             <label for="kategori">Kategori:</label>
                             <select name="kategori" id="kategori"
@@ -107,13 +115,33 @@
                                 <option value="Kuah">Kuah</option>
                             </select>
                         </div>
+
+                        <div class="input-menu">
+                            <label for="bahan_baku">Bahan Baku:</label>
+                            <input type="text" id="bahan_baku" name="bahan_baku" required
+                                placeholder="Contoh: Daging Sapi, Tepung">
+                        </div>
+
+                        <div class="input-menu">
+                            <label for="harga_bahan">Harga Bahan:</label>
+                            <input type="text" id="harga_bahan" name="harga_bahan"
+                                value="{{ old('harga_bahan', isset($menu) ? 'Rp ' . number_format($menu->harga_bahan, 0, ',', '.') : '') }}"
+                                required placeholder="Contoh: Rp 50.000">
+                        </div>
+
+                        <div class="input-menu">
+                            <label for="referensi">Referensi:</label>
+                            <input type="text" id="referensi" name="referensi"
+                                placeholder="Masukkan Link atau Sumber">
+                        </div>
+
                         <div class="insert-image">
                             <input type="file" id="file-input" name="gambar_menu" accept="image/*" required>
 
                             <label for="file-input" id="drop-area">
-                                <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round">
+                                <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" width="80"
+                                    height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                     <polyline points="17 8 12 3 7 8"></polyline>
                                     <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -122,12 +150,14 @@
                                 <img id="img-preview" src="#" alt="Preview">
                             </label>
                         </div>
+
                         <div class="deskripsi-field">
                             <div class="label-deskripsi">Deskripsi Menu:</div>
                             <div class="input-deskripsi">
                                 <textarea name="deskripsi" id="deskripsi" required placeholder="Masukkan Deskripsi Makanan"></textarea>
                             </div>
                         </div>
+
                         <div class="button-deskripsi">
                             <button type="submit">Tambahkan Menu</button>
                         </div>
@@ -166,15 +196,38 @@
 
                 reader.onload = function(e) {
                     imgPreview.src = e.target.result;
-
                     imgPreview.style.display = 'block';
-
                     uploadIcon.style.display = 'none';
                 }
 
                 reader.readAsDataURL(file);
             }
         });
+
+        const hargaInput = document.getElementById('harga_bahan');
+
+        if (hargaInput) {
+            hargaInput.addEventListener('keyup', function(e) {
+                // Tambahkan 'Rp ' pada saat mengetik
+                hargaInput.value = formatRupiah(this.value, 'Rp ');
+            });
+        }
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+        }
     </script>
 </body>
 
