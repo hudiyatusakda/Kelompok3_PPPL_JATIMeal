@@ -7,6 +7,7 @@ use App\Http\Controllers\PreferenceController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WeeklyPlanController;
 
 Route::middleware('guest')->group(function () {
 
@@ -56,4 +57,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/pengguna', [AdminController::class, 'index'])->name('admin.users');
         Route::get('/admin/pengguna/{id}', [AdminController::class, 'show'])->name('admin.users.show');
     });
+
+    // Halaman Paket Mingguan
+    Route::get('/paket-mingguan', [WeeklyPlanController::class, 'index'])->name('weekly.index');
+
+    // Proses Tambah ke Minggu
+    Route::post('/paket-mingguan/add', [WeeklyPlanController::class, 'store'])->name('weekly.store');
 });

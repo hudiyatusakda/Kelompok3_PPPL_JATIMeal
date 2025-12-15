@@ -14,7 +14,6 @@ class DashboardController extends Controller
         $user = Auth::user();
         $preference = $user->preference;
 
-        // --- LOGIC REKOMENDASI (TETAP SAMA SEPERTI SEBELUMNYA) ---
         $query = Menu::query();
 
         if ($preference) {
@@ -44,9 +43,6 @@ class DashboardController extends Controller
             $isFallback = false;
         }
 
-        // --- LOGIC BARU: MENU PER KATEGORI ---
-        // Ambil semua menu, lalu kelompokkan berdasarkan kolom 'kategori'
-        // Hasilnya: ['Ayam' => [Menu1, Menu2], 'Sayur' => [Menu3], ...]
         $menusByCategory = Menu::all()->groupBy('kategori');
 
         return view('dashboard', compact('recommendedMenus', 'isFallback', 'menusByCategory'));
@@ -95,6 +91,12 @@ class DashboardController extends Controller
         // Ambil data menu berdasarkan ID, jika tidak ada tampilkan 404
         $menu = Menu::findOrFail($id);
 
-        return view('menu_detail', compact('menu'));
+        // Cari minggu terakhir yang dimiliki user
+        $lastWeek = \App\Models\WeeklyPlan::where('user_id', Auth::id())->max('week');
+
+        // Jika belum punya, default 0
+        $currentMaxWeek = $lastWeek ?? 0;
+
+        return view('menu_detail', compact('menu', 'currentMaxWeek'));
     }
 }

@@ -29,8 +29,12 @@
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list active"><a href="#">Halaman Utama</a></li>
-                            <li class="list"><a href="#">Paket Menu Mingguan</a></li>
+                            <li class="list {{ Request::routeIs('dashboard') ? 'active' : '' }}">
+                                <a href="{{ route('dashboard') }}">Halaman Utama</a>
+                            </li>
+                            <li class="list {{ Request::routeIs('weekly.index') ? 'active' : '' }}">
+                                <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
+                            </li>
                             <li class="list"><a href="#">Riwayat Menu</a></li>
                         </ul>
                     </div>

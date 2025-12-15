@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kategori: {{ ucfirst($category) }} - MealGoal</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
+        rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/category_view.css') }}">
-
-    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/menu_mingguan.css') }}">
+    <title>Document</title>
 </head>
 
 <body>
@@ -18,7 +20,9 @@
         <div class="container">
             <div class="left-section">
                 <div class="logo_placeholder">
-                    <div class="logo"><img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal"></div>
+                    <div class="logo">
+                        <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
+                    </div>
                 </div>
                 <div class="side-bar-menu">
                     <div class="side-bar">
@@ -68,28 +72,53 @@
                 </div>
 
                 <div class="content">
+                    <div class="content">
 
-                    <div class="category-header-block">
-                        <a href="{{ route('dashboard') }}" class="btn-back">
-                            <i class="fa-solid fa-arrow-left"></i> Kembali
-                        </a>
-                        <h2>Menampilkan Kategori: <span>{{ ucfirst($category) }}</span></h2>
+                        <div class="page-header">
+                            <h2>Paket Menu Mingguan</h2>
+                            <p>Atur jadwal makanmu per minggu di sini.</p>
+                        </div>
+
+                        <div class="weekly-wrapper">
+
+                            {{-- Jika data kosong, tampilkan placeholder --}}
+                            @if ($plans->isEmpty())
+                                <div class="empty-plan">
+                                    <p>Belum ada menu yang ditambahkan.</p>
+                                    <a href="{{ route('dashboard') }}" class="btn-add">Cari Menu</a>
+                                </div>
+                            @else
+                                {{-- Loop Group Minggu --}}
+                                @foreach ($plans as $weekNum => $menus)
+                                    <div class="week-column">
+                                        <div class="week-title">Minggu {{ $weekNum }}</div>
+
+                                        <div class="week-cards-container">
+                                            @foreach ($menus as $plan)
+                                                <div class="mini-card">
+                                                    <div class="mini-img">
+                                                        <img
+                                                            src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/150x100' }}">
+                                                    </div>
+                                                    <div class="mini-info">
+                                                        <h4>{{ $plan->menu->nama_menu }}</h4>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                <div class="week-column placeholder-col">
+                                    <div class="week-title">Minggu {{ $plans->keys()->max() + 1 }}</div>
+                                    <div class="add-placeholder">
+                                        <p>Tambahkan dari Dashboard</p>
+                                    </div>
+                                </div>
+                            @endif
+
+                        </div>
                     </div>
-
-                    <div class="menu-grid">
-                        @forelse($menus as $menu)
-                            @include('partials.menu_card', ['menu' => $menu])
-                        @empty
-                            <div class="empty-state">
-                                <p>Tidak ada menu ditemukan dalam kategori ini.</p>
-                            </div>
-                        @endforelse
-                    </div>
-
-                    <div class="pagination-wrapper">
-                        {{ $menus->links() }}
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -131,24 +160,24 @@
             </div>
         </div>
     </footer>
-</body>
 
-<script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 
-<script>
-    let subMenu = document.getElementById("subMenu");
+    <script>
+        let subMenu = document.getElementById("subMenu");
 
-    function toggleMenu() {
-        subMenu.classList.toggle("open-menu");
-    }
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
 
-    window.onclick = function(event) {
-        if (!event.target.closest('.profile-dropdown')) {
-            if (subMenu && subMenu.classList.contains('open-menu')) {
-                subMenu.classList.remove('open-menu');
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-dropdown')) {
+                if (subMenu && subMenu.classList.contains('open-menu')) {
+                    subMenu.classList.remove('open-menu');
+                }
             }
         }
-    }
-</script>
+    </script>
+</body>
 
 </html>

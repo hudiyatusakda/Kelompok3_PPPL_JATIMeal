@@ -1,0 +1,442 @@
+/* ============= GLOBAL RESET =================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    background-color: #E7E5E3;
+    flex: 1;
+}
+
+.container {
+    display: flex;
+    min-height: 85vh;
+}
+
+/* ============= LEFT SECTION =================== */
+.left-section {
+    width: 20%;
+    background-color: #8F4738;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+}
+
+.logo_placeholder {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.logo img {
+    width: 120px;
+    height: auto;
+    display: block;
+}
+
+.side-bar {
+    width: 100%;
+}
+
+.side-bar ul {
+    list-style: none;
+    padding-left: 2rem;
+}
+
+.side-bar li {
+    margin-bottom: 1.5rem;
+}
+
+.side-bar li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    transition: 0.3s;
+    display: block;
+}
+
+.side-bar li a:hover {
+    color: #ffcccc;
+    transform: translateX(5px);
+}
+
+.list.active a {
+    font-weight: bold;
+    color: #ffcccc;
+}
+
+/* ============= RIGHT SECTION =================== */
+.right-section {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: #8F4738;
+    height: 70px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+/* Tamu (Guest) */
+.masuk,
+.daftar {
+    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+}
+
+/* User Logged In */
+.navbar-user {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* --- Dropdown Profile --- */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 6px 12px;
+    background-color: #ad2e24;
+    border-radius: 8px;
+    color: white;
+    transition: background 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-trigger:hover {
+    background-color: #c0392b;
+}
+
+.user-name {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.account img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-trigger i {
+    font-size: 12px;
+}
+
+/* Dropdown Menu Box */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 120%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    z-index: 1000;
+    overflow: hidden;
+    animation: slide-down 0.3s ease-out;
+}
+
+/* Animasi Dropdown */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content.open-menu {
+    display: block;
+}
+
+.sub-item {
+    padding: 12px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sub-item:hover {
+    background-color: #f8f9fa;
+    color: #8F4738;
+}
+
+.sub-item i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 0;
+}
+
+/* ========= FOOTER ==================== */
+.footer-section {
+    background-color: #E7E5E3;
+}
+
+.f-container {
+    border-top: 2px solid rgba(143, 71, 56, 0.2);
+    display: flex;
+    justify-content: space-between;
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col .title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #8F4738;
+    font-size: 18px;
+}
+
+.footer-col li {
+    margin-bottom: 0.8rem;
+    color: #555;
+    font-size: 14px;
+}
+
+.footer-col a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s;
+}
+
+.footer-col a:hover {
+    color: #8F4738;
+    text-decoration: underline;
+}
+
+/* Kontak List Styles */
+.contact-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-list i {
+    color: #8F4738;
+}
+
+/* Social Media */
+.media-social {
+    margin-top: 2rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons i {
+    font-size: 24px;
+    color: #8F4738;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.social-icons i:hover {
+    transform: scale(1.1);
+}
+
+.privacy h4 {
+    color: #8F4738;
+    margin-bottom: 1rem;
+}
+
+.privacy p {
+    margin-top: 1rem;
+    font-size: 12px;
+    color: #666;
+}
+
+
+/* Layout Utama */
+.content {
+    padding: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.page-header h2 {
+    color: #8F4738;
+    margin-bottom: 5px;
+}
+
+/* Wrapper Horizontal untuk Kolom Minggu */
+.weekly-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    height: calc(100vh - 150px);
+    align-items: flex-start;
+}
+
+/* Desain Kolom Minggu */
+.week-column {
+    min-width: 280px;
+    max-width: 280px;
+    background-color: #dcdcdc;
+    border: 2px dashed #8F4738;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.week-title {
+    background-color: transparent;
+    color: #8F4738;
+    font-size: 24px;
+    font-weight: 800;
+    text-align: center;
+    padding: 15px;
+    border-bottom: 2px dashed #8F4738;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+.week-cards-container {
+    padding: 15px;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Kartu Menu Kecil (Mini Card) */
+.mini-card {
+    background: #8F4738;
+    border-radius: 8px;
+    overflow: hidden;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+}
+
+.mini-info h4 {
+    font-size: 14px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 5px;
+}
+
+.mini-img {
+    width: 100%;
+    height: 120px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+}
+
+.mini-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Kolom Placeholder (Minggu Selanjutnya) */
+.placeholder-col {
+    opacity: 0.5;
+    border-color: #aaa;
+}
+
+.placeholder-col .week-title {
+    color: #aaa;
+    border-color: #aaa;
+}
+
+.add-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Empty State */
+.empty-plan {
+    text-align: center;
+    margin: auto;
+    color: #666;
+}
+
+.btn-add {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #8F4738;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Custom Scrollbar untuk kolom */
+.weekly-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.weekly-wrapper::-webkit-scrollbar-thumb {
+    background: #8F4738;
+    border-radius: 4px;
+}
+
+.week-cards-container::-webkit-scrollbar {
+    width: 5px;
+}
+
+.week-cards-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+}

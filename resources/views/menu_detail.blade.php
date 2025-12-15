@@ -20,8 +20,12 @@
                 <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
             </div>
             <ul class="nav-links">
-                <li><a href="{{ route('dashboard') }}">Halaman Utama</a></li>
-                <li><a href="#">Paket Menu Mingguan</a></li>
+                <li class="list {{ Request::routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}">Halaman Utama</a>
+                </li>
+                <li class="list {{ Request::routeIs('weekly.index') ? 'active' : '' }}">
+                    <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
+                </li>
                 <li><a href="#">Riwayat Menu</a></li>
             </ul>
         </div>
@@ -61,6 +65,7 @@
 
             <div class="detail-wrapper">
 
+
                 <div class="detail-header">
                     <a href="{{ route('dashboard') }}" class="btn-back">
                         <i class="fa-solid fa-arrow-left-long"></i>
@@ -85,9 +90,55 @@
                 </div>
 
                 <div class="action-button-container">
-                    <button class="btn-primary">Tambahkan Menu</button>
+                    <button class="btn-primary" onclick="openModal()">Tambahkan Menu</button>
                 </div>
 
+            </div>
+
+            <div id="weekModal" class="modal-overlay">
+                <div class="modal-box">
+                    <h3>Tambahkan ke Jadwal</h3>
+                    <p>Pilih minggu untuk menu <strong>{{ $menu->nama_menu }}</strong>:</p>
+
+                    <form action="{{ route('weekly.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="menu_id" value="{{ $menu->id }}">
+
+                        <div class="form-group">
+                            <label for="weekSelect">Pilih Minggu:</label>
+                            <select name="week" id="weekSelect" class="form-control">
+                                {{-- Loop Minggu yang sudah ada --}}
+                                @for ($i = 1; $i <= $currentMaxWeek; $i++)
+                                    <option value="{{ $i }}">Minggu {{ $i }}</option>
+                                @endfor
+
+                                {{-- Opsi Tambah Minggu Baru --}}
+                                <option value="{{ $currentMaxWeek + 1 }}" selected>
+                                    + Buat Minggu {{ $currentMaxWeek + 1 }} (Baru)
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Pilih Hari:</label>
+                            <select name="day" required class="form-control">
+                                <option value="" disabled selected>-- Pilih Hari --</option>
+                                <option value="1">Senin</option>
+                                <option value="2">Selasa</option>
+                                <option value="3">Rabu</option>
+                                <option value="4">Kamis</option>
+                                <option value="5">Jumat</option>
+                                <option value="6">Sabtu</option>
+                                <option value="7">Minggu</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="button" class="btn-cancel" onclick="closeModal()">Batal</button>
+                            <button type="submit" class="btn-confirm">Simpan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <footer class="footer">
@@ -129,6 +180,14 @@
                     subMenu.classList.remove('open-menu');
                 }
             }
+        }
+
+        function openModal() {
+            document.getElementById('weekModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('weekModal').style.display = 'none';
         }
     </script>
 </body>

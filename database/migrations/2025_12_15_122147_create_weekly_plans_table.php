@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('daily_logs', function (Blueprint $table) {
+        Schema::create('weekly_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('date');
-            $table->enum('status', ['selesai', 'belum'])->default('belum'); // Status harian
+            $table->foreignId('menu_id')->constrained()->onDelete('cascade'); // Relasi ke tabel menus
+            $table->integer('week'); // Menyimpan angka minggu (1, 2, 3, dst)
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('daily_logs');
+        Schema::dropIfExists('weekly_plans');
     }
 };

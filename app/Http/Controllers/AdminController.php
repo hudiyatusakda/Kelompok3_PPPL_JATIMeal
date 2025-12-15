@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\DailyLog;
+use App\Models\WeeklyPlan;
 
 class AdminController extends Controller
 {
@@ -48,52 +49,39 @@ class AdminController extends Controller
 
     public function show($id)
     {
+        // 1. Ambil User
         $user = User::with('preference')->findOrFail($id);
 
-        $startOfWeek = Carbon::now()->startOfWeek();
-        $endOfWeek = Carbon::now()->endOfWeek();
+        // 2. Ambil Weekly Plan User & Load Relasi Menu
+        $rawPlans = WeeklyPlan::where('user_id', $id)
+            ->with('menu')
+            ->orderBy('week')
+            ->orderBy('day')
+            ->get();
 
-        // 1. CEK KEBERADAAN DATA (PLAN)
-        // Apakah user ini punya log di minggu ini?
-        $checkPlan = DailyLog::where('user_id', $user->id)
-            ->whereBetween('date', [$startOfWeek, $endOfWeek])
-            ->exists();
-
-        $weeklyProgress = [];
-        $percentage = 0;
-        $hasPlan = false; // Default false
-
-        // 2. JIKA DATA ADA, BARU KITA HITUNG (Kalkulasi seperti sebelumnya)
-        if ($checkPlan) {
-            $hasPlan = true; // Tandai bahwa user punya rencana
-            $completedCount = 0;
-
-            for ($i = 0; $i < 7; $i++) {
-                $currentDate = $startOfWeek->copy()->addDays($i);
-
-                $log = DailyLog::where('user_id', $user->id)
-                    ->whereDate('date', $currentDate->format('Y-m-d'))
-                    ->first();
-
-                $status = '-';
-                if ($log) {
-                    $status = ucfirst($log->status);
-                    if ($log->status == 'selesai') {
-                        $completedCount++;
-                    }
-                }
-
-                $weeklyProgress[] = [
-                    'day_name' => 'Hari ' . ($i + 1),
-                    'date' => $currentDate->format('d M'),
-                    'status' => $status
-                ];
-            }
-
-            $percentage = ($completedCount / 7) * 100;
+        // 3. Kelompokkan Data: [Minggu ke-X] => [Hari ke-Y] => Data Plan
+        $formattedPlans = [];
+        foreach ($rawPlans as $plan) {
+            $formattedPlans[$plan->week][$plan->day] = $plan;
         }
 
-        // Kirim variabel $hasPlan ke view
-        return view('adminF.user_detail', compact('user', 'weeklyProgress', 'percentage', 'hasPlan'));
+        // 4. Hitung Persentase (Opsional: Misal berdasarkan kelengkapan jadwal minggu ini)
+        $currentWeek = 1; // Default minggu 1
+        $filledDays = isset($formattedPlans[$currentWeek]) ? count($formattedPlans[$currentWeek]) : 0;
+        $percentage = ($filledDays / 7) * 100;
+        $hasPlan = $rawPlans->count() > 0;
+
+        // 5. Array Nama Hari untuk Label
+        $dayNames = [
+            1 => 'Senin',
+            2 => 'Selasa',
+            3 => 'Rabu',
+            4 => 'Kamis',
+            5 => 'Jumat',
+            6 => 'Sabtu',
+            7 => 'Minggu'
+        ];
+
+        return view('adminF/user_detail', compact('user', 'formattedPlans', 'percentage', 'hasPlan', 'dayNames'));
     }
 }

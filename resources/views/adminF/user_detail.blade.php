@@ -90,7 +90,7 @@
 
                         <div class="user-progress-header">
                             <div class="user-avatar-large">
-                                <img src="https://placehold.co/80x80" alt="User">
+                                <img src="{{ asset('img/Tester.jpg') }}" alt="User">
                             </div>
                             <div class="user-info-bar">
                                 <div class="ui-top">
@@ -101,7 +101,7 @@
                                     <div class="big-progress-fill" style="width: {{ $percentage }}%;"></div>
                                 </div>
                                 <div style="text-align: right; font-size: 12px; margin-top: 5px; color: #666;">
-                                    {{ round($percentage) }}% Selesai Minggu Ini
+                                    {{ round($percentage) }}% Terisi (Minggu 1)
                                 </div>
                             </div>
                         </div>
@@ -110,29 +110,70 @@
                             <table class="progress-table">
                                 <thead>
                                     <tr>
-                                        <th width="40%">Minggu</th>
-                                        <th width="30%">Hari</th>
-                                        <th width="30%">Status</th>
+                                        <th width="15%">Minggu</th>
+                                        <th width="20%">Hari</th>
+                                        <th width="65%">Menu Terjadwal</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($weeklyProgress as $index => $day)
-                                        <tr>
-                                            @if ($index === 0)
-                                                <td rowspan="7" class="week-cell">1</td>
-                                            @endif
-                                            <td class="day-cell">{{ $day['day_name'] }}
-                                                <small>({{ $day['date'] }})</small></td>
-                                            <td class="status-cell">
-                                                @if ($day['status'] == 'Selesai')
-                                                    <span style="color: green; font-weight: bold;">Selesai</span>
-                                                @elseif($day['status'] == 'Belum')
-                                                    <span style="color: red;">Belum</span>
-                                                @else
-                                                    <span style="color: gray;">-</span>
+                                    {{-- Loop Minggu yang ada di database --}}
+                                    @foreach ($formattedPlans as $weekNum => $days)
+                                        {{-- Loop Hari 1 s/d 7 (Senin-Minggu) agar tabel rapi --}}
+                                        @for ($d = 1; $d <= 7; $d++)
+                                            <tr>
+                                                {{-- Kolom Minggu (Rowspan cuma muncul di hari pertama/Senin) --}}
+                                                @if ($d === 1)
+                                                    <td rowspan="7" class="week-cell">Minggu {{ $weekNum }}
+                                                    </td>
                                                 @endif
-                                            </td>
-                                        </tr>
+
+                                                {{-- Kolom Nama Hari --}}
+                                                <td class="day-cell">
+                                                    {{ $dayNames[$d] }}
+                                                </td>
+
+                                                {{-- Kolom Menu --}}
+                                                <td class="status-cell" style="text-align: left; padding-left: 20px;">
+                                                    @if (isset($days[$d]))
+                                                        {{-- JIKA ADA PLAN DI HARI INI --}}
+                                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                                            {{-- Cek apakah menu punya gambar --}}
+                                                            @if ($days[$d]->menu->gambar)
+                                                                <img src="{{ asset('storage/' . str_replace('public/', '', $days[$d]->menu->gambar)) }}"
+                                                                    alt="Menu"
+                                                                    style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                                                            @else
+                                                                <div
+                                                                    style="width: 40px; height: 40px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                                                    <i class="fa-solid fa-utensils"
+                                                                        style="color: #999; font-size: 14px;"></i>
+                                                                </div>
+                                                            @endif
+
+                                                            <div>
+                                                                <div style="font-weight: bold; color: #8F4738;">
+                                                                    {{ $days[$d]->menu->nama_menu }}
+                                                                </div>
+                                                                <div style="font-size: 12px; color: #666;">
+                                                                    {{ $days[$d]->menu->kategori }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        {{-- JIKA KOSONG --}}
+                                                        <span style="color: #bbb; font-style: italic;">- Tidak ada
+                                                            rencana -</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endfor
+
+                                        {{-- Pemisah antar minggu (opsional) --}}
+                                        @if (!$loop->last)
+                                            <tr style="height: 10px; background-color: #8F4738;">
+                                                <td colspan="3"></td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -142,10 +183,9 @@
                             <div class="no-plan-icon">
                                 <i class="fa-regular fa-calendar-xmark"></i>
                             </div>
-                            <h3>Belum Ada Rencana Minggu Ini</h3>
-                            <p>User ini belum membuat jadwal atau rencana menu untuk minggu ini.</p>
+                            <h3>Belum Ada Rencana Mingguan</h3>
+                            <p>User ini belum menyusun jadwal menu makanannya.</p>
                         </div>
-
                     @endif
 
                 </div>

@@ -100,8 +100,6 @@ class MenuController extends Controller
             'deskripsi' => 'required|string',
         ]);
 
-        // ... sisa kode update gambar dan data tetap sama ...
-
         $menu->nama_menu = $request->nama_menu;
         $menu->kategori = $request->kategori;
         $menu->bahan_baku = $request->bahan_baku;
@@ -109,7 +107,7 @@ class MenuController extends Controller
         $menu->referensi = $request->referensi;
         $menu->deskripsi = $request->deskripsi;
 
-        // Cek upload gambar (kode lama Anda)...
+        // Cek upload gambar
         if ($request->hasFile('gambar_menu')) {
             // ... logika hapus dan upload gambar ...
             $imagePath = $request->file('gambar_menu')->store('menu-images', 'public');
