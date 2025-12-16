@@ -81,12 +81,14 @@
                         <div class="filter-box">
                             <select name="ingredient" onchange="this.form.submit()">
                                 <option value="">Semua Bahan</option>
+
                                 @foreach ($allIngredients as $ing)
                                     <option value="{{ $ing }}"
                                         {{ request('ingredient') == $ing ? 'selected' : '' }}>
-                                        {{ ucfirst($ing) }}
+                                        {{ $ing }}
                                     </option>
                                 @endforeach
+
                             </select>
                             <i class="fa-solid fa-filter filter-icon"></i>
                         </div>

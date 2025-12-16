@@ -16,43 +16,36 @@ class DashboardController extends Controller
 
         $allIngredients = Menu::pluck('bahan_baku')
             ->map(function ($item) {
-                return array_map('trim', explode(',', $item));
+                return explode(',', $item);
             })
             ->flatten()
+            ->map(function ($item) {
+                return trim(str_replace('.', '', strtolower($item)));
+            })
+            ->filter(function ($item) {
+                return $item != '' && strlen($item) > 1;
+            })
             ->unique()
+            ->map(function ($item) {
+                return ucwords($item);
+            })
             ->sort()
             ->values();
 
         $query = Menu::query();
 
         if ($request->has('search') && $request->search != '') {
-            $searchTerm = $request->search;
-            $query->where('nama_menu', 'LIKE', '%' . $searchTerm . '%');
+            $query->where('nama_menu', 'LIKE', '%' . $request->search . '%');
         }
 
         if ($request->has('ingredient') && $request->ingredient != '') {
-            $ingredient = $request->ingredient;
-            $query->where('bahan_baku', 'LIKE', '%' . $ingredient . '%');
+            $query->where('bahan_baku', 'LIKE', '%' . $request->ingredient . '%');
         }
 
-        if (!$request->has('search') && !$request->has('ingredient') && $preference) {
+        if (!$request->has('search') && (!$request->has('ingredient') || $request->ingredient == '') && $preference) {
 
             if ($preference->protein_preference && $preference->protein_preference !== 'Semua') {
                 $query->where('bahan_baku', 'LIKE', '%' . $preference->protein_preference . '%');
-            }
-
-            if ($preference->cooking_style) {
-                $query->where(function ($q) use ($preference) {
-                    $q->where('kategori', 'LIKE', '%' . $preference->cooking_style . '%')
-                        ->orWhere('referensi', 'LIKE', '%' . $preference->cooking_style . '%');
-                });
-            }
-
-            if ($preference->price_range) {
-                $priceLimits = $this->parsePriceRange($preference->price_range);
-                if ($priceLimits) {
-                    $query->whereBetween('harga_bahan', [$priceLimits['min'], $priceLimits['max']]);
-                }
             }
         }
 
