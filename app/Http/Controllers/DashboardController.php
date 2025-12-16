@@ -23,16 +23,13 @@ class DashboardController extends Controller
             ->sort()
             ->values();
 
-        // 2. Query Dasar
         $query = Menu::query();
 
-        // --- FITUR PENCARIAN (SEARCH) ---
         if ($request->has('search') && $request->search != '') {
             $searchTerm = $request->search;
             $query->where('nama_menu', 'LIKE', '%' . $searchTerm . '%');
         }
 
-        // --- FITUR FILTER BAHAN BAKU ---
         if ($request->has('ingredient') && $request->ingredient != '') {
             $ingredient = $request->ingredient;
             $query->where('bahan_baku', 'LIKE', '%' . $ingredient . '%');
@@ -93,22 +90,17 @@ class DashboardController extends Controller
 
     public function showCategory($category)
     {
-        // 1. Ambil menu berdasarkan kolom 'kategori'=
         $menus = Menu::where('kategori', $category)->paginate(12);
 
-        // 2. Kirim data ke view baru
         return view('menu_category', compact('menus', 'category'));
     }
 
     public function showMenu($id)
     {
-        // Ambil data menu berdasarkan ID, jika tidak ada tampilkan 404
         $menu = Menu::findOrFail($id);
 
-        // Cari minggu terakhir yang dimiliki user
         $lastWeek = \App\Models\WeeklyPlan::where('user_id', Auth::id())->max('week');
 
-        // Jika belum punya, default 0
         $currentMaxWeek = $lastWeek ?? 0;
 
         return view('menu_detail', compact('menu', 'currentMaxWeek'));

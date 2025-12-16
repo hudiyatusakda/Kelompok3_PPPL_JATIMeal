@@ -175,10 +175,10 @@
         function toggleMenu() {
             subMenu.classList.toggle("open-menu");
         }
-
+        // Klik di luar untuk menutup
         window.onclick = function(event) {
             if (!event.target.closest('.profile-dropdown')) {
-                if (subMenu && subMenu.classList.contains('open-menu')) {
+                if (subMenu.classList.contains('open-menu')) {
                     subMenu.classList.remove('open-menu');
                 }
             }

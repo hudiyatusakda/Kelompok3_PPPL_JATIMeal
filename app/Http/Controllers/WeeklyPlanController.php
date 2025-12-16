@@ -11,7 +11,6 @@ class WeeklyPlanController extends Controller
 {
     public function index()
     {
-        // Ambil data plan user, urutkan berdasarkan minggu
         $plans = WeeklyPlan::where('user_id', Auth::id())
             ->with('menu')
             ->orderBy('week')
@@ -21,7 +20,6 @@ class WeeklyPlanController extends Controller
         return view('menu_mingguan', compact('plans'));
     }
 
-    // MENYIMPAN MENU KE JADWAL (Action dari Modal)
     public function store(Request $request)
     {
         $request->validate([
@@ -40,7 +38,6 @@ class WeeklyPlanController extends Controller
         return redirect()->route('weekly.index')->with('success', 'Menu berhasil ditambahkan ke Minggu ' . $request->week);
     }
 
-    // MENAMPILKAN HALAMAN EDIT
     public function edit($id)
     {
         $plan = WeeklyPlan::where('user_id', Auth::id())
@@ -50,7 +47,6 @@ class WeeklyPlanController extends Controller
         return view('weekly_menu_detail', compact('plan'));
     }
 
-    // MENGHAPUS MENU DARI JADWAL
     public function destroy($id)
     {
         $plan = WeeklyPlan::where('user_id', Auth::id())->findOrFail($id);
@@ -64,11 +60,8 @@ class WeeklyPlanController extends Controller
 
     public function complete($id)
     {
-        // Cari plan milik user
         $plan = WeeklyPlan::where('user_id', Auth::id())->findOrFail($id);
 
-        // Toggle status (Jika false jadi true, Jika true jadi false/batal)
-        // Ini berguna jika user tidak sengaja kepencet selesai
         $plan->is_completed = !$plan->is_completed;
         $plan->save();
 

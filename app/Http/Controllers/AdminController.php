@@ -44,23 +44,18 @@ class AdminController extends Controller
 
     public function show($id)
     {
-        // 1. Ambil User
         $user = User::with('preference')->findOrFail($id);
 
-        // 2. Ambil semua plan user
         $rawPlans = WeeklyPlan::where('user_id', $id)
             ->with('menu')
             ->orderBy('week')
             ->orderBy('day')
             ->get();
 
-        // 3. LOGIKA BARU: Hitung Progress Bar (Fokus Minggu 1 atau Global)
-        // Di sini saya menghitung progress khusus MINGGU 1 (sesuai tampilan awal)
         $week1Plans = $rawPlans->where('week', 1);
         $totalPlansWeek1 = $week1Plans->count();
         $completedPlansWeek1 = $week1Plans->where('is_completed', true)->count();
 
-        // Rumus: (Yang Selesai / Total Rencana) * 100
         if ($totalPlansWeek1 > 0) {
             $percentage = ($completedPlansWeek1 / $totalPlansWeek1) * 100;
         } else {
@@ -69,7 +64,6 @@ class AdminController extends Controller
 
         $hasPlan = $rawPlans->count() > 0;
 
-        // 4. Formatting Data untuk Tabel (Sama seperti sebelumnya)
         $formattedPlans = [];
         foreach ($rawPlans as $plan) {
             $formattedPlans[$plan->week][$plan->day] = $plan;
