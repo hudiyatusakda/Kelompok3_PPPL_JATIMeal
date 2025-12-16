@@ -26,7 +26,9 @@
                 <li class="list {{ Request::routeIs('weekly.index') ? 'active' : '' }}">
                     <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
                 </li>
-                <li><a href="#">Riwayat Menu</a></li>
+                <li class="list class="list {{ Request::routeIs('history.index') ? 'active' : '' }}"><a
+                        href="{{ route('history.index') }}">Riwayat Menu</a>
+                </li>
             </ul>
         </div>
 

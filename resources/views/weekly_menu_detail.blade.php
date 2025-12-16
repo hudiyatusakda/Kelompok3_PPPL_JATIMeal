@@ -18,9 +18,15 @@
                 <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
             </div>
             <ul class="nav-links">
-                <li><a href="{{ route('dashboard') }}">Halaman Utama</a></li>
-                <li><a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a></li>
-                <li><a href="#">Riwayat Menu</a></li>
+                <li class="list {{ Request::routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}">Halaman Utama</a>
+                </li>
+                <li class="list {{ Request::routeIs('weekly.index') ? 'active' : '' }}">
+                    <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
+                </li>
+                <li class="list class="list {{ Request::routeIs('history.index') ? 'active' : '' }}"><a
+                        href="{{ route('history.index') }}">Riwayat Menu</a>
+                </li>
             </ul>
         </div>
 
