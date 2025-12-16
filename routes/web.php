@@ -62,4 +62,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/paket-mingguan/add', [WeeklyPlanController::class, 'store'])->name('weekly.store');
     Route::get('/paket-mingguan/{id}/edit', [WeeklyPlanController::class, 'edit'])->name('weekly.edit');
     Route::delete('/paket-mingguan/{id}', [WeeklyPlanController::class, 'destroy'])->name('weekly.destroy');
+    Route::post('/paket-mingguan/{id}/complete', [WeeklyPlanController::class, 'complete'])->name('weekly.complete');
 });

@@ -97,11 +97,18 @@
                                     <span class="ui-name">{{ strtoupper($user->name) }}</span>
                                     <span class="ui-email">{{ strtoupper($user->email) }}</span>
                                 </div>
+
                                 <div class="big-progress-track">
                                     <div class="big-progress-fill" style="width: {{ $percentage }}%;"></div>
                                 </div>
-                                <div style="text-align: right; font-size: 12px; margin-top: 5px; color: #666;">
-                                    {{ round($percentage) }}% Terisi (Minggu 1)
+
+                                <div
+                                    style="display: flex; justify-content: space-between; font-size: 12px; margin-top: 5px; color: #666;">
+                                    <span>Minggu 1</span>
+                                    <span>
+                                        {{ $completedPlansWeek1 ?? 0 }} dari {{ $totalPlansWeek1 ?? 0 }} Menu Selesai
+                                        ({{ round($percentage) }}%)
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -112,41 +119,32 @@
                                     <tr>
                                         <th width="15%">Minggu</th>
                                         <th width="20%">Hari</th>
-                                        <th width="65%">Menu Terjadwal</th>
+                                        <th width="50%">Menu Terjadwal</th>
+                                        <th width="15%">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- Loop Minggu yang ada di database --}}
                                     @foreach ($formattedPlans as $weekNum => $days)
-                                        {{-- Loop Hari 1 s/d 7 (Senin-Minggu) agar tabel rapi --}}
                                         @for ($d = 1; $d <= 7; $d++)
                                             <tr>
-                                                {{-- Kolom Minggu (Rowspan cuma muncul di hari pertama/Senin) --}}
                                                 @if ($d === 1)
                                                     <td rowspan="7" class="week-cell">Minggu {{ $weekNum }}
                                                     </td>
                                                 @endif
 
-                                                {{-- Kolom Nama Hari --}}
                                                 <td class="day-cell">
                                                     {{ $dayNames[$d] }}
                                                 </td>
 
-                                                {{-- Kolom Menu --}}
                                                 <td class="status-cell" style="text-align: left; padding-left: 20px;">
                                                     @if (isset($days[$d]))
-                                                        {{-- JIKA ADA PLAN DI HARI INI --}}
                                                         <div style="display: flex; align-items: center; gap: 10px;">
-                                                            {{-- Cek apakah menu punya gambar --}}
                                                             @if ($days[$d]->menu->gambar)
                                                                 <img src="{{ asset('storage/' . str_replace('public/', '', $days[$d]->menu->gambar)) }}"
-                                                                    alt="Menu"
                                                                     style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
                                                             @else
                                                                 <div
-                                                                    style="width: 40px; height: 40px; background: #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
-                                                                    <i class="fa-solid fa-utensils"
-                                                                        style="color: #999; font-size: 14px;"></i>
+                                                                    style="width: 40px; height: 40px; background: #ddd; border-radius: 4px;">
                                                                 </div>
                                                             @endif
 
@@ -160,18 +158,34 @@
                                                             </div>
                                                         </div>
                                                     @else
-                                                        {{-- JIKA KOSONG --}}
                                                         <span style="color: #bbb; font-style: italic;">- Tidak ada
                                                             rencana -</span>
+                                                    @endif
+                                                </td>
+
+                                                <td style="text-align: center;">
+                                                    @if (isset($days[$d]))
+                                                        @if ($days[$d]->is_completed)
+                                                            <span
+                                                                style="background: #d4edda; color: #155724; padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; border: 1px solid #c3e6cb;">
+                                                                <i class="fa-solid fa-check"></i> Selesai
+                                                            </span>
+                                                        @else
+                                                            <span
+                                                                style="background: #f8d7da; color: #721c24; padding: 5px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; border: 1px solid #f5c6cb;">
+                                                                Belum
+                                                            </span>
+                                                        @endif
+                                                    @else
+                                                        -
                                                     @endif
                                                 </td>
                                             </tr>
                                         @endfor
 
-                                        {{-- Pemisah antar minggu (opsional) --}}
                                         @if (!$loop->last)
                                             <tr style="height: 10px; background-color: #8F4738;">
-                                                <td colspan="3"></td>
+                                                <td colspan="4"></td>
                                             </tr>
                                         @endif
                                     @endforeach

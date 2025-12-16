@@ -98,13 +98,25 @@
                                                 {{-- BUNGKUS KARTU DENGAN LINK MENUJU HALAMAN EDIT --}}
                                                 <a href="{{ route('weekly.edit', $plan->id) }}"
                                                     style="text-decoration: none; color: inherit;">
-                                                    <div class="mini-card">
+                                                    <div
+                                                        class="mini-card {{ $plan->is_completed ? 'card-done' : '' }}">
+
                                                         <div class="mini-img">
                                                             <img
                                                                 src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/150x100' }}">
+
+                                                            @if ($plan->is_completed)
+                                                                <div class="done-overlay">
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                </div>
+                                                            @endif
                                                         </div>
+
                                                         <div class="mini-info">
-                                                            <h4>{{ $plan->menu->nama_menu }}</h4>
+                                                            <h4
+                                                                style="{{ $plan->is_completed ? 'text-decoration: line-through; opacity: 0.8;' : '' }}">
+                                                                {{ $plan->menu->nama_menu }}
+                                                            </h4>
                                                         </div>
                                                     </div>
                                                 </a>

@@ -61,4 +61,19 @@ class WeeklyPlanController extends Controller
 
         return redirect()->route('weekly.index')->with('success', 'Menu berhasil dihapus dari Minggu ' . $week);
     }
+
+    public function complete($id)
+    {
+        // Cari plan milik user
+        $plan = WeeklyPlan::where('user_id', Auth::id())->findOrFail($id);
+
+        // Toggle status (Jika false jadi true, Jika true jadi false/batal)
+        // Ini berguna jika user tidak sengaja kepencet selesai
+        $plan->is_completed = !$plan->is_completed;
+        $plan->save();
+
+        $status = $plan->is_completed ? 'selesai' : 'belum selesai';
+
+        return redirect()->back()->with('success', 'Status menu berhasil diubah menjadi ' . $status);
+    }
 }

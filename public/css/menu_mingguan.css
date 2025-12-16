@@ -440,3 +440,38 @@ hr {
 .week-cards-container::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
 }
+
+
+/* Style untuk kartu yang sudah selesai */
+.card-done {
+    background-color: #27ae60 !important;
+    /* Hijau sukses */
+    border: 2px solid #2ecc71;
+}
+
+/* Overlay icon centang di atas gambar */
+.mini-img {
+    position: relative;
+}
+
+.done-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    /* Gelap transparan */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.done-overlay i {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    background: #27ae60;
+    padding: 10px;
+    border-radius: 50%;
+}

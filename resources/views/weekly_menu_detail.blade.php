@@ -82,22 +82,46 @@
                     <p>{{ $plan->menu->bahan_baku }}</p>
                 </div>
 
-                <div class="action-button-container" style="gap: 20px;">
+                <div class="action-button-container" style="gap: 20px; flex-wrap: wrap;">
+
+                    <form action="{{ route('weekly.complete', $plan->id) }}" method="POST">
+                        @csrf
+                        @if ($plan->is_completed)
+                            {{-- Tampilan jika SUDAH selesai (Tombol abu-abu/kuning untuk batal) --}}
+                            <button type="submit" class="btn-primary"
+                                style="background-color: #27ae60; cursor: pointer;">
+                                <i class="fa-solid fa-check-circle"></i> Sudah Selesai (Klik untuk Batal)
+                            </button>
+                        @else
+                            {{-- Tampilan jika BELUM selesai (Tombol Hijau Fresh) --}}
+                            <button type="submit" class="btn-primary" style="background-color: #2ecc71;">
+                                <i class="fa-regular fa-circle-check"></i> Tandai Selesai
+                            </button>
+                        @endif
+                    </form>
 
                     <form action="{{ route('weekly.destroy', $plan->id) }}" method="POST"
-                        onsubmit="return confirm('Yakin ingin menghapus menu ini dari jadwal?')">
+                        onsubmit="return confirm('Yakin hapus?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn-primary" style="background-color: #c0392b;">
-                            <i class="fa-solid fa-trash"></i> Hapus dari Jadwal
+                            <i class="fa-solid fa-trash"></i> Hapus
                         </button>
                     </form>
 
                     <a href="{{ route('dashboard') }}" class="btn-primary"
                         style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-rotate"></i> Ganti Menu
+                        <i class="fa-solid fa-rotate"></i> Ganti
                     </a>
+
                 </div>
+
+                @if ($plan->is_completed)
+                    <div
+                        style="background: #27ae60; color: white; padding: 10px; text-align: center; border-radius: 8px; margin-bottom: 20px; font-weight: bold;">
+                        <i class="fa-solid fa-medal"></i> MENU INI TELAH DISELESAIKAN
+                    </div>
+                @endif
 
             </div>
         </div>
