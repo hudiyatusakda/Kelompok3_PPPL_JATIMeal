@@ -74,11 +74,44 @@
                 </div>
 
                 <div class="search-container">
-                    <div class="search-box">
-                        <input type="text" placeholder="Cari Menu Makanan">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </div>
+                    <form action="{{ route('dashboard') }}" method="GET" class="search-form">
+
+                        <div class="filter-box">
+                            <select name="ingredient" onchange="this.form.submit()">
+                                <option value="">Semua Bahan</option>
+                                @foreach ($allIngredients as $ing)
+                                    <option value="{{ $ing }}"
+                                        {{ request('ingredient') == $ing ? 'selected' : '' }}>
+                                        {{ ucfirst($ing) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <i class="fa-solid fa-filter filter-icon"></i>
+                        </div>
+
+                        <div class="search-box">
+                            <input type="text" name="search" placeholder="Cari Menu Makanan..."
+                                value="{{ request('search') }}">
+                            <button type="submit" class="search-btn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+
+                    </form>
                 </div>
+
+                @if (request('search') || request('ingredient'))
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <p>Menampilkan hasil untuk:
+                            <strong>{{ request('search') ?: 'Semua Menu' }}</strong>
+                            @if (request('ingredient'))
+                                dengan bahan <strong>{{ request('ingredient') }}</strong>
+                            @endif
+                        </p>
+                        <a href="{{ route('dashboard') }}" style="color: #8F4738; text-decoration: underline;">Reset
+                            Pencarian</a>
+                    </div>
+                @endif
 
                 <div class="content">
 

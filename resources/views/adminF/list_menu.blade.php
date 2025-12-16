@@ -119,6 +119,69 @@
             </div>
         </div>
     </main>
+
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-dropdown')) {
+                if (subMenu && subMenu.classList.contains('open-menu')) {
+                    subMenu.classList.remove('open-menu');
+                }
+            }
+        }
+
+        const fileInput = document.getElementById('file-input');
+        const imgPreview = document.getElementById('img-preview');
+        const uploadIcon = document.getElementById('upload-icon');
+
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                    uploadIcon.style.display = 'none';
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const hargaInput = document.getElementById('harga_bahan');
+
+        if (hargaInput) {
+            hargaInput.addEventListener('keyup', function(e) {
+                // Tambahkan 'Rp ' pada saat mengetik
+                hargaInput.value = formatRupiah(this.value, 'Rp ');
+            });
+        }
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+        }
+    </script>
 </body>
 
 </html>

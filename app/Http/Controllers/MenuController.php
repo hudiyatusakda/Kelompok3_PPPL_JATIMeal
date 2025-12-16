@@ -49,22 +49,23 @@ class MenuController extends Controller
         // Ambil semua menu
         $query = Menu::query();
 
-        // LOGIC FILTER: Jika ada request 'kategori' dari tombol "Lihat Semua"
+        // LOGIC FILTER
         if ($request->has('kategori')) {
             $query->where('kategori', $request->kategori);
         }
 
-        // Logic Pencarian (Search Bar) - Opsional jika sudah ada
+        // Logic Pencarian
         if ($request->has('search')) {
             $query->where('nama_menu', 'LIKE', '%' . $request->search . '%');
         }
 
-        $menus = $query->get();
+        // PERBAIKAN DISINI: Tambahkan ->groupBy('kategori')
+        // Agar format datanya cocok dengan looping di View
+        $menus = $query->get()->groupBy('kategori');
 
-        // Kirim data kategori yang sedang dipilih ke view (untuk judul halaman)
         $currentCategory = $request->kategori ?? 'Semua Menu';
 
-        return view('menu.index', compact('menus', 'currentCategory'));
+        return view('adminF.list_menu', compact('menus', 'currentCategory'));
     }
 
     public function create()
@@ -124,8 +125,8 @@ class MenuController extends Controller
         $menu = Menu::findOrFail($id);
 
         // 1. Hapus gambar dari storage
-        if ($menu->gambar_path && Storage::exists('public/' . $menu->gambar_path)) {
-            Storage::delete('public/' . $menu->gambar_path);
+        if ($menu->gambar && Storage::exists('public/' . $menu->gambar)) {
+            Storage::delete('public/' . $menu->gambar);
         }
 
         // 2. Hapus data dari database

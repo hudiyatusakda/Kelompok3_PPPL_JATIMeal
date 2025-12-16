@@ -25,30 +25,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/personalize', [PreferenceController::class, 'index'])->name('personal.index');
     Route::post('/personalize', [PreferenceController::class, 'store'])->name('personal.store');
 
-    // User dashbaord
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/menu/kategori/{category}', [DashboardController::class, 'showCategory'])->name('menu.category');
-    Route::get('/menu/{id}', [DashboardController::class, 'showMenu'])->name('menu.show');
-
+    
+    
+    // Menambahkan menu
+    Route::get('/menu/tambah', [MenuController::class, 'create'])->name('menu.create');
     Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
-
+    
+    // List Menu
     Route::get('/menu/list', [MenuController::class, 'index'])->name('menu.index');
-
+    
+    // Route untuk Edit & Delete & Update
+    Route::get('/menu/edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
+    Route::put('/menu/update/{id}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+    
+    // Route Kategori
+    Route::get('/menu/kategori/{category}', [DashboardController::class, 'showCategory'])->name('menu.category');
+    
+    // Route detail menu
+    Route::get('/menu/{id}', [DashboardController::class, 'showMenu'])->name('menu.show');
+    
+    // route dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
     Route::get('/admin/dashboard', function () {
         return view('adminF.dash_admin');
     })->name('admin.dashboard');
 
-    // List menu
-    Route::get('/menu/tambah', [MenuController::class, 'create'])->name('menu.create');
-    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
-    Route::get('/menu/list', [MenuController::class, 'index'])->name('menu.index');
-
-    // Edit menu
-    Route::get('/menu/edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
-    Route::put('/menu/update/{id}', [MenuController::class, 'update'])->name('menu.update');
-    Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
-
-    // admin
+    // admin PENGGUNA
     Route::middleware(['auth'])->group(function () {
         Route::get('/admin/pengguna', [AdminController::class, 'index'])->name('admin.users');
     });
