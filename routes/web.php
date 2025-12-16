@@ -58,9 +58,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/pengguna/{id}', [AdminController::class, 'show'])->name('admin.users.show');
     });
 
-    // Halaman Paket Mingguan
     Route::get('/paket-mingguan', [WeeklyPlanController::class, 'index'])->name('weekly.index');
-
-    // Proses Tambah ke Minggu
     Route::post('/paket-mingguan/add', [WeeklyPlanController::class, 'store'])->name('weekly.store');
+    Route::get('/paket-mingguan/{id}/edit', [WeeklyPlanController::class, 'edit'])->name('weekly.edit');
+    Route::delete('/paket-mingguan/{id}', [WeeklyPlanController::class, 'destroy'])->name('weekly.destroy');
 });

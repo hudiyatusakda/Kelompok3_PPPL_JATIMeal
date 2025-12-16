@@ -95,15 +95,19 @@
 
                                         <div class="week-cards-container">
                                             @foreach ($menus as $plan)
-                                                <div class="mini-card">
-                                                    <div class="mini-img">
-                                                        <img
-                                                            src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/150x100' }}">
+                                                {{-- BUNGKUS KARTU DENGAN LINK MENUJU HALAMAN EDIT --}}
+                                                <a href="{{ route('weekly.edit', $plan->id) }}"
+                                                    style="text-decoration: none; color: inherit;">
+                                                    <div class="mini-card">
+                                                        <div class="mini-img">
+                                                            <img
+                                                                src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/150x100' }}">
+                                                        </div>
+                                                        <div class="mini-info">
+                                                            <h4>{{ $plan->menu->nama_menu }}</h4>
+                                                        </div>
                                                     </div>
-                                                    <div class="mini-info">
-                                                        <h4>{{ $plan->menu->nama_menu }}</h4>
-                                                    </div>
-                                                </div>
+                                                </a>
                                             @endforeach
                                         </div>
                                     </div>

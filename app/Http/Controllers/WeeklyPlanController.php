@@ -39,4 +39,26 @@ class WeeklyPlanController extends Controller
 
         return redirect()->route('weekly.index')->with('success', 'Menu berhasil ditambahkan ke Minggu ' . $request->week);
     }
+
+    // MENAMPILKAN HALAMAN EDIT
+    public function edit($id)
+    {
+        $plan = WeeklyPlan::where('user_id', Auth::id())
+            ->with('menu')
+            ->findOrFail($id);
+
+        return view('weekly_menu_detail', compact('plan'));
+    }
+
+    // MENGHAPUS MENU DARI JADWAL
+    public function destroy($id)
+    {
+        $plan = WeeklyPlan::where('user_id', Auth::id())->findOrFail($id);
+
+        $week = $plan->week;
+
+        $plan->delete();
+
+        return redirect()->route('weekly.index')->with('success', 'Menu berhasil dihapus dari Minggu ' . $week);
+    }
 }
