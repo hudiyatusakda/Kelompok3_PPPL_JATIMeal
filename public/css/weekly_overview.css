@@ -141,3 +141,124 @@
     background: #8F4738;
     color: white;
 }
+
+
+/* =========================================
+   OVERDUE ALERT STYLING (BARU)
+   ========================================= */
+.overdue-alert-box {
+    background-color: #fff4e5;
+    /* Background Cream/Oranye muda */
+    border: 1px solid #ffcc80;
+    border-left: 5px solid #ef6c00;
+    /* Garis Oranye Tebal di kiri */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+    /* Jarak ke header bawah */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.alert-header {
+    margin-bottom: 15px;
+}
+
+.alert-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ef6c00;
+    margin-bottom: 5px;
+}
+
+.alert-title i {
+    font-size: 20px;
+}
+
+.alert-title h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.alert-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-left: 30px;
+    /* Sejajar dengan teks judul */
+}
+
+/* List Item Terlewat */
+.overdue-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+.overdue-item {
+    background-color: white;
+    border: 1px solid #eee;
+    padding: 10px 15px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.oi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.oi-info strong {
+    font-size: 14px;
+    color: #333;
+}
+
+.oi-info span {
+    font-size: 12px;
+    color: #ef6c00;
+    /* Warna teks tanggal oranye */
+    font-weight: 500;
+}
+
+/* Tombol Aksi Cepat */
+.oi-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-quick-check,
+.btn-quick-trash {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: 0.2s;
+    color: white;
+}
+
+.btn-quick-check {
+    background-color: #27ae60;
+    /* Hijau */
+}
+
+.btn-quick-check:hover {
+    background-color: #219150;
+    transform: scale(1.1);
+}
+
+.btn-quick-trash {
+    background-color: #c0392b;
+    /* Merah */
+}
+
+.btn-quick-trash:hover {
+    background-color: #a93226;
+    transform: scale(1.1);
+}

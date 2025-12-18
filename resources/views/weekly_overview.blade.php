@@ -78,75 +78,133 @@
 
                 <div class="content">
 
-                    <div class="overview-header">
-                        <div>
-                            <h2 style="color: #8F4738; margin-bottom: 5px;">Jadwal Menu Makan</h2>
-                            <p style="color: #666;">Kelola rencana makanmu bulan ini.</p>
+                    <div class="content">
+
+                        @if ($overduePlans->count() > 0)
+                            <div class="overdue-alert-box">
+                                <div class="alert-header">
+                                    <div class="alert-title">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        <h3>Kamu melewatkan {{ $overduePlans->count() }} Menu!</h3>
+                                    </div>
+                                    <span class="alert-subtitle">Menu di bawah ini sudah lewat tanggalnya namun belum
+                                        ditandai selesai.</span>
+                                </div>
+
+                                <div class="overdue-list">
+                                    @foreach ($overduePlans as $plan)
+                                        <div class="overdue-item">
+                                            <div class="oi-info">
+                                                <strong>{{ $plan->menu->nama_menu }}</strong>
+                                                <span>
+                                                    @php
+                                                        $days = [
+                                                            1 => 'Senin',
+                                                            2 => 'Selasa',
+                                                            3 => 'Rabu',
+                                                            4 => 'Kamis',
+                                                            5 => 'Jumat',
+                                                            6 => 'Sabtu',
+                                                            7 => 'Minggu',
+                                                        ];
+                                                    @endphp
+                                                    {{ $days[$plan->day_of_week] ?? '-' }}, Minggu {{ $plan->week }}
+                                                    ({{ date('M Y', mktime(0, 0, 0, $plan->month, 1, $plan->year)) }})
+                                                </span>
+                                            </div>
+                                            <div class="oi-actions">
+                                                <form action="{{ route('weekly.complete', $plan->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn-quick-check"
+                                                        title="Tandai Selesai">
+                                                        <i class="fa-solid fa-check"></i>
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('weekly.destroy', $plan->id) }}" method="POST"
+                                                    onsubmit="return confirm('Hapus menu terlewat ini?')">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit" class="btn-quick-trash" title="Hapus">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="overview-header">
+                            <div>
+                                <h2 style="color: #8F4738; margin-bottom: 5px;">Jadwal Menu Makan</h2>
+                                <p style="color: #666;">Kelola rencana makanmu bulan ini.</p>
+                            </div>
+
+                            <form action="{{ route('weekly.index') }}" method="GET" class="date-filter">
+                                <select name="month" onchange="this.form.submit()">
+                                    @for ($m = 1; $m <= 12; $m++)
+                                        <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
+                                            {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                        </option>
+                                    @endfor
+                                </select>
+                                <select name="year" onchange="this.form.submit()">
+                                    @for ($y = 2024; $y <= 2026; $y++)
+                                        <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
+                                            {{ $y }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </form>
                         </div>
 
-                        <form action="{{ route('weekly.index') }}" method="GET" class="date-filter">
-                            <select name="month" onchange="this.form.submit()">
-                                @for ($m = 1; $m <= 12; $m++)
-                                    <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
-                                        {{ date('F', mktime(0, 0, 0, $m, 10)) }}
-                                    </option>
-                                @endfor
-                            </select>
-                            <select name="year" onchange="this.form.submit()">
-                                @for ($y = 2024; $y <= 2026; $y++)
-                                    <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
-                                        {{ $y }}
-                                    </option>
-                                @endfor
-                            </select>
-                        </form>
-                    </div>
+                        <div class="week-cards-grid">
+                            @foreach ($weeksData as $weekNum => $data)
+                                @php
+                                    $isCurrent = $weekNum == $currentWeekNumber;
+                                @endphp
 
-                    <div class="week-cards-grid">
-                        @foreach ($weeksData as $weekNum => $data)
-                            @php
-                                $isCurrent = $weekNum == $currentWeekNumber;
-                            @endphp
+                                <div class="week-card-item {{ $isCurrent ? 'current-week-card' : '' }}">
 
-                            <div class="week-card-item {{ $isCurrent ? 'current-week-card' : '' }}">
-
-                                <div class="wc-header">
-                                    <h3>Minggu {{ $weekNum }}</h3>
-                                    @if ($isCurrent)
-                                        <span class="badge-current">Minggu Ini</span>
-                                    @endif
-                                </div>
-
-                                <div class="wc-stats">
-                                    <div class="stat-row">
-                                        <span>Total Menu</span>
-                                        <strong>{{ $data['total'] }}</strong>
+                                    <div class="wc-header">
+                                        <h3>Minggu {{ $weekNum }}</h3>
+                                        @if ($isCurrent)
+                                            <span class="badge-current">Minggu Ini</span>
+                                        @endif
                                     </div>
-                                    <div class="stat-row">
-                                        <span>Selesai</span>
-                                        <strong style="color: {{ $data['percent'] == 100 ? '#27ae60' : '#8F4738' }}">
-                                            {{ $data['completed'] }}
-                                        </strong>
+
+                                    <div class="wc-stats">
+                                        <div class="stat-row">
+                                            <span>Total Menu</span>
+                                            <strong>{{ $data['total'] }}</strong>
+                                        </div>
+                                        <div class="stat-row">
+                                            <span>Selesai</span>
+                                            <strong
+                                                style="color: {{ $data['percent'] == 100 ? '#27ae60' : '#8F4738' }}">
+                                                {{ $data['completed'] }}
+                                            </strong>
+                                        </div>
                                     </div>
+
+                                    <div class="mini-progress-track">
+                                        <div class="mini-progress-bar" style="width: {{ $data['percent'] }}%;"></div>
+                                    </div>
+
+                                    <a href="{{ route('weekly.show', ['week' => $weekNum, 'month' => $month, 'year' => $year]) }}"
+                                        class="btn-open-week">
+                                        {{ $data['total'] > 0 ? 'Lihat Detail' : 'Buat Rencana' }} <i
+                                            class="fa-solid fa-arrow-right"></i>
+                                    </a>
+
                                 </div>
+                            @endforeach
+                        </div>
 
-                                <div class="mini-progress-track">
-                                    <div class="mini-progress-bar" style="width: {{ $data['percent'] }}%;"></div>
-                                </div>
-
-                                <a href="{{ route('weekly.show', ['week' => $weekNum, 'month' => $month, 'year' => $year]) }}"
-                                    class="btn-open-week">
-                                    {{ $data['total'] > 0 ? 'Lihat Detail' : 'Buat Rencana' }} <i
-                                        class="fa-solid fa-arrow-right"></i>
-                                </a>
-
-                            </div>
-                        @endforeach
                     </div>
-
                 </div>
             </div>
-        </div>
     </main>
 
     <footer class="footer-section">

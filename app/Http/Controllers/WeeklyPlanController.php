@@ -12,22 +12,17 @@ class WeeklyPlanController extends Controller
 {
     public function index(Request $request)
     {
-        // 1. Ambil Bulan & Tahun dari Request (atau default ke Sekarang)
+        // 1. Filter Bulan & Tahun (Logic Lama)
         $month = $request->input('month', Carbon::now()->month);
         $year = $request->input('year', Carbon::now()->year);
 
-        // 2. Hitung Current Week (Minggu ke berapa hari ini?)
-        // Logic: weekOfMonth mengembalikan 1-5
+        // 2. Logic Lama (Current Week & Stats)
         $currentDate = Carbon::now();
         $isCurrentMonth = ($currentDate->month == $month && $currentDate->year == $year);
         $currentWeekNumber = $isCurrentMonth ? $currentDate->weekOfMonth : 0;
 
-        // 3. Siapkan Data Statistik Per Minggu (Untuk Kartu)
-        // Kita asumsikan 1 bulan = 5 minggu (aman untuk semua bulan)
         $weeksData = [];
-
         for ($i = 1; $i <= 5; $i++) {
-            // Ambil semua plan di minggu $i pada bulan & tahun terpilih
             $plans = WeeklyPlan::where('user_id', Auth::id())
                 ->where('month', $month)
                 ->where('year', $year)
@@ -36,8 +31,6 @@ class WeeklyPlanController extends Controller
 
             $totalMenu = $plans->count();
             $completedMenu = $plans->where('is_completed', true)->count();
-
-            // Hitung Persentase
             $percent = $totalMenu > 0 ? ($completedMenu / $totalMenu) * 100 : 0;
 
             $weeksData[$i] = [
@@ -48,7 +41,32 @@ class WeeklyPlanController extends Controller
             ];
         }
 
-        return view('weekly_overview', compact('weeksData', 'month', 'year', 'currentWeekNumber'));
+        // --- 3. LOGIC BARU: CEK MENU TERLEWAT (OVERDUE) ---
+        // Kita ambil semua plan user yang belum selesai
+        $allIncomplete = WeeklyPlan::where('user_id', Auth::id())
+            ->where('is_completed', false)
+            ->with('menu') // Load relasi menu agar tau namanya
+            ->get();
+
+        // Filter manual menggunakan Carbon untuk akurasi
+        $overduePlans = $allIncomplete->filter(function ($plan) {
+            // Estimasi tanggal menu tersebut
+            // Kita ambil tanggal 1 bulan tersebut, tambah minggu, set hari
+            // Catatan: Ini estimasi, tapi cukup untuk validasi "Masa Lalu"
+            try {
+                $planDate = Carbon::createFromDate($plan->year, $plan->month, 1)
+                    ->addWeeks($plan->week - 1)
+                    ->startOfWeek()
+                    ->addDays($plan->day_of_week - 1);
+
+                // Jika tanggal menu < hari ini (kemarin atau sebelumnya)
+                return $planDate->isPast() && !$planDate->isToday();
+            } catch (\Exception $e) {
+                return false;
+            }
+        });
+
+        return view('weekly_overview', compact('weeksData', 'month', 'year', 'currentWeekNumber', 'overduePlans'));
     }
 
     // HALAMAN DETAIL: ISI PAKET MINGGUAN (HORIZONTAL SCROLL)
