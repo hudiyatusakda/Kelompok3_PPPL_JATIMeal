@@ -12,11 +12,11 @@
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/weekly_menu_detail.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/weekly_overview.css') }}">
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 
-    <title>Detail Jadwal - {{ $plan->menu->nama_menu }}</title>
+    <title>Paket Menu Mingguan - MealGoal</title>
 </head>
 
 <body>
@@ -78,80 +78,70 @@
 
                 <div class="content">
 
-                    <div class="detail-wrapper">
-
-                        <div class="detail-header">
-                            {{-- Tombol Kembali --}}
-                            <a href="{{ route('weekly.show', ['week' => $plan->week, 'month' => $plan->month, 'year' => $plan->year]) }}"
-                                class="btn-back">
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </a>
-
-                            <div class="detail-title">
-                                {{-- Info Hari --}}
-                                @php
-                                    $days = [
-                                        1 => 'Senin',
-                                        2 => 'Selasa',
-                                        3 => 'Rabu',
-                                        4 => 'Kamis',
-                                        5 => 'Jumat',
-                                        6 => 'Sabtu',
-                                        7 => 'Minggu',
-                                    ];
-                                    $dayName = $days[$plan->day_of_week] ?? 'Hari Belum Diatur';
-                                @endphp
-                                <span class="detail-subtitle">
-                                    {{ $dayName }}, MINGGU {{ $plan->week }}
-                                </span>
-                                <h1>{{ $plan->menu->nama_menu }}</h1>
-                            </div>
+                    <div class="overview-header">
+                        <div>
+                            <h2 style="color: #8F4738; margin-bottom: 5px;">Jadwal Menu Makan</h2>
+                            <p style="color: #666;">Kelola rencana makanmu bulan ini.</p>
                         </div>
 
-                        <div class="menu-image">
-                            {{-- Overlay Status jika Selesai (Di atas gambar) --}}
-                            @if ($plan->is_completed)
-                                <div class="status-completed-banner">
-                                    <i class="fa-solid fa-check-circle"></i> MENU INI SUDAH DISELESAIKAN
+                        <form action="{{ route('weekly.index') }}" method="GET" class="date-filter">
+                            <select name="month" onchange="this.form.submit()">
+                                @for ($m = 1; $m <= 12; $m++)
+                                    <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
+                                        {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                    </option>
+                                @endfor
+                            </select>
+                            <select name="year" onchange="this.form.submit()">
+                                @for ($y = 2024; $y <= 2026; $y++)
+                                    <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
+                                        {{ $y }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </form>
+                    </div>
+
+                    <div class="week-cards-grid">
+                        @foreach ($weeksData as $weekNum => $data)
+                            @php
+                                $isCurrent = $weekNum == $currentWeekNumber;
+                            @endphp
+
+                            <div class="week-card-item {{ $isCurrent ? 'current-week-card' : '' }}">
+
+                                <div class="wc-header">
+                                    <h3>Minggu {{ $weekNum }}</h3>
+                                    @if ($isCurrent)
+                                        <span class="badge-current">Minggu Ini</span>
+                                    @endif
                                 </div>
-                            @endif
 
-                            <img src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/800x400' }}"
-                                alt="{{ $plan->menu->nama_menu }}">
-                        </div>
+                                <div class="wc-stats">
+                                    <div class="stat-row">
+                                        <span>Total Menu</span>
+                                        <strong>{{ $data['total'] }}</strong>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Selesai</span>
+                                        <strong style="color: {{ $data['percent'] == 100 ? '#27ae60' : '#8F4738' }}">
+                                            {{ $data['completed'] }}
+                                        </strong>
+                                    </div>
+                                </div>
 
-                        <div class="menu-description">
-                            <p>
-                                <strong>{{ $plan->menu->nama_menu }}</strong> {{ $plan->menu->deskripsi }}
-                            </p>
-                        </div>
+                                <div class="mini-progress-track">
+                                    <div class="mini-progress-bar" style="width: {{ $data['percent'] }}%;"></div>
+                                </div>
 
-                        <div class="menu-ingredients">
-                            <h3>• Bahan Utama:</h3>
-                            <p>{{ $plan->menu->bahan_baku }}</p>
-                        </div>
+                                <a href="{{ route('weekly.show', ['week' => $weekNum, 'month' => $month, 'year' => $year]) }}"
+                                    class="btn-open-week">
+                                    {{ $data['total'] > 0 ? 'Lihat Detail' : 'Buat Rencana' }} <i
+                                        class="fa-solid fa-arrow-right"></i>
+                                </a>
 
-                        <div class="action-button-container">
-
-                            <form action="{{ route('weekly.complete', $plan->id) }}" method="POST">
-                                @csrf
-                                <button type="submit"
-                                    class="btn-action {{ $plan->is_completed ? 'btn-grey' : 'btn-green' }}">
-                                    <i class="fa-solid {{ $plan->is_completed ? 'fa-xmark' : 'fa-check' }}"></i>
-                                    {{ $plan->is_completed ? 'Batalkan Status' : 'Tandai Selesai' }}
-                                </button>
-                            </form>
-
-                            <form action="{{ route('weekly.destroy', $plan->id) }}" method="POST"
-                                onsubmit="return confirm('Yakin ingin menghapus menu ini dari jadwal?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn-action btn-red">
-                                    <i class="fa-solid fa-trash"></i> Hapus dari Jadwal
-                                </button>
-                            </form>
-
-                        </div>
-
+                            </div>
+                        @endforeach
                     </div>
 
                 </div>
@@ -197,12 +187,14 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+
     <script>
         let subMenu = document.getElementById("subMenu");
 
         function toggleMenu() {
             subMenu.classList.toggle("open-menu");
         }
+
         window.onclick = function(event) {
             if (!event.target.closest('.profile-dropdown')) {
                 if (subMenu && subMenu.classList.contains('open-menu')) {

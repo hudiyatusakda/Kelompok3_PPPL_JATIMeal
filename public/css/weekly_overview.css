@@ -1,0 +1,143 @@
+/* Layout dasar mengikuti Hal_Utama.css */
+.content {
+    padding: 30px 50px;
+    background-color: #E7E5E3;
+}
+
+/* Header & Filter */
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.overview-header h2 {
+    font-size: 28px;
+    color: #8F4738;
+    margin-bottom: 5px;
+}
+
+.overview-header p {
+    color: #666;
+    font-size: 14px;
+}
+
+.date-filter {
+    display: flex;
+    gap: 10px;
+}
+
+.date-filter select {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    background: white;
+    outline: none;
+}
+
+.date-filter select:focus {
+    border-color: #8F4738;
+}
+
+/* Grid Kartu Minggu */
+.week-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* Desain Kartu */
+.week-card-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: 2px solid transparent;
+    /* Border transparan default */
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+
+.week-card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Highlight Minggu Ini (Border Biru/Coklat Tebal) */
+.current-week-card {
+    border-color: #8F4738;
+    background-color: #fff8f6;
+    /* Agak pink dikit */
+}
+
+.wc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.wc-header h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.badge-current {
+    font-size: 10px;
+    background: #8F4738;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+/* Statistik */
+.wc-stats {
+    margin-bottom: 15px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Progress Bar */
+.mini-progress-track {
+    width: 100%;
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.mini-progress-bar {
+    height: 100%;
+    background: #8F4738;
+}
+
+/* Tombol */
+.btn-open-week {
+    margin-top: auto;
+    /* Dorong ke bawah */
+    text-align: center;
+    text-decoration: none;
+    color: #8F4738;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid #8F4738;
+    padding: 8px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.btn-open-week:hover {
+    background: #8F4738;
+    color: white;
+}

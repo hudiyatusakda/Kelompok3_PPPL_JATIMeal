@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -12,6 +13,8 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/riwayat.css') }}">
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+
     <title>Riwayat Menu - MealGoal</title>
 </head>
 
@@ -42,6 +45,7 @@
             </div>
 
             <div class="right-section">
+
                 <div class="navbar">
                     <div class="navbar-user">
                         <div class="profile-dropdown">
@@ -75,9 +79,28 @@
                 <div class="content">
 
                     <div class="riwayat-wrapper">
-                        <div class="page-header">
-                            <h2>Riwayat Menu Mingguan</h2>
-                            <p>Gunakan kembali menu favoritmu dari minggu-minggu sebelumnya.</p>
+                        <div class="overview-header">
+                            <div>
+                                <h2>Arsip Riwayat</h2>
+                                <p>Lihat kembali apa yang sudah kamu rencanakan sebelumnya.</p>
+                            </div>
+
+                            <form action="{{ route('history.index') }}" method="GET" class="date-filter">
+                                <select name="month" onchange="this.form.submit()">
+                                    @for ($m = 1; $m <= 12; $m++)
+                                        <option value="{{ $m }}" {{ $month == $m ? 'selected' : '' }}>
+                                            {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                        </option>
+                                    @endfor
+                                </select>
+                                <select name="year" onchange="this.form.submit()">
+                                    @for ($y = 2024; $y <= 2026; $y++)
+                                        <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>
+                                            {{ $y }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </form>
                         </div>
 
                         <div class="history-list">
@@ -85,15 +108,22 @@
                                 <div class="history-card-group">
 
                                     <div class="history-header">
-                                        <h3><i class="fa-regular fa-calendar-check"></i> Arsip Minggu
-                                            Ke-{{ $weekNum }}</h3>
+                                        <div>
+                                            <h3>Minggu {{ $weekNum }}</h3>
+                                            <span style="font-size:12px; color:#777;">
+                                                {{ $plans->count() }} Menu tersimpan
+                                            </span>
+                                        </div>
 
                                         <form action="{{ route('history.restoreFull') }}" method="POST"
-                                            onsubmit="return confirmValidation('Apakah Anda yakin ingin menyalin SEMUA menu dari Minggu {{ $weekNum }} ke minggu baru?')">
+                                            onsubmit="return confirm('Salin semua menu dari Minggu {{ $weekNum }} ({{ date('F', mktime(0, 0, 0, $month, 1)) }}) ke Jadwal Bulan Ini?')">
                                             @csrf
                                             <input type="hidden" name="source_week" value="{{ $weekNum }}">
+                                            <input type="hidden" name="source_month" value="{{ $month }}">
+                                            <input type="hidden" name="source_year" value="{{ $year }}">
+
                                             <button type="submit" class="btn-restore-all">
-                                                <i class="fa-solid fa-copy"></i> Pakai Paket Ini Lagi
+                                                <i class="fa-solid fa-clone"></i> Gunakan Paket Ini
                                             </button>
                                         </form>
                                     </div>
@@ -103,16 +133,28 @@
                                             <div class="mini-card-history">
                                                 <img src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/150x100' }}"
                                                     class="h-img">
+
                                                 <div class="h-info">
-                                                    <h4>{{ $plan->menu->nama_menu }}</h4>
+                                                    <div style="overflow: hidden;">
+                                                        <span
+                                                            style="font-size: 10px; color: #8F4738; font-weight: bold; display: block;">
+                                                            {{-- Tampilkan Hari --}}
+                                                            @php $days = [1=>'SENIN', 2=>'SELASA', 3=>'RABU', 4=>'KAMIS', 5=>'JUMAT', 6=>'SABTU', 7=>'MINGGU']; @endphp
+                                                            {{ $days[$plan->day_of_week] ?? '-' }}
+                                                        </span>
+                                                        <h4
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            {{ $plan->menu->nama_menu }}
+                                                        </h4>
+                                                    </div>
 
                                                     <form action="{{ route('history.restoreSingle') }}" method="POST"
-                                                        onsubmit="return confirmValidation('Tambahkan {{ $plan->menu->nama_menu }} ke jadwal minggu ini?')">
+                                                        onsubmit="return confirm('Tambahkan {{ $plan->menu->nama_menu }} ke jadwal bulan ini?')">
                                                         @csrf
                                                         <input type="hidden" name="menu_id"
                                                             value="{{ $plan->menu_id }}">
                                                         <button type="submit" class="btn-icon-add"
-                                                            title="Tambahkan ke Minggu Ini">
+                                                            title="Ambil menu ini saja">
                                                             <i class="fa-solid fa-plus"></i>
                                                         </button>
                                                     </form>
@@ -124,16 +166,17 @@
                                 </div>
                             @empty
                                 <div class="empty-state">
-                                    <div style="font-size: 40px; margin-bottom: 10px; color: #ccc;">
-                                        <i class="fa-solid fa-clock-rotate-left"></i>
-                                    </div>
-                                    <p>Belum ada riwayat menu yang tersimpan.</p>
+                                    <i class="fa-solid fa-folder-open"
+                                        style="font-size: 40px; margin-bottom: 10px;"></i>
+                                    <p>Tidak ada riwayat menu di bulan {{ date('F', mktime(0, 0, 0, $month, 1)) }}
+                                        {{ $year }}.</p>
                                 </div>
                             @endforelse
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+
             </div>
         </div>
     </main>
@@ -144,8 +187,8 @@
                 <ul>
                     <li class="title">Tautan Cepat</li>
                     <li class="link-foward"><a href="/dashboard">Halaman Utama</a></li>
-                    <li class="link-foward"><a href="#">Paket Menu Mingguan</a></li>
-                    <li class="link-foward"><a href="#">Riwayat Menu</a></li>
+                    <li class="link-foward"><a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a></li>
+                    <li class="link-foward"><a href="{{ route('history.index') }}">Riwayat Menu</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -175,26 +218,18 @@
         </div>
     </footer>
 
-    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
-
     <script>
         let subMenu = document.getElementById("subMenu");
 
         function toggleMenu() {
             subMenu.classList.toggle("open-menu");
         }
-
         window.onclick = function(event) {
             if (!event.target.closest('.profile-dropdown')) {
                 if (subMenu && subMenu.classList.contains('open-menu')) {
                     subMenu.classList.remove('open-menu');
                 }
             }
-        }
-
-        // Script Validasi Konfirmasi
-        function confirmValidation(message) {
-            return confirm(message);
         }
     </script>
 </body>

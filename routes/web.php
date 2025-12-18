@@ -63,7 +63,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/pengguna/{id}', [AdminController::class, 'show'])->name('admin.users.show');
     });
 
+    // HALAMAN OVERVIEW (BULANAN)
     Route::get('/paket-mingguan', [WeeklyPlanController::class, 'index'])->name('weekly.index');
+    Route::get('/paket-mingguan/detail', [WeeklyPlanController::class, 'showWeek'])->name('weekly.show');
     Route::post('/paket-mingguan/add', [WeeklyPlanController::class, 'store'])->name('weekly.store');
     Route::get('/paket-mingguan/{id}/edit', [WeeklyPlanController::class, 'edit'])->name('weekly.edit');
     Route::delete('/paket-mingguan/{id}', [WeeklyPlanController::class, 'destroy'])->name('weekly.destroy');

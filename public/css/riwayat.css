@@ -22,7 +22,7 @@ main {
     min-height: 85vh;
 }
 
-/* ============= LEFT SECTION =================== */
+/* ============= LEFT SECTION (SIDEBAR) =================== */
 .left-section {
     width: 20%;
     background-color: #8F4738;
@@ -91,15 +91,6 @@ main {
     padding: 0 2rem;
 }
 
-/* Tamu (Guest) */
-.masuk,
-.daftar {
-    text-decoration: underline;
-    color: white;
-    cursor: pointer;
-}
-
-/* User Logged In */
 .navbar-user {
     display: flex;
     align-items: center;
@@ -160,17 +151,9 @@ main {
     animation: slide-down 0.3s ease-out;
 }
 
-/* Animasi Dropdown */
 @keyframes slide-down {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .dropdown-content.open-menu {
@@ -292,6 +275,9 @@ hr {
     color: #666;
 }
 
+/* ========================================================
+   KHUSUS HALAMAN RIWAYAT
+   ======================================================== */
 
 .content {
     padding: 30px 40px;
@@ -302,21 +288,47 @@ hr {
     width: 100%;
 }
 
-.page-header h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 5px;
-    border-left: 5px solid #8F4738;
-    padding-left: 15px;
+/* Header & Filter */
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 20px;
 }
 
-.page-header p {
-    margin-bottom: 30px;
+.overview-header h2 {
+    font-size: 24px;
+    color: #8F4738;
+    margin-bottom: 5px;
+}
+
+.overview-header p {
     color: #666;
     font-size: 14px;
-    padding-left: 20px;
 }
 
+.date-filter {
+    display: flex;
+    gap: 10px;
+}
+
+.date-filter select {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    background: white;
+    outline: none;
+}
+
+.date-filter select:focus {
+    border-color: #8F4738;
+}
+
+/* History List & Cards */
 .history-card-group {
     background: white;
     border-radius: 12px;
@@ -347,7 +359,7 @@ hr {
     padding: 8px 18px;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     transition: 0.3s;
     display: flex;
@@ -360,9 +372,10 @@ hr {
     transform: translateY(-2px);
 }
 
+/* Grid Menu */
 .history-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 15px;
 }
 
@@ -396,6 +409,7 @@ hr {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow: hidden;
 }
 
 .h-info h4 {
@@ -403,16 +417,12 @@ hr {
     color: #333;
     font-weight: 600;
     margin-right: 5px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 .btn-icon-add {
-    background: #27ae60;
-    color: white;
-    border: none;
+    background: #fff;
+    color: #27ae60;
+    border: 1px solid #27ae60;
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -426,8 +436,9 @@ hr {
 }
 
 .btn-icon-add:hover {
+    background: #27ae60;
+    color: white;
     transform: scale(1.1);
-    background: #219150;
 }
 
 /* Empty State */
