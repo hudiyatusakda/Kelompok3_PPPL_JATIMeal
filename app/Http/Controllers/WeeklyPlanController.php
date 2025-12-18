@@ -42,24 +42,18 @@ class WeeklyPlanController extends Controller
         }
 
         // --- 3. LOGIC BARU: CEK MENU TERLEWAT (OVERDUE) ---
-        // Kita ambil semua plan user yang belum selesai
         $allIncomplete = WeeklyPlan::where('user_id', Auth::id())
             ->where('is_completed', false)
-            ->with('menu') // Load relasi menu agar tau namanya
+            ->with('menu')
             ->get();
 
-        // Filter manual menggunakan Carbon untuk akurasi
         $overduePlans = $allIncomplete->filter(function ($plan) {
-            // Estimasi tanggal menu tersebut
-            // Kita ambil tanggal 1 bulan tersebut, tambah minggu, set hari
-            // Catatan: Ini estimasi, tapi cukup untuk validasi "Masa Lalu"
             try {
                 $planDate = Carbon::createFromDate($plan->year, $plan->month, 1)
                     ->addWeeks($plan->week - 1)
                     ->startOfWeek()
                     ->addDays($plan->day_of_week - 1);
 
-                // Jika tanggal menu < hari ini (kemarin atau sebelumnya)
                 return $planDate->isPast() && !$planDate->isToday();
             } catch (\Exception $e) {
                 return false;
@@ -69,26 +63,20 @@ class WeeklyPlanController extends Controller
         return view('weekly_overview', compact('weeksData', 'month', 'year', 'currentWeekNumber', 'overduePlans'));
     }
 
-    // HALAMAN DETAIL: ISI PAKET MINGGUAN (HORIZONTAL SCROLL)
-    // Ini menampilkan view 'menu_mingguan' yang lama, tapi difilter
-    // HALAMAN DETAIL: SENIN SAMPAI MINGGU
     public function showWeek(Request $request)
     {
         $week = $request->week;
         $month = $request->month;
         $year = $request->year;
 
-        // Ambil plan user untuk minggu & bulan spesifik ini
         $plans = WeeklyPlan::where('user_id', Auth::id())
             ->where('week', $week)
             ->where('month', $month)
             ->where('year', $year)
             ->with('menu')
             ->get()
-            // Kita kunci array-nya berdasarkan 'day_of_week' (1-7)
             ->keyBy('day_of_week');
 
-        // Siapkan Struktur Data Senin (1) s/d Minggu (7)
         $days = [
             1 => 'Senin',
             2 => 'Selasa',
@@ -102,17 +90,14 @@ class WeeklyPlanController extends Controller
         return view('weekly_detail', compact('plans', 'days', 'week', 'month', 'year'));
     }
 
-    // UPDATE FUNGSI STORE (SIMPAN HARI)
     public function store(Request $request)
     {
         $request->validate([
             'menu_id' => 'required',
             'week' => 'required',
-            'day_of_week' => 'required', // Validasi baru
+            'day_of_week' => 'required',
         ]);
 
-        // Cek apakah di hari itu sudah ada menu? (Opsional: timpa atau tolak)
-        // Di sini kita pakai logika updateOrInsert agar 1 hari = 1 menu
         WeeklyPlan::updateOrCreate(
             [
                 'user_id' => Auth::id(),
@@ -136,7 +121,6 @@ class WeeklyPlanController extends Controller
 
     public function edit($id)
     {
-        // Ambil data plan berdasarkan ID
         $plan = WeeklyPlan::where('user_id', Auth::id())
             ->with('menu')
             ->findOrFail($id);

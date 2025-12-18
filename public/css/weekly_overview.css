@@ -56,7 +56,6 @@
     padding: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     border: 2px solid transparent;
-    /* Border transparan default */
     transition: 0.3s;
     display: flex;
     flex-direction: column;
@@ -67,11 +66,9 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Highlight Minggu Ini (Border Biru/Coklat Tebal) */
 .current-week-card {
     border-color: #8F4738;
     background-color: #fff8f6;
-    /* Agak pink dikit */
 }
 
 .wc-header {
@@ -125,7 +122,6 @@
 /* Tombol */
 .btn-open-week {
     margin-top: auto;
-    /* Dorong ke bawah */
     text-align: center;
     text-decoration: none;
     color: #8F4738;
@@ -148,14 +144,11 @@
    ========================================= */
 .overdue-alert-box {
     background-color: #fff4e5;
-    /* Background Cream/Oranye muda */
     border: 1px solid #ffcc80;
     border-left: 5px solid #ef6c00;
-    /* Garis Oranye Tebal di kiri */
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 40px;
-    /* Jarak ke header bawah */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
@@ -185,10 +178,8 @@
     font-size: 14px;
     color: #666;
     margin-left: 30px;
-    /* Sejajar dengan teks judul */
 }
 
-/* List Item Terlewat */
 .overdue-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -218,11 +209,9 @@
 .oi-info span {
     font-size: 12px;
     color: #ef6c00;
-    /* Warna teks tanggal oranye */
     font-weight: 500;
 }
 
-/* Tombol Aksi Cepat */
 .oi-actions {
     display: flex;
     gap: 8px;
@@ -245,7 +234,6 @@
 
 .btn-quick-check {
     background-color: #27ae60;
-    /* Hijau */
 }
 
 .btn-quick-check:hover {
@@ -255,7 +243,6 @@
 
 .btn-quick-trash {
     background-color: #c0392b;
-    /* Merah */
 }
 
 .btn-quick-trash:hover {

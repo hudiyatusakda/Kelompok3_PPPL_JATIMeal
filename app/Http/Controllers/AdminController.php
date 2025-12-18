@@ -14,15 +14,18 @@ class AdminController extends Controller
     public function index()
     {
         $totalUsers = User::where('role', 'user')->count();
-
         $totalMenuIdeas = DailyLog::count();
 
         $users = User::where('role', 'user')->paginate(5);
 
-        $users->getCollection()->transform(function ($user) {
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        $users->getCollection()->transform(function ($user) use ($currentMonth, $currentYear) {
 
             $plans = WeeklyPlan::where('user_id', $user->id)
-                ->where('week', 1)
+                ->where('month', $currentMonth)
+                ->where('year', $currentYear)
                 ->get();
 
             $totalPlans = $plans->count();
@@ -35,38 +38,64 @@ class AdminController extends Controller
             }
 
             $user->weekly_progress = round($percentage);
-
             return $user;
         });
 
         return view('adminF.pengelola_pengguna', compact('users', 'totalUsers', 'totalMenuIdeas'));
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $user = User::with('preference')->findOrFail($id);
 
-        $rawPlans = WeeklyPlan::where('user_id', $id)
-            ->with('menu')
-            ->orderBy('week')
-            ->orderBy('day')
+        // 1. Ambil opsi Tahun dan Bulan yang tersedia di database
+        $availablePeriods = WeeklyPlan::where('user_id', $id)
+            ->select('month', 'year')
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
             ->get();
 
-        $week1Plans = $rawPlans->where('week', 1);
-        $totalPlansWeek1 = $week1Plans->count();
-        $completedPlansWeek1 = $week1Plans->where('is_completed', true)->count();
-
-        if ($totalPlansWeek1 > 0) {
-            $percentage = ($completedPlansWeek1 / $totalPlansWeek1) * 100;
+        // 2. LOGIKA BARU: Penentuan Bulan & Tahun
+        if ($request->has('month') && $request->has('year')) {
+            $selectedMonth = $request->input('month');
+            $selectedYear = $request->input('year');
+        } elseif ($availablePeriods->isNotEmpty()) {
+            $latestPeriod = $availablePeriods->first();
+            $selectedMonth = $latestPeriod->month;
+            $selectedYear = $latestPeriod->year;
         } else {
-            $percentage = 0;
+            $selectedMonth = Carbon::now()->month;
+            $selectedYear = Carbon::now()->year;
         }
+
+        // 3. Ambil Plan sesuai filter
+        $rawPlans = WeeklyPlan::where('user_id', $id)
+            ->where('month', $selectedMonth)
+            ->where('year', $selectedYear)
+            ->with('menu')
+            ->orderBy('week')
+            ->orderBy('day_of_week')
+            ->get();
+
+        // 4. Hitung Statistik
+        $totalPlansMonth = $rawPlans->count();
+        $completedPlansMonth = $rawPlans->where('is_completed', true)->count();
+
+        $percentage = ($totalPlansMonth > 0)
+            ? ($completedPlansMonth / $totalPlansMonth) * 100
+            : 0;
 
         $hasPlan = $rawPlans->count() > 0;
 
+        // 5. Format Data Array
         $formattedPlans = [];
         foreach ($rawPlans as $plan) {
-            $formattedPlans[$plan->week][$plan->day] = $plan;
+            $dayKey = $plan->day ?? $plan->day_of_week;
+
+            if ($dayKey) {
+                $formattedPlans[$plan->week][$dayKey] = $plan;
+            }
         }
 
         $dayNames = [
@@ -79,6 +108,24 @@ class AdminController extends Controller
             7 => 'Minggu'
         ];
 
-        return view('adminF/user_detail', compact('user', 'formattedPlans', 'percentage', 'hasPlan', 'dayNames', 'completedPlansWeek1', 'totalPlansWeek1'));
+        try {
+            $monthName = Carbon::createFromDate($selectedYear, $selectedMonth, 1)->translatedFormat('F Y');
+        } catch (\Exception $e) {
+            $monthName = '-';
+        }
+
+        return view('adminF/user_detail', compact(
+            'user',
+            'formattedPlans',
+            'percentage',
+            'hasPlan',
+            'dayNames',
+            'completedPlansMonth',
+            'totalPlansMonth',
+            'availablePeriods',
+            'selectedMonth',
+            'selectedYear',
+            'monthName'
+        ));
     }
 }

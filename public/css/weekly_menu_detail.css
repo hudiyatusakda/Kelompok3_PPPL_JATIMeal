@@ -162,7 +162,6 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    /* Agar overlay status bisa masuk */
 }
 
 .menu-image img {
@@ -170,7 +169,6 @@ body {
     height: auto;
     max-height: 500px;
     object-fit: contain;
-    /* Agar gambar tidak terpotong */
 }
 
 /* Overlay Status Selesai */
@@ -232,7 +230,6 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background 0.3s, transform 0.2s;
     min-width: 220px;
-    /* Lebar minimal tombol agar seragam */
     color: white;
 }
 
@@ -240,10 +237,8 @@ body {
     transform: translateY(-2px);
 }
 
-/* Warna Tombol Spesifik */
 .btn-green {
     background-color: #27ae60;
-    /* Hijau */
 }
 
 .btn-green:hover {
@@ -252,7 +247,6 @@ body {
 
 .btn-grey {
     background-color: #7f8c8d;
-    /* Abu-abu (Batal) */
 }
 
 .btn-grey:hover {
@@ -261,7 +255,6 @@ body {
 
 .btn-red {
     background-color: #c0392b;
-    /* Merah (Hapus) */
 }
 
 .btn-red:hover {

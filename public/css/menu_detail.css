@@ -1,6 +1,6 @@
 /* =========================================
-   1. GLOBAL RESET
-   ========================================= */
+    1. GLOBAL RESET
+========================================= */
 * {
     margin: 0;
     padding: 0;
@@ -19,8 +19,8 @@ body {
 }
 
 /* =========================================
-   2. SIDEBAR (Warna Coklat)
-   ========================================= */
+    2. SIDEBAR (Warna Coklat)
+========================================= */
 .sidebar {
     width: 250px;
     background-color: #8F4738;
@@ -348,7 +348,6 @@ hr {
 /* Modal Styling */
 .modal-overlay {
     display: none;
-    /* Hidden default */
     position: fixed;
     top: 0;
     left: 0;

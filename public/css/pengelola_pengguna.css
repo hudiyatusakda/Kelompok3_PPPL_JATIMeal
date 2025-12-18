@@ -296,7 +296,6 @@ hr {
 .progress-bar-fill {
     height: 100%;
     background-color: #8F4738;
-    /* Pastikan warnanya ini */
     border-radius: 10px;
     transition: width 0.5s ease;
 }

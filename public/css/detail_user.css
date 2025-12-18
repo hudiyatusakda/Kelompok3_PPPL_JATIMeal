@@ -329,9 +329,6 @@ hr {
 
 .progress-section-card {
     background-color: #EAE8E6;
-    /* Background abu user detail */
-    /* Jika ingin background putih kotak seperti gambar: */
-    /* background-color: #fff; padding: 30px; border-radius: 10px; */
     margin-bottom: 40px;
 }
 
@@ -368,26 +365,20 @@ hr {
 .big-progress-track {
     width: 100%;
     height: 25px;
-    /* Progress bar tebal */
     background-color: #DBCDC7;
-    /* Warna dasar track (krem/abu) */
     border-radius: 0;
-    /* Kotak tajam sesuai gambar */
 }
 
 .big-progress-fill {
     height: 100%;
     background-color: #8F4738;
-    /* Warna coklat isian */
     transition: width 0.5s ease;
 }
 
 /* Tabel Mingguan */
 .progress-table-wrapper {
     border: 1px solid #8F4738;
-    /* Border luar tabel */
     border-radius: 4px;
-    /* Sedikit rounded di pojok */
     overflow: hidden;
 }
 
@@ -398,7 +389,6 @@ hr {
 
 .progress-table th {
     background-color: #EBE0DA;
-    /* Header Krem */
     border-bottom: 1px solid #8F4738;
     border-right: 1px solid #8F4738;
     padding: 12px;
@@ -415,31 +405,25 @@ hr {
     padding: 12px;
     text-align: center;
     background-color: #EAE8E6;
-    /* Body tabel abu-abu */
     border-bottom: 1px solid #ccc;
-    /* Garis pemisah antar hari tipis */
     color: #333;
     font-size: 14px;
 }
 
-/* Garis vertikal pemisah kolom */
 .progress-table td {
     border-right: 1px solid #fff;
-    /* Garis putih vertikal */
 }
 
 .progress-table td:last-child {
     border-right: none;
 }
 
-/* Kolom Minggu Besar */
 .week-cell {
     font-size: 24px;
     font-weight: 500;
     vertical-align: middle;
     background-color: #EAE8E6;
     border-right: 2px solid #fff !important;
-    /* Garis pemisah minggu lebih tebal */
 }
 
 .day-cell {
@@ -450,7 +434,6 @@ hr {
     font-weight: 500;
 }
 
-/* Empty State (Tampilan Kosong) */
 .no-plan-state {
     text-align: center;
     padding: 40px 20px;
@@ -460,7 +443,6 @@ hr {
 .no-plan-icon i {
     font-size: 60px;
     color: #DBCDC7;
-    /* Warna Krem Pudar */
     margin-bottom: 20px;
 }
 
@@ -468,7 +450,6 @@ hr {
     font-size: 20px;
     font-weight: 600;
     color: #8F4738;
-    /* Warna Coklat */
     margin-bottom: 10px;
 }
 

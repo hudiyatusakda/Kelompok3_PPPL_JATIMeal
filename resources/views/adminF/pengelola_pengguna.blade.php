@@ -104,7 +104,7 @@
                                 <tr>
                                     <th style="width: 10%; text-align: center;">No.</th>
                                     <th style="width: 40%; text-align: center;">Nama Pengguna</th>
-                                    <th style="width: 50%; text-align: center;">Progres Pengguna</th>
+                                    <th style="width: 50%; text-align: center;">Progres Bulan Ini</th>
                                 </tr>
                             </thead>
                             <tbody>
