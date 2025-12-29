@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WeeklyPlanController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\CommentController;
 
 Route::middleware('guest')->group(function () {
 
@@ -79,7 +80,8 @@ Route::middleware('auth')->group(function () {
 
     // Halaman Favorit
     Route::get('/favorit', [FavoriteController::class, 'index'])->name('favorites.index');
-
-    // Action Like/Unlike
     Route::post('/favorit/toggle/{menu_id}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+    // Kirim Komentar
+    Route::post('/menu/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
 });

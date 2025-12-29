@@ -15,5 +15,23 @@ class Menu extends Model
         'referensi',
         'gambar',
         'deskripsi',
+        'user_id',
+        'menu_id',
+        'isi_komentar',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function menu()
+    {
+        return $this->belongsTo(Menu::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
 }

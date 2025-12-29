@@ -91,6 +91,58 @@
                     <p>{{ $menu->bahan_baku }}</p>
                 </div>
 
+                <div class="comment-section">
+                    <h3 class="section-title">Komentar ({{ $menu->comments->count() }})</h3>
+
+                    <div class="comment-form-box">
+                        <div class="user-avatar-small">
+                            <img src="{{ asset('img/Tester.jpg') }}" alt="User">
+                        </div>
+                        <form action="{{ route('comment.store', $menu->id) }}" method="POST" style="flex: 1;">
+                            @csrf
+                            <textarea name="isi_komentar" rows="2" placeholder="Tulis pendapatmu tentang menu ini..." required></textarea>
+                            <div style="text-align: right; margin-top: 10px;">
+                                <button type="submit" class="btn-send-comment">Kirim</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="comment-list">
+                        @foreach ($menu->comments as $comment)
+                            <div class="comment-item">
+                                <div class="comment-avatar">
+                                    <img src="{{ asset('img/Tester.jpg') }}" alt="User">
+                                </div>
+
+                                <div class="comment-bubble">
+
+                                    <div class="comment-header">
+                                        <span class="c-name">{{ $comment->user->name }}</span>
+                                        <span class="c-date">
+                                            <i class="fa-regular fa-clock"></i>
+                                            {{ $comment->created_at->diffForHumans() }}
+                                        </span>
+                                    </div>
+
+                                    <hr class="comment-divider">
+
+                                    <div class="comment-body">
+                                        <p>{{ $comment->isi_komentar }}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        @endforeach
+
+                        @if ($menu->comments->isEmpty())
+                            <div class="empty-comment">
+                                <i class="fa-regular fa-comments"></i>
+                                <p>Belum ada komentar. Jadilah yang pertama!</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="action-button-container">
                     <button class="btn-primary" onclick="openModal()">Tambahkan Menu</button>
                 </div>
