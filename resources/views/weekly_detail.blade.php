@@ -100,7 +100,28 @@
                                 </div>
 
                                 @if (isset($plans[$num]))
-                                    <div class="menu-content">
+                                    <div class="menu-content" style="position: relative;">
+                                        @php
+                                            $isLiked = \App\Models\Favorite::where('user_id', Auth::id())
+                                                ->where('menu_id', $plans[$num]->menu_id)
+                                                ->exists();
+                                        @endphp
+
+                                        <form action="{{ route('favorites.toggle', $plans[$num]->menu_id) }}"
+                                            method="POST"
+                                            style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                            @csrf
+                                            <button type="submit"
+                                                style="background: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                                                @if ($isLiked)
+                                                    <i class="fa-solid fa-heart"
+                                                        style="color: #e74c3c; font-size: 14px;"></i>
+                                                @else
+                                                    <i class="fa-regular fa-heart"
+                                                        style="color: #8F4738; font-size: 14px;"></i>
+                                                @endif
+                                            </button>
+                                        </form>
 
                                         <a href="{{ route('weekly.edit', $plans[$num]->id) }}"
                                             style="text-decoration: none; color: inherit; display: block;">

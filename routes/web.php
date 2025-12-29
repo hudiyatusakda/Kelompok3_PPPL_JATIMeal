@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WeeklyPlanController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\FavoriteController;
 
 Route::middleware('guest')->group(function () {
 
@@ -75,4 +76,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/riwayat-menu', [HistoryController::class, 'index'])->name('history.index');
     Route::post('/riwayat-menu/restore-single', [HistoryController::class, 'restoreSingle'])->name('history.restoreSingle');
     Route::post('/riwayat-menu/restore-week', [HistoryController::class, 'restoreFull'])->name('history.restoreFull');
+
+    // Halaman Favorit
+    Route::get('/favorit', [FavoriteController::class, 'index'])->name('favorites.index');
+
+    // Action Like/Unlike
+    Route::post('/favorit/toggle/{menu_id}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });

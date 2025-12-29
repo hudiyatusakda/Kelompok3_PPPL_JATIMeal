@@ -48,6 +48,10 @@
 
                 <div class="navbar">
                     <div class="navbar-user">
+                        <a href="{{ route('favorites.index') }}" title="Menu Favorit Saya"
+                            style="margin-right: 20px; color: white; font-size: 20px; position: relative;">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
                         <div class="profile-dropdown">
                             <div class="profile-trigger" onclick="toggleMenu()">
                                 <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
@@ -135,29 +139,55 @@
                                                     class="h-img">
 
                                                 <div class="h-info">
-                                                    <div style="overflow: hidden;">
+                                                    <div style="overflow: hidden; flex: 1;">
                                                         <span
                                                             style="font-size: 10px; color: #8F4738; font-weight: bold; display: block;">
-                                                            {{-- Tampilkan Hari --}}
                                                             @php $days = [1=>'SENIN', 2=>'SELASA', 3=>'RABU', 4=>'KAMIS', 5=>'JUMAT', 6=>'SABTU', 7=>'MINGGU']; @endphp
                                                             {{ $days[$plan->day_of_week] ?? '-' }}
                                                         </span>
                                                         <h4
-                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; margin-right: 5px;">
                                                             {{ $plan->menu->nama_menu }}
                                                         </h4>
                                                     </div>
 
-                                                    <form action="{{ route('history.restoreSingle') }}" method="POST"
-                                                        onsubmit="return confirm('Tambahkan {{ $plan->menu->nama_menu }} ke jadwal bulan ini?')">
-                                                        @csrf
-                                                        <input type="hidden" name="menu_id"
-                                                            value="{{ $plan->menu_id }}">
-                                                        <button type="submit" class="btn-icon-add"
-                                                            title="Ambil menu ini saja">
-                                                            <i class="fa-solid fa-plus"></i>
-                                                        </button>
-                                                    </form>
+                                                    <div style="display: flex; gap: 5px;">
+                                                        @php
+                                                            $isLiked = \App\Models\Favorite::where(
+                                                                'user_id',
+                                                                Auth::id(),
+                                                            )
+                                                                ->where('menu_id', $plan->menu_id)
+                                                                ->exists();
+                                                        @endphp
+
+                                                        <form action="{{ route('favorites.toggle', $plan->menu_id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                style="width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;">
+                                                                @if ($isLiked)
+                                                                    <i class="fa-solid fa-heart"
+                                                                        style="color: #e74c3c; font-size: 12px;"></i>
+                                                                @else
+                                                                    <i class="fa-regular fa-heart"
+                                                                        style="color: #ccc; font-size: 12px;"></i>
+                                                                @endif
+                                                            </button>
+                                                        </form>
+
+                                                        <form action="{{ route('history.restoreSingle') }}"
+                                                            method="POST"
+                                                            onsubmit="return confirm('Tambahkan {{ $plan->menu->nama_menu }} ke jadwal bulan ini?')">
+                                                            @csrf
+                                                            <input type="hidden" name="menu_id"
+                                                                value="{{ $plan->menu_id }}">
+                                                            <button type="submit" class="btn-icon-add"
+                                                                title="Ambil menu ini saja">
+                                                                <i class="fa-solid fa-plus"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
