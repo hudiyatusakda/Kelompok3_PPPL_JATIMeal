@@ -48,6 +48,10 @@
             <div class="right-section">
                 <div class="navbar">
                     <div class="navbar-user">
+                        <a href="{{ route('favorites.index') }}" title="Menu Favorit Saya"
+                            style="margin-right: 20px; color: white; font-size: 20px; position: relative;">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
                         <div class="profile-dropdown">
                             <div class="profile-trigger" onclick="toggleMenu()">
                                 <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
