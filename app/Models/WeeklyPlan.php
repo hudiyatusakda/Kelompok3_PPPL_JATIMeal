@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class WeeklyPlan extends Model
 {
-    protected $fillable = ['user_id', 'menu_id', 'week','month', 'year', 'day_of_week', 'day', 'is_completed'];
+    protected $fillable = ['user_id', 'menu_id', 'planned_date', 'week','month', 'year', 'day_of_week', 'day', 'is_completed'];
 
     public function menu()
     {

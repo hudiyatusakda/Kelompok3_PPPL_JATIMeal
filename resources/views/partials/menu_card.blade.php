@@ -25,11 +25,12 @@
         <span class="category-tag">{{ $menu->kategori }}</span>
         <h3>{{ $menu->nama_menu }}</h3>
         <p class="ingredients">{{ Str::limit($menu->bahan_baku, 40) }}</p>
-        <div class="card-footer">
+        <div class="card-footer"
+            style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
             <span class="price">Rp {{ number_format($menu->harga_bahan, 0, ',', '.') }}</span>
 
             <a href="{{ route('menu.show', $menu->id) }}" class="btn-detail"
-                style="text-decoration: none; display: inline-block; text-align: center;">
+                style="text-decoration: none; display: inline-block; text-align: center; background-color: #8F4738; color: white; padding: 6px 15px; border-radius: 20px; font-size: 12px;">
                 Lihat
             </a>
         </div>

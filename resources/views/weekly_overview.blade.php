@@ -164,18 +164,19 @@
                         </div>
 
                         <div class="week-cards-grid">
-                            @foreach ($weeksData as $weekNum => $data)
-                                @php
-                                    $isCurrent = $weekNum == $currentWeekNumber;
-                                @endphp
-
-                                <div class="week-card-item {{ $isCurrent ? 'current-week-card' : '' }}">
+                            @foreach ($weeksData as $data)
+                                <div class="week-card-item {{ $data['is_current'] ? 'current-week-card' : '' }}">
 
                                     <div class="wc-header">
-                                        <h3>Minggu {{ $weekNum }}</h3>
-                                        @if ($isCurrent)
+                                        <h3>{{ $data['week_label'] }}</h3>
+                                        @if ($data['is_current'])
                                             <span class="badge-current">Minggu Ini</span>
                                         @endif
+                                    </div>
+
+                                    <div
+                                        style="font-size: 13px; color: #8F4738; margin-bottom: 15px; font-weight: 500;">
+                                        <i class="fa-regular fa-calendar"></i> {{ $data['date_range'] }}
                                     </div>
 
                                     <div class="wc-stats">
@@ -196,7 +197,7 @@
                                         <div class="mini-progress-bar" style="width: {{ $data['percent'] }}%;"></div>
                                     </div>
 
-                                    <a href="{{ route('weekly.show', ['week' => $weekNum, 'month' => $month, 'year' => $year]) }}"
+                                    <a href="{{ route('weekly.show', ['start_date' => $data['start_date']]) }}"
                                         class="btn-open-week">
                                         {{ $data['total'] > 0 ? 'Lihat Detail' : 'Buat Rencana' }} <i
                                             class="fa-solid fa-arrow-right"></i>

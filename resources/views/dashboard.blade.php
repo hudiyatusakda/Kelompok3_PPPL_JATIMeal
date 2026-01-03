@@ -208,18 +208,67 @@
 
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 
-    <script>
-        let subMenu = document.getElementById("subMenu");
+    <div id="scheduleModal" class="modal-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+        <div class="modal-box"
+            style="background: white; padding: 30px; border-radius: 12px; width: 400px; max-width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+            <h3 style="color: #8F4738; margin-bottom: 15px;">Jadwalkan Menu</h3>
+            <p id="modalMenuName" style="margin-bottom: 20px; font-weight: bold; color: #555;"></p>
 
-        function toggleMenu() {
-            subMenu.classList.toggle("open-menu");
+            <form action="{{ route('weekly.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="menu_id" id="modalMenuId">
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Pilih Tanggal:</label>
+                    <input type="date" name="planned_date" id="modalPlannedDate" required
+                        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="closeScheduleModal()"
+                        style="background: #ccc; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        style="background: #8F4738; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Buka Modal
+        function openScheduleModal(id, name) {
+            document.getElementById('modalMenuId').value = id;
+            document.getElementById('modalMenuName').innerText = name;
+
+            // Set default tanggal hari ini
+            document.getElementById('modalPlannedDate').value = new Date().toISOString().split('T')[0];
+
+            document.getElementById('scheduleModal').style.display = 'flex';
         }
 
+        // Fungsi Tutup Modal
+        function closeScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'none';
+        }
+
+        // Klik luar modal untuk tutup
         window.onclick = function(event) {
+            let modal = document.getElementById('scheduleModal');
+            // Handle dropdown profile
             if (!event.target.closest('.profile-dropdown')) {
+                let subMenu = document.getElementById("subMenu");
                 if (subMenu && subMenu.classList.contains('open-menu')) {
                     subMenu.classList.remove('open-menu');
                 }
+            }
+            // Handle modal schedule
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
         }
     </script>

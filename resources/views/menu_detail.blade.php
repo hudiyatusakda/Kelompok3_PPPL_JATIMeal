@@ -151,33 +151,19 @@
 
             <div id="weekModal" class="modal-overlay">
                 <div class="modal-box">
-                    <h3>Tambahkan ke Jadwal</h3>
-                    <p>Pilih minggu untuk menu <strong>{{ $menu->nama_menu }}</strong>:</p>
+                    <h3 style="color: #8F4738; margin-bottom: 15px;">Jadwalkan Menu</h3>
+                    <p style="margin-bottom: 20px; color: #555;">
+                        Pilih tanggal untuk menu <strong>{{ $menu->nama_menu }}</strong>:
+                    </p>
 
                     <form action="{{ route('weekly.store') }}" method="POST">
                         @csrf
                         <input type="hidden" name="menu_id" value="{{ $menu->id }}">
 
                         <div class="form-group">
-                            <label>Pilih Minggu:</label>
-                            <select name="week" class="form-control">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <option value="{{ $i }}">Minggu {{ $i }}</option>
-                                @endfor
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Pilih Hari:</label>
-                            <select name="day_of_week" class="form-control">
-                                <option value="1">Senin</option>
-                                <option value="2">Selasa</option>
-                                <option value="3">Rabu</option>
-                                <option value="4">Kamis</option>
-                                <option value="5">Jumat</option>
-                                <option value="6">Sabtu</option>
-                                <option value="7">Minggu</option>
-                            </select>
+                            <label style="display:block; margin-bottom:5px; font-weight:600;">Pilih Tanggal:</label>
+                            <input type="date" name="planned_date" id="plannedDateInput" class="form-control"
+                                required>
                         </div>
 
                         <div class="modal-actions">
@@ -227,9 +213,16 @@
                     subMenu.classList.remove('open-menu');
                 }
             }
+            // Tutup modal jika klik di luar
+            let modal = document.getElementById('weekModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
         function openModal() {
+            // Set default tanggal hari ini
+            document.getElementById('plannedDateInput').value = new Date().toISOString().split('T')[0];
             document.getElementById('weekModal').style.display = 'flex';
         }
 

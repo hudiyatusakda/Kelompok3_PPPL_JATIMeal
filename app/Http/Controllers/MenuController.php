@@ -32,7 +32,7 @@ class MenuController extends Controller
             'bahan_baku' => $request->bahan_baku,
             'harga_bahan' => $request->harga_bahan,
             'referensi' => $request->referensi,
-            'gambar_path' => $imagePath,
+            'gambar' => $imagePath,
             'deskripsi' => $request->deskripsi,
         ]);
 
@@ -96,7 +96,7 @@ class MenuController extends Controller
 
         if ($request->hasFile('gambar_menu')) {
             $imagePath = $request->file('gambar_menu')->store('menu-images', 'public');
-            $menu->gambar_path = $imagePath;
+            $menu->gambar_pa = $imagePath;
         }
 
         $menu->save();

@@ -6,18 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <title>Detail Minggu {{ $weekNumber ?? '-' }} - MealGoal</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
     <link rel="stylesheet" href="{{ asset('css/weekly_overview.css') }}">
     <link rel="stylesheet" href="{{ asset('css/weekly_detail.css') }}">
-    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 
-    <title>Detail Minggu {{ $week }} - MealGoal</title>
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -32,15 +32,9 @@
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list">
-                                <a href="{{ route('dashboard') }}">Halaman Utama</a>
-                            </li>
-                            <li class="list active">
-                                <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
-                            </li>
-                            <li class="list">
-                                <a href="{{ route('history.index') }}">Riwayat Menu</a>
-                            </li>
+                            <li class="list"><a href="{{ route('dashboard') }}">Halaman Utama</a></li>
+                            <li class="list active"><a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a></li>
+                            <li class="list"><a href="{{ route('history.index') }}">Riwayat Menu</a></li>
                         </ul>
                     </div>
                 </div>
@@ -61,14 +55,9 @@
                                 </div>
                                 <i class="fa-solid fa-caret-down"></i>
                             </div>
-
                             <div class="dropdown-content" id="subMenu">
-                                <a href="#" class="sub-item">
-                                    <i class="fa-solid fa-user"></i> Profil Saya
-                                </a>
-                                <a href="#" class="sub-item">
-                                    <i class="fa-solid fa-gear"></i> Pengaturan
-                                </a>
+                                <a href="#" class="sub-item"><i class="fa-solid fa-user"></i> Profil Saya</a>
+                                <a href="#" class="sub-item"><i class="fa-solid fa-gear"></i> Pengaturan</a>
                                 <hr>
                                 <form action="{{ route('logout') }}" method="POST" style="padding: 0; margin: 0;">
                                     @csrf
@@ -88,30 +77,52 @@
                             style="text-decoration: none; color: #555; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                             <i class="fa-solid fa-arrow-left"></i> Kembali ke Overview
                         </a>
-                        <h2 style="color: #8F4738;">Detail Minggu {{ $week }}</h2>
-                        <p style="color: #666;">Menu makan untuk {{ date('F Y', mktime(0, 0, 0, $month, 1)) }}</p>
+
+                        {{-- Judul menggunakan $weekNumber --}}
+                        <h2 style="color: #8F4738;">Detail Minggu {{ $weekNumber ?? '?' }}</h2>
+
+                        {{-- Rentang Tanggal --}}
+                        <p style="color: #666;">
+                            {{ $startDate->format('d M') }} - {{ $startDate->copy()->endOfWeek()->format('d M Y') }}
+                        </p>
                     </div>
 
                     <div class="day-grid">
-                        @foreach ($days as $num => $dayName)
-                            <div class="day-card">
+                        @foreach ($days as $dayInfo)
+                            <div class="day-card"
+                                style="{{ $dayInfo['is_today'] ? 'border: 2px solid #8F4738;' : '' }}">
 
                                 <div class="day-header">
-                                    <span>{{ $dayName }}</span>
-                                    @if (isset($plans[$num]) && $plans[$num]->is_completed)
+                                    <div style="display: flex; flex-direction: column;">
+                                        {{-- Akses array day_name --}}
+                                        <span
+                                            style="font-size: 16px; font-weight: 600;">{{ $dayInfo['day_name'] }}</span>
+                                        {{-- Akses array display_date --}}
+                                        <span
+                                            style="font-size: 12px; opacity: 0.9;">{{ $dayInfo['display_date'] }}</span>
+                                    </div>
+
+                                    {{-- Cek Plan berdasarkan TANGGAL (Key Array) --}}
+                                    @php
+                                        $currentPlan = $plans[$dayInfo['date']] ?? null;
+                                    @endphp
+
+                                    @if ($currentPlan && $currentPlan->is_completed)
                                         <span class="status-badge"><i class="fa-solid fa-check"></i> Selesai</span>
                                     @endif
                                 </div>
 
-                                @if (isset($plans[$num]))
+                                @if ($currentPlan)
                                     <div class="menu-content" style="position: relative;">
+
+                                        {{-- Logic Favorit --}}
                                         @php
                                             $isLiked = \App\Models\Favorite::where('user_id', Auth::id())
-                                                ->where('menu_id', $plans[$num]->menu_id)
+                                                ->where('menu_id', $currentPlan->menu_id)
                                                 ->exists();
                                         @endphp
 
-                                        <form action="{{ route('favorites.toggle', $plans[$num]->menu_id) }}"
+                                        <form action="{{ route('favorites.toggle', $currentPlan->menu_id) }}"
                                             method="POST"
                                             style="position: absolute; top: 10px; right: 10px; z-index: 10;">
                                             @csrf
@@ -127,26 +138,27 @@
                                             </button>
                                         </form>
 
-                                        <a href="{{ route('weekly.edit', $plans[$num]->id) }}"
+                                        <a href="{{ route('weekly.edit', $currentPlan->id) }}"
                                             style="text-decoration: none; color: inherit; display: block;">
-                                            <img src="{{ $plans[$num]->menu->gambar ? asset('storage/' . $plans[$num]->menu->gambar) : 'https://placehold.co/300x200' }}"
+                                            <img src="{{ $currentPlan->menu->gambar ? asset('storage/' . $currentPlan->menu->gambar) : 'https://placehold.co/300x200' }}"
                                                 class="menu-img">
                                             <h4 style="margin: 10px 0; font-size: 16px;">
-                                                {{ $plans[$num]->menu->nama_menu }}</h4>
+                                                {{ $currentPlan->menu->nama_menu }}</h4>
                                         </a>
 
                                         <div class="actions">
-                                            <form action="{{ route('weekly.complete', $plans[$num]->id) }}"
+                                            <form action="{{ route('weekly.complete', $currentPlan->id) }}"
                                                 method="POST" style="flex:1;">
                                                 @csrf
-                                                <button type="submit" class="btn-action btn-check" style="width:100%;">
-                                                    {{ $plans[$num]->is_completed ? 'Batal' : 'Selesai' }}
+                                                <button type="submit" class="btn-action btn-check"
+                                                    style="width:100%;">
+                                                    {{ $currentPlan->is_completed ? 'Batal' : 'Selesai' }}
                                                 </button>
                                             </form>
 
-                                            <form action="{{ route('weekly.destroy', $plans[$num]->id) }}"
+                                            <form action="{{ route('weekly.destroy', $currentPlan->id) }}"
                                                 method="POST" style="flex:1;"
-                                                onsubmit="return confirm('Hapus menu hari {{ $dayName }}?')">
+                                                onsubmit="return confirm('Hapus menu hari {{ $dayInfo['day_name'] }}?')">
                                                 @csrf @method('DELETE')
                                                 <button type="submit" class="btn-action btn-delete"
                                                     style="width:100%;">Hapus</button>
@@ -156,9 +168,12 @@
                                 @else
                                     <div class="empty-slot">
                                         <p style="margin-bottom:10px;">Belum ada menu</p>
-                                        <a href="{{ route('dashboard') }}" class="btn-add-day">
+                                        {{-- Tombol Tambah mengirim Tanggal Spesifik --}}
+                                        <button onclick="openSpecificDateModal('{{ $dayInfo['date'] }}')"
+                                            class="btn-add-day"
+                                            style="background:none; border:none; cursor:pointer; color: #8F4738; font-weight:600;">
                                             <i class="fa-solid fa-plus-circle"></i> Cari Menu
-                                        </a>
+                                        </button>
                                     </div>
                                 @endif
 
@@ -221,6 +236,11 @@
                     subMenu.classList.remove('open-menu');
                 }
             }
+        }
+
+        //Redirect ke Dashboard membawa Tanggal
+        function openSpecificDateModal(date) {
+            window.location.href = "{{ route('dashboard') }}?schedule_date=" + date;
         }
     </script>
 </body>
