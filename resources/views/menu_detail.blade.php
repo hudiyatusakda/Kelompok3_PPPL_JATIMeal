@@ -41,15 +41,17 @@
                         <div class="profile-trigger" onclick="toggleMenu()">
                             <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
                             <div class="account">
-                                <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
+                                <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('img/Tester.jpg') }}"
+                                    alt="Profile"
+                                    style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
                             </div>
                             <i class="fa-solid fa-caret-down"></i>
                         </div>
 
                         <div class="dropdown-content" id="subMenu">
                             <a href="{{ route('profile.index') }}" class="sub-item">
-                                    <i class="fa-solid fa-user"></i> Profil Saya
-                                </a>
+                                <i class="fa-solid fa-user"></i> Profil Saya
+                            </a>
                             <a href="#" class="sub-item">
                                 <i class="fa-solid fa-gear"></i> Pengaturan
                             </a>
