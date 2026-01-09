@@ -8,15 +8,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset('css/weekly_menu_detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/user_profile.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
     <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
 
-    <title>Detail Jadwal - {{ $plan->menu->nama_menu }}</title>
+    <title>{{ Auth::user()->name }} - Profile</title>
 </head>
 
 <body>
@@ -31,21 +30,16 @@
                 <div class="side-bar-menu">
                     <div class="side-bar">
                         <ul>
-                            <li class="list">
-                                <a href="{{ route('dashboard') }}">Halaman Utama</a>
-                            </li>
-                            <li class="list active">
-                                <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
-                            </li>
-                            <li class="list">
-                                <a href="{{ route('history.index') }}">Riwayat Menu</a>
-                            </li>
+                            <li class="list"><a href="{{ route('dashboard') }}">Halaman Utama</a></li>
+                            <li class="list"><a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a></li>
+                            <li class="list"><a href="{{ route('history.index') }}">Riwayat Menu</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="right-section">
+
                 <div class="navbar">
                     <div class="navbar-user">
                         <a href="{{ route('favorites.index') }}" title="Menu Favorit Saya"
@@ -80,85 +74,47 @@
                     </div>
                 </div>
 
-                <div class="content">
+                <div class="content" style="padding: 40px;">
+                    <div class="h1">Profile Saya</div>
 
-                    <div class="detail-wrapper">
+                    @if (session('success'))
+                        <div
+                            style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
-                        <div class="detail-header">
-                            {{-- Tombol Kembali --}}
-                            <a href="{{ route('weekly.show', ['week' => $plan->week, 'month' => $plan->month, 'year' => $plan->year]) }}"
-                                class="btn-back">
-                                <i class="fa-solid fa-arrow-left"></i>
-                            </a>
+                    <div class="profile-info">
+                        <div class="profile-picture">
+                            <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('img/Tester.jpg') }}"
+                                alt="{{ Auth::user()->name }}">
+                        </div>
 
-                            <div class="detail-title">
-                                {{-- Info Hari --}}
-                                @php
-                                    $days = [
-                                        1 => 'Senin',
-                                        2 => 'Selasa',
-                                        3 => 'Rabu',
-                                        4 => 'Kamis',
-                                        5 => 'Jumat',
-                                        6 => 'Sabtu',
-                                        7 => 'Minggu',
-                                    ];
-                                    $dayName = $days[$plan->day_of_week] ?? 'Hari Belum Diatur';
-                                @endphp
-                                <span class="detail-subtitle">
-                                    {{ $dayName }}, MINGGU {{ $plan->week }}
-                                </span>
-                                <h1>{{ $plan->menu->nama_menu }}</h1>
+                        <div class="profile-details">
+                            <div class="detail-row">
+                                <label>Nama</label>
+                                <div class="value">{{ Auth::user()->name }}</div>
                             </div>
+                            <div class="detail-row">
+                                <label>Email</label>
+                                <div class="value">{{ Auth::user()->email }}</div>
+                            </div>
+                            <div class="detail-row">
+                                <label>No. Telepon</label>
+                                <div class="value">{{ Auth::user()->phone ?? '-' }}</div>
+                            </div>
+                            <div class="detail-row">
+                                <label>Alamat</label>
+                                <div class="value">{{ Auth::user()->address ?? '-' }}</div>
+                            </div>
+
+                            <a href="{{ route('profile.edit') }}" class="edit-profile-btn">
+                                <i class="fa-solid fa-pen-to-square"></i> Edit Profil
+                            </a>
                         </div>
-
-                        <div class="menu-image">
-                            {{-- Overlay Status jika Selesai (Di atas gambar) --}}
-                            @if ($plan->is_completed)
-                                <div class="status-completed-banner">
-                                    <i class="fa-solid fa-check-circle"></i> MENU INI SUDAH DISELESAIKAN
-                                </div>
-                            @endif
-
-                            <img src="{{ $plan->menu->gambar ? asset('storage/' . $plan->menu->gambar) : 'https://placehold.co/800x400' }}"
-                                alt="{{ $plan->menu->nama_menu }}">
-                        </div>
-
-                        <div class="menu-description">
-                            <p>
-                                <strong>{{ $plan->menu->nama_menu }}</strong> {{ $plan->menu->deskripsi }}
-                            </p>
-                        </div>
-
-                        <div class="menu-ingredients">
-                            <h3>• Bahan Utama:</h3>
-                            <p>{{ $plan->menu->bahan_baku }}</p>
-                        </div>
-
-                        <div class="action-button-container">
-
-                            <form action="{{ route('weekly.complete', $plan->id) }}" method="POST">
-                                @csrf
-                                <button type="submit"
-                                    class="btn-action {{ $plan->is_completed ? 'btn-grey' : 'btn-green' }}">
-                                    <i class="fa-solid {{ $plan->is_completed ? 'fa-xmark' : 'fa-check' }}"></i>
-                                    {{ $plan->is_completed ? 'Batalkan Status' : 'Tandai Selesai' }}
-                                </button>
-                            </form>
-
-                            <form action="{{ route('weekly.destroy', $plan->id) }}" method="POST"
-                                onsubmit="return confirm('Yakin ingin menghapus menu ini dari jadwal?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn-action btn-red">
-                                    <i class="fa-solid fa-trash"></i> Hapus dari Jadwal
-                                </button>
-                            </form>
-
-                        </div>
-
                     </div>
-
                 </div>
+
             </div>
         </div>
     </main>
@@ -168,7 +124,7 @@
             <div class="footer-col">
                 <ul>
                     <li class="title">Tautan Cepat</li>
-                    <li class="link-foward"><a href="/dashboard">Halaman Utama</a></li>
+                    <li class="link-foward"><a href="{{ route('dashboard') }}">Halaman Utama</a></li>
                     <li class="link-foward"><a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a></li>
                     <li class="link-foward"><a href="{{ route('history.index') }}">Riwayat Menu</a></li>
                 </ul>
@@ -200,7 +156,6 @@
         </div>
     </footer>
 
-    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
     <script>
         let subMenu = document.getElementById("subMenu");
 

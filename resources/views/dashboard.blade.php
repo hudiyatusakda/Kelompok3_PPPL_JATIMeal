@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="dropdown-content" id="subMenu">
-                                <a href="#" class="sub-item">
+                                <a href="{{ route('profile.index') }}" class="sub-item">
                                     <i class="fa-solid fa-user"></i> Profil Saya
                                 </a>
                                 <a href="#" class="sub-item">
@@ -256,19 +256,16 @@
             document.getElementById('scheduleModal').style.display = 'none';
         }
 
-        // Klik luar modal untuk tutup
+        let subMenu = document.getElementById("subMenu");
+
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
         window.onclick = function(event) {
-            let modal = document.getElementById('scheduleModal');
-            // Handle dropdown profile
             if (!event.target.closest('.profile-dropdown')) {
-                let subMenu = document.getElementById("subMenu");
                 if (subMenu && subMenu.classList.contains('open-menu')) {
                     subMenu.classList.remove('open-menu');
                 }
-            }
-            // Handle modal schedule
-            if (event.target == modal) {
-                modal.style.display = "none";
             }
         }
     </script>

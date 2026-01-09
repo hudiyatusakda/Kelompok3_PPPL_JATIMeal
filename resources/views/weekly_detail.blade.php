@@ -56,7 +56,9 @@
                                 <i class="fa-solid fa-caret-down"></i>
                             </div>
                             <div class="dropdown-content" id="subMenu">
-                                <a href="#" class="sub-item"><i class="fa-solid fa-user"></i> Profil Saya</a>
+                                <a href="{{ route('profile.index') }}" class="sub-item">
+                                    <i class="fa-solid fa-user"></i> Profil Saya
+                                </a>
                                 <a href="#" class="sub-item"><i class="fa-solid fa-gear"></i> Pengaturan</a>
                                 <hr>
                                 <form action="{{ route('logout') }}" method="POST" style="padding: 0; margin: 0;">

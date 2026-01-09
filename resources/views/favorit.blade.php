@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="dropdown-content" id="subMenu">
-                                <a href="#" class="sub-item">
+                                <a href="{{ route('profile.index') }}" class="sub-item">
                                     <i class="fa-solid fa-user"></i> Profil Saya
                                 </a>
                                 <a href="#" class="sub-item">

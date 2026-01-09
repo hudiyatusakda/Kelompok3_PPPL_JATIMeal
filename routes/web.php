@@ -11,6 +11,7 @@ use App\Http\Controllers\WeeklyPlanController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
 
 Route::middleware('guest')->group(function () {
 
@@ -84,4 +85,11 @@ Route::middleware('auth')->group(function () {
 
     // Kirim Komentar
     Route::post('/menu/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
+
+    //user profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    // Proses Update
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });

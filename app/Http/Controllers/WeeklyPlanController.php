@@ -21,7 +21,6 @@ class WeeklyPlanController extends Controller
         $endOfMonth = $startOfMonth->copy()->endOfMonth();
 
         // 2. Tarik mundur ke SENIN pertama di tampilan kalender
-        // (Meskipun tanggalnya masuk bulan sebelumnya)
         $startCalendar = $startOfMonth->copy()->startOfWeek(Carbon::MONDAY);
 
         // 3. Tarik maju ke MINGGU terakhir
