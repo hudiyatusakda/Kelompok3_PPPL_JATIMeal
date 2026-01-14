@@ -48,7 +48,7 @@ class AdminController extends Controller
     {
         $user = User::with('preference')->findOrFail($id);
 
-        // 1. Ambil opsi Tahun dan Bulan yang tersedia di database
+        // 1. ambil opsi Tahun dan Bulan yang tersedia di database
         $availablePeriods = WeeklyPlan::where('user_id', $id)
             ->select('month', 'year')
             ->distinct()
@@ -56,7 +56,7 @@ class AdminController extends Controller
             ->orderBy('month', 'desc')
             ->get();
 
-        // 2. LOGIKA BARU: Penentuan Bulan & Tahun
+        // 2. Penentuan Bulan & Tahun
         if ($request->has('month') && $request->has('year')) {
             $selectedMonth = $request->input('month');
             $selectedYear = $request->input('year');

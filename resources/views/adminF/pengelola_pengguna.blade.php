@@ -42,16 +42,13 @@
             <div class="right-section">
 
                 <div class="navbar">
-                    <div style="flex: 1; color: white; font-weight: bold; padding-left: 20px;">
-                        HAL PENGELOLA PENGGUNA
-                    </div>
-
+                    {{-- Kalau sudah Login --}}
                     <div class="navbar-user">
                         <div class="profile-dropdown">
                             <div class="profile-trigger" onclick="toggleMenu()">
-                                <span class="user-name">{{ Auth::user()->name ?? 'Admin' }}</span>
+                                <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
                                 <div class="account">
-                                    <img src="https://placehold.co/50x50" alt="Profile">
+                                    <img src="{{ asset('img/Tester.jpg') }}" alt="Profile">
                                 </div>
                                 <i class="fa-solid fa-caret-down"></i>
                             </div>
@@ -60,10 +57,13 @@
                                 <a href="#" class="sub-item">
                                     <i class="fa-solid fa-user"></i> Profil Saya
                                 </a>
+                                <a href="#" class="sub-item">
+                                    <i class="fa-solid fa-gear"></i> Pengaturan
+                                </a>
                                 <hr>
-                                <form action="{{ route('logout') }}" method="POST">
+                                <form action="{{ route('logout') }}" method="POST" style="padding: 0; margin: 0;">
                                     @csrf
-                                    <button type="submit" class="sub-item">
+                                    <button type="submit" class="sub-item logout-btn">
                                         <i class="fa-solid fa-right-from-bracket"></i> Keluar
                                     </button>
                                 </form>
