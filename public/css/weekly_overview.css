@@ -1,0 +1,265 @@
+.content {
+    padding: 30px 50px;
+    background-color: #E7E5E3;
+}
+
+/* Header & Filter */
+.overview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.overview-header h2 {
+    font-size: 28px;
+    color: #8F4738;
+    margin-bottom: 5px;
+}
+
+.overview-header p {
+    color: #666;
+    font-size: 14px;
+}
+
+.date-filter {
+    display: flex;
+    gap: 10px;
+}
+
+.date-filter select {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    cursor: pointer;
+    background: white;
+    outline: none;
+}
+
+.date-filter select:focus {
+    border-color: #8F4738;
+}
+
+/* Grid Kartu Minggu */
+.week-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* Desain Kartu */
+.week-cards-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding-bottom: 40px;
+    margin-top: 20px;
+}
+
+.week-card-item {
+    background: #fff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 1 300px;
+    max-width: 350px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Efek Hover */
+.week-card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(143, 71, 56, 0.15);
+    border-color: #ffe5e0;
+}
+
+.current-week-card {
+    border: 2px solid #8F4738;
+    background-color: #fffaf9;
+}
+
+.wc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.wc-header h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.badge-current {
+    font-size: 10px;
+    background: #8F4738;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+/* Statistik */
+.wc-stats {
+    margin-bottom: 15px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Progress Bar */
+.mini-progress-track {
+    width: 100%;
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.mini-progress-bar {
+    height: 100%;
+    background: #8F4738;
+}
+
+/* Tombol */
+.btn-open-week {
+    margin-top: auto;
+    text-align: center;
+    text-decoration: none;
+    color: #8F4738;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid #8F4738;
+    padding: 8px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.btn-open-week:hover {
+    background: #8F4738;
+    color: white;
+}
+
+
+/* =========================================
+   OVERDUE ALERT STYLING (BARU)
+   ========================================= */
+.overdue-alert-box {
+    background-color: #fff4e5;
+    border: 1px solid #ffcc80;
+    border-left: 5px solid #ef6c00;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.alert-header {
+    margin-bottom: 15px;
+}
+
+.alert-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ef6c00;
+    margin-bottom: 5px;
+}
+
+.alert-title i {
+    font-size: 20px;
+}
+
+.alert-title h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.alert-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-left: 30px;
+}
+
+.overdue-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
+}
+
+.overdue-item {
+    background-color: white;
+    border: 1px solid #eee;
+    padding: 10px 15px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.oi-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.oi-info strong {
+    font-size: 14px;
+    color: #333;
+}
+
+.oi-info span {
+    font-size: 12px;
+    color: #ef6c00;
+    font-weight: 500;
+}
+
+.oi-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-quick-check,
+.btn-quick-trash {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: 0.2s;
+    color: white;
+}
+
+.btn-quick-check {
+    background-color: #27ae60;
+}
+
+.btn-quick-check:hover {
+    background-color: #219150;
+    transform: scale(1.1);
+}
+
+.btn-quick-trash {
+    background-color: #c0392b;
+}
+
+.btn-quick-trash:hover {
+    background-color: #a93226;
+    transform: scale(1.1);
+}

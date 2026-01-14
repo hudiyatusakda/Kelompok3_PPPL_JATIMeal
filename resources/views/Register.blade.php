@@ -30,20 +30,12 @@
         <div class="right-section">
             <div class="tabs">
                 <div class="tab active">Daftar</div>
-                <div class="tab">Masuk</div>
+                <a href="{{ route('login') }}" class="tab transition-link" id="link-masuk">
+                    Masuk
+                </a>
             </div>
             <div class="form-box">
                 <div class="form-register">
-                    @if ($errors->any())
-                        <div
-                            style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <form action="{{ route('register.store') }}" method="POST">
                         @csrf
                         <div class="formGroup">
@@ -62,17 +54,22 @@
                             <label for="C_Password">Konfirmasi Kata Sandi <span class="required">*</span></label>
                             <input type="password" id="C_Password" name="password_confirmation" required>
                         </div>
-                        <div class="text-desc">
-                            Dengan mengklik “Lanjutkan dengan Google”, ‘Facebook’, atau “Apple”, Anda setuju dengan
-                            Syarat dan
-                            Ketentuan serta Kebijakan Privasi Etsy.
-                        </div>
+                        @if ($errors->any())
+                            <div
+                                style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 5px;">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="button-register">
                             <button type="submit" class="register">Daftar</button>
                         </div>
                     </form>
                 </div>
-                <div class="alt-register">
+                {{-- <div class="alt-register">
                     <button class="Google">
                         <img src="{{ asset('img/Google.png') }}" alt="Google">
                     </button>
@@ -82,10 +79,29 @@
                     <button class="Apple">
                         <img src="{{ asset('img/Apple.png') }}" alt="Apple">
                     </button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const linkMasuk = document.getElementById('link-masuk');
+        const formSection = document.querySelector('.right-section');
+
+        if (linkMasuk) {
+            linkMasuk.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                formSection.classList.add('slide-exit');
+
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 400);
+            });
+        }
+    });
+</script>
 
 </html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:wght@100..900&family=SUSE:wght@100..800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset('css/Hal_Utama.css') }}">
+
+    <title>Home - MealGoal</title>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="left-section">
+                <div class="logo_placeholder">
+                    <div class="logo">
+                        <img src="{{ asset('img/JatimMeal.png') }}" alt="JatimMeal">
+                    </div>
+                </div>
+                <div class="side-bar-menu">
+                    <div class="side-bar">
+                        <ul>
+                            <li class="list {{ Request::routeIs('dashboard') ? 'active' : '' }}">
+                                <a href="{{ route('dashboard') }}">Halaman Utama</a>
+                            </li>
+                            <li class="list {{ Request::routeIs('weekly.index') ? 'active' : '' }}">
+                                <a href="{{ route('weekly.index') }}">Paket Menu Mingguan</a>
+                            </li>
+                            <li class="list class="list {{ Request::routeIs('history.index') ? 'active' : '' }}"><a
+                                    href="{{ route('history.index') }}">Riwayat Menu</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-section">
+                <div class="navbar">
+                    {{-- Kalau sudah Login --}}
+                    <div class="navbar-user">
+                        <a href="{{ route('favorites.index') }}" title="Menu Favorit Saya"
+                            style="margin-right: 20px; color: white; font-size: 20px; position: relative;">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                        <div class="profile-dropdown">
+                            <div class="profile-trigger" onclick="toggleMenu()">
+                                <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
+                                <div class="account">
+                                    <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('img/Tester.jpg') }}"
+                                        alt="Profile"
+                                        style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                                </div>
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+
+                            <div class="dropdown-content" id="subMenu">
+                                <a href="{{ route('profile.index') }}" class="sub-item">
+                                    <i class="fa-solid fa-user"></i> Profil Saya
+                                </a>
+                                <a href="#" class="sub-item">
+                                    <i class="fa-solid fa-gear"></i> Pengaturan
+                                </a>
+                                <hr>
+                                <form action="{{ route('logout') }}" method="POST" style="padding: 0; margin: 0;">
+                                    @csrf
+                                    <button type="submit" class="sub-item logout-btn">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-container">
+                    <form action="{{ route('dashboard') }}" method="GET" class="search-form">
+
+                        <div class="filter-box">
+                            <select name="ingredient" onchange="this.form.submit()">
+                                <option value="">Semua Bahan</option>
+
+                                @foreach ($allIngredients as $ing)
+                                    <option value="{{ $ing }}"
+                                        {{ request('ingredient') == $ing ? 'selected' : '' }}>
+                                        {{ $ing }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                            <i class="fa-solid fa-filter filter-icon"></i>
+                        </div>
+
+                        <div class="search-box">
+                            <input type="text" name="search" placeholder="Cari Menu Makanan..."
+                                value="{{ request('search') }}">
+                            <button type="submit" class="search-btn">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+                @if (request('search') || request('ingredient'))
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <p>Menampilkan hasil untuk:
+                            <strong>{{ request('search') ?: 'Semua Menu' }}</strong>
+                            @if (request('ingredient'))
+                                dengan bahan <strong>{{ request('ingredient') }}</strong>
+                            @endif
+                        </p>
+                        <a href="{{ route('dashboard') }}" style="color: #8F4738; text-decoration: underline;">Reset
+                            Pencarian</a>
+                    </div>
+                @endif
+
+                <div class="content">
+
+                    <div class="section-header">
+                        @if (isset($isFallback) && $isFallback)
+                            <h2>Rekomendasi Populer</h2>
+                        @else
+                            <h2>Rekomendasi Untukmu</h2>
+                        @endif
+                    </div>
+
+                    <div class="menu-grid">
+                        @foreach ($recommendedMenus as $menu)
+                            @include('partials.menu_card', ['menu' => $menu])
+                        @endforeach
+                    </div>
+
+                    <br>
+                    <hr><br>
+
+                    @foreach ($menusByCategory as $category => $menus)
+                        @if ($menus->count() > 0)
+                            <div class="category-section">
+
+                                <div class="section-header">
+                                    <h3>Kategori: {{ ucfirst($category) }}</h3>
+                                    <a href="{{ route('menu.category', ['category' => $category]) }}"
+                                        class="see-all">Lihat Semua</a>
+                                </div>
+
+                                <div class="menu-grid">
+                                    @foreach ($menus as $menu)
+                                        @include('partials.menu_card', ['menu' => $menu])
+                                    @endforeach
+                                </div>
+
+                            </div>
+
+                            <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                        @endif
+                    @endforeach
+
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <footer class="footer-section">
+        <div class="f-container">
+            <div class="footer-col">
+                <ul>
+                    <li class="title">Tautan Cepat</li>
+                    <li class="link-foward"><a href="/dashboard">Halaman Utama</a></li>
+                    <li class="link-foward"><a href="#">Paket Menu Mingguan</a></li>
+                    <li class="link-foward"><a href="#">Riwayat Menu</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <ul class="contact-list">
+                    <li class="title">Hubungi Kami</li>
+                    <li><i class="fa-solid fa-envelope"></i> help@jatimmeal.com</li>
+                    <li><i class="fa-solid fa-phone"></i> +62 812 3456 7890</li>
+                </ul>
+                <div class="media-social">
+                    <ul>
+                        <li class="title">Media Sosial</li>
+                        <div class="social-icons">
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-twitter"></i>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="privacy">
+                    <h4>Informasi Hukum</h4>
+                    <a href="#">Kebijakan Privasi</a>
+                    <p>© 2025 JatiMeal. Hak cipta dilindungi undang-undang.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/6306b536ce.js" crossorigin="anonymous"></script>
+
+    <div id="scheduleModal" class="modal-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 9999;">
+        <div class="modal-box"
+            style="background: white; padding: 30px; border-radius: 12px; width: 400px; max-width: 90%; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+            <h3 style="color: #8F4738; margin-bottom: 15px;">Jadwalkan Menu</h3>
+            <p id="modalMenuName" style="margin-bottom: 20px; font-weight: bold; color: #555;"></p>
+
+            <form action="{{ route('weekly.store') }}" method="POST">
+                @csrf
+                <input type="hidden" name="menu_id" id="modalMenuId">
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-size: 14px;">Pilih Tanggal:</label>
+                    <input type="date" name="planned_date" id="modalPlannedDate" required
+                        style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="closeScheduleModal()"
+                        style="background: #ccc; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        style="background: #8F4738; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Buka Modal
+        function openScheduleModal(id, name) {
+            document.getElementById('modalMenuId').value = id;
+            document.getElementById('modalMenuName').innerText = name;
+
+            // Set default tanggal hari ini
+            document.getElementById('modalPlannedDate').value = new Date().toISOString().split('T')[0];
+
+            document.getElementById('scheduleModal').style.display = 'flex';
+        }
+
+        // Fungsi Tutup Modal
+        function closeScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'none';
+        }
+
+        let subMenu = document.getElementById("subMenu");
+
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-dropdown')) {
+                if (subMenu && subMenu.classList.contains('open-menu')) {
+                    subMenu.classList.remove('open-menu');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

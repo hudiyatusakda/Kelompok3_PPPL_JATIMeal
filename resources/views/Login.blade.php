@@ -29,30 +29,42 @@
         </div>
         <div class="right-section">
             <div class="tabs">
-                <div class="tab">Daftar</div>
-                <div class="tab active">Masuk</div>
+                <a href="{{ route('register.index') }}" class="tab transition-link" id="link-masuk">
+                    Daftar
+                </a>
+                <div class="tab active" id="masuk">Masuk</div>
             </div>
             <div class="form-box">
                 <div class="form-register">
-                    <form action="">
+                    <form action="{{ route('login.authenticate') }}" method="POST">
+                        @csrf
                         <div class="formGroup">
-                            <label for="Email">Email <span class="required">*</span></label>
-                            <input type="text" id="Email">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="text" id="email" name="email">
                         </div>
                         <div class="formGroup">
-                            <label for="Password">Kata Sandi <span class="required">*</span></label>
-                            <input type="password" id="Password">
+                            <label for="password">Kata Sandi <span class="required">*</span></label>
+                            <input type="password" id="password" name="password">
                         </div>
                         <div class="remember">
                             <input type="checkbox" id="Remember">
                             <label for="Remember">Ingat Saya</label>
                             <label class="forgot-password" href="#">Lupa Kata Sandi?</label>
                         </div>
+                        @if ($errors->any())
+                            <div style="color: red;">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="button-register">
                             <button class="register">Masuk</button>
                         </div>
 
-                        <div class="alt-register">
+                        {{-- <div class="alt-register">
                             <button class="Google">
                                 <img src="{{ asset('img/Google.png') }}" alt="Google">
                             </button>
@@ -63,17 +75,37 @@
                                 <img src="{{ asset('img/Apple.png') }}" alt="Apple">
                             </button>
 
-                        </div>
-                        <div class="text-desc">
+                        </div> --}}
+                        {{-- <div class="text-desc">
                             Dengan mengklik “Lanjutkan dengan Google”, ‘Facebook’, atau “Apple”, Anda setuju dengan
                             Syarat dan
                             Ketentuan serta Kebijakan Privasi Etsy.
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const linkMasuk = document.getElementById('link-masuk');
+        const formSection = document.querySelector('.right-section');
+
+        if (linkMasuk) {
+            linkMasuk.addEventListener('click', function(e) {
+                //Mencegah link langsung pindah halaman
+                e.preventDefault();
+
+                formSection.classList.add('slide-exit');
+
+                setTimeout(() => {
+                    window.location.href = this.href;
+                }, 400);
+            });
+        }
+    });
+</script>
 
 </html>
