@@ -9,33 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/detail_user.css') }}">
-
-    <style>
-        .filter-container {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-        .filter-select {
-            padding: 8px 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-family: 'Poppins', sans-serif;
-            background-color: white;
-            cursor: pointer;
-        }
-
-        .week-header {
-            background-color: #eee;
-            padding: 10px;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 
 <body>
