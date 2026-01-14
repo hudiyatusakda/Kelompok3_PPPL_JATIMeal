@@ -87,7 +87,7 @@
                             </div>
                         </div>
 
-                        <div class="stat-card">
+                        {{-- <div class="stat-card">
                             <div class="stat-text">
                                 <h1 class="stat-number">{{ $totalMenuIdeas }}</h1>
                                 <p class="stat-label">Ide Menu Pengguna</p>
@@ -95,7 +95,7 @@
                             <div class="stat-icon">
                                 <i class="fa-solid fa-utensils"></i>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div class="table-wrapper">

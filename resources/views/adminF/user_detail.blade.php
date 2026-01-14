@@ -126,7 +126,8 @@
                     @if ($hasPlan)
                         <div class="user-progress-header">
                             <div class="user-avatar-large">
-                                <img src="https://placehold.co/100x100" alt="User">
+                                <img id="imgPreview"
+                                    src="{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : asset('img/Tester.jpg') }}">
                             </div>
                             <div class="user-info-bar">
                                 <div class="ui-top">
