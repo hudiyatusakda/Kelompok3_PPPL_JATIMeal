@@ -98,7 +98,9 @@
 
                     <div class="comment-form-box">
                         <div class="user-avatar-small">
-                            <img src="{{ asset('img/Tester.jpg') }}" alt="User">
+                            <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('img/Tester.jpg') }}"
+                                alt="{{ Auth::user()->name }}"
+                                style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
                         </div>
                         <form action="{{ route('comment.store', $menu->id) }}" method="POST" style="flex: 1;">
                             @csrf
@@ -113,11 +115,14 @@
                         @foreach ($menu->comments as $comment)
                             <div class="comment-item">
                                 <div class="comment-avatar">
-                                    <img src="{{ asset('img/Tester.jpg') }}" alt="User">
+
+                                    <img src="{{ $comment->user->profile_photo_path ? asset('storage/' . $comment->user->profile_photo_path) : asset('img/Tester.jpg') }}"
+                                        alt="{{ $comment->user->name }}"
+                                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+
                                 </div>
 
                                 <div class="comment-bubble">
-
                                     <div class="comment-header">
                                         <span class="c-name">{{ $comment->user->name }}</span>
                                         <span class="c-date">
@@ -131,7 +136,6 @@
                                     <div class="comment-body">
                                         <p>{{ $comment->isi_komentar }}</p>
                                     </div>
-
                                 </div>
                             </div>
                         @endforeach

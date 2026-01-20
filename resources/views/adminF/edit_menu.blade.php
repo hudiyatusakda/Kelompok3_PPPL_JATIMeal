@@ -48,6 +48,7 @@
 
             <div class="right-section">
                 <div class="navbar">
+                    {{-- Kalau sudah Login --}}
                     <div class="navbar-user">
                         <div class="profile-dropdown">
                             <div class="profile-trigger" onclick="toggleMenu()">
@@ -59,11 +60,18 @@
                             </div>
 
                             <div class="dropdown-content" id="subMenu">
-                                <a href="#" class="sub-item">Profil Saya</a>
-                                <form action="{{ route('logout') }}" method="POST">
+                                <a href="#" class="sub-item">
+                                    <i class="fa-solid fa-user"></i> Profil Saya
+                                </a>
+                                <a href="#" class="sub-item">
+                                    <i class="fa-solid fa-gear"></i> Pengaturan
+                                </a>
+                                <hr>
+                                <form action="{{ route('logout') }}" method="POST" style="padding: 0; margin: 0;">
                                     @csrf
-                                    <button type="submit" class="sub-item"
-                                        style="width:100%; border:none; background:none; text-align:left; cursor:pointer;">Keluar</button>
+                                    <button type="submit" class="sub-item logout-btn">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -160,7 +168,15 @@
         let subMenu = document.getElementById("subMenu");
 
         function toggleMenu() {
-            if (subMenu) subMenu.classList.toggle("open-menu");
+            subMenu.classList.toggle("open-menu");
+        }
+        // Klik di luar untuk menutup
+        window.onclick = function(event) {
+            if (!event.target.closest('.profile-dropdown')) {
+                if (subMenu.classList.contains('open-menu')) {
+                    subMenu.classList.remove('open-menu');
+                }
+            }
         }
 
         const fileInput = document.getElementById('file-input');

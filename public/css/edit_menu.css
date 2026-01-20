@@ -92,12 +92,22 @@ main {
     padding: 0 2rem;
 }
 
+/* Tamu (Guest) */
+.masuk,
+.daftar {
+    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+}
+
+/* User Logged In */
 .navbar-user {
     display: flex;
     align-items: center;
     height: 100%;
 }
 
+/* --- Dropdown Profile --- */
 .profile-dropdown {
     position: relative;
 }
@@ -136,7 +146,7 @@ main {
     font-size: 12px;
 }
 
-/* Dropdown Menu */
+/* Dropdown Menu Box */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -148,10 +158,56 @@ main {
     border-radius: 8px;
     z-index: 1000;
     overflow: hidden;
+    animation: slide-down 0.3s ease-out;
+}
+
+/* Animasi Dropdown */
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .dropdown-content.open-menu {
     display: block;
+}
+
+.sub-item {
+    padding: 12px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 14px;
+    transition: 0.2s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sub-item:hover {
+    background-color: #f8f9fa;
+    color: #8F4738;
+}
+
+.sub-item i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 0;
 }
 
 /* ============= CONTENT FORM EDIT =================== */
